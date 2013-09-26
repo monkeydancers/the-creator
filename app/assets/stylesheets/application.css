@@ -8,6 +8,47 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
+ *= require fonts
+ *= require bootstrap
  *= require_tree .
+ *= require_self
+
  */
+
+
+
+.navbar {
+	background-image: url('/assets/header/background-pattern.png');
+	background-color: #e0e1db;
+	border-bottom: 1px solid #8b8b85;
+	min-height: 69px;
+	font-family: texgyreadventorbold, futura, sansseriff;
+	padding-top: 10px;
+
+}
+
+.navbar .navbar-brand {
+	text-transform:uppercase; 
+	color: #8b8b85;
+	font-size: 33px;
+	font-weight: 900;
+	letter-spacing:-2px
+}
+
+.navbar .navbar-brand .active-section {
+	color: #51534f;
+}
+
+
+.navbar .navbar-nav a { 
+	text-transform:uppercase; 
+	color: #8b8b85;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+
+.navbar .navbar-nav a:hover { 
+	background-color: transparent;
+	color: #51534f;
+}
