@@ -74,4 +74,20 @@
 }
 
 
+/* workspaces styles */
+
+
+
+.workspace {
+	border-left: 1px solid #afb0a8;
+	min-height: 600px;
+	background-image: url('/assets/workspaces/bg-search.png');
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+
+
+
+
 
