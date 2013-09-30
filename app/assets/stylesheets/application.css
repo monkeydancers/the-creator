@@ -20,7 +20,7 @@
 .navbar {
 	background-image: url('/assets/header/background-pattern.png');
 	background-color: #e0e1db;
-	border-bottom: 1px solid #8b8b85;
+	border-bottom: 1px solid #51534f;
 	min-height: 69px;
 	font-family: texgyreadventorbold, futura, sansseriff;
 	padding-top: 10px;
@@ -52,3 +52,26 @@
 	background-color: transparent;
 	color: #51534f;
 }
+/* Tree viewer styles */
+
+
+.tree-viewer {
+	background-color: #8b8b85;
+	min-height: 130px;
+	width: 100%;
+	border-bottom: 1px solid #51534f;
+}
+
+
+.tree-viewer .tree-viewer-tree {
+	min-height: 130px;
+}
+
+.tree-viewer .tree-viewer-tree .tree-col {
+	border-left: 1px solid #51534f;
+	min-height: 130px;
+
+}
+
+
+
