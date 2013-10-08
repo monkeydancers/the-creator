@@ -1,0 +1,156 @@
+.miller
+{
+	position: relative;
+	padding: 0;
+	min-height: 130px;
+	margin-left: 15px;
+	outline: 0;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.miller div.columns
+{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0px;
+	padding: 0;
+	margin: 0;
+	overflow: auto;
+}
+
+.miller div.path
+{
+	display: none;
+	position: absolute;
+	margin: 0;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 20px;
+	font-size: 0.6em;
+	line-height: 20px;
+	overflow: auto;
+	z-index: 9999;
+}
+
+.miller div.path span
+{
+	margin-left: 0.5em;
+	padding-left: 1.5em;
+	padding-right: 0.5em;
+	background-image: url('../images/chevron-black.png');
+	background-repeat: no-repeat;
+	background-position: 0 50%;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.miller div.toolbar
+{
+	display: none;
+	position: absolute;
+	margin: 0;
+	left: 0;
+	bottom: 0;
+	background: #fff;
+	width: 100%;
+	height: 20px;
+	font-size: 0.6em;
+	line-height: 20px;
+	overflow: auto;
+	z-index: 9999;
+}
+
+.miller div.toolbar span
+{
+	padding-left: 1em;
+	padding-right: 1em;
+	cursor: pointer;
+}
+
+.miller div.columns ul
+{
+	position: absolute;
+	border-left: 1px solid #51534f;
+	padding: 0;
+	margin: 0;
+	overflow: auto;
+	width: 250px;
+	height: 100%;
+}
+
+.miller li
+{	padding-left: 0.5em;
+	padding-right: 0.5em;
+	list-style-type: none;
+	cursor: pointer;
+	height: 25px;
+	line-height: 25px;
+}
+
+.miller li.parent
+{	background-repeat: no-repeat;
+	background-position: 100% 50%;
+}
+
+.miller li.parentLoading
+{
+	color: #fff;
+	background-repeat: no-repeat;
+	background-position: 100% 50%;
+}
+
+.miller li.parentSelected
+{
+	background-color: #51534f;
+	color: #FFFFFF;
+	background-repeat: no-repeat;
+	background-position: 100% 50%;
+}
+
+.miller li.selected
+{
+	background-color: #51534f;
+	color: #FFFFFF;
+}
+
+.miller div.grip
+{
+	cursor: col-resize;
+	position: absolute;
+		background-color: #51534f;
+
+	width: 1px;
+	height: 100%;
+	background-repeat: repeat-y;
+	background-position: 0 0;
+}
+
+.miller ul.pane
+{
+	background: #fff;
+}
+
+.miller ul.pane li
+{
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	font-size: 11px;
+	font-weight: normal;
+	letter-spacing: normal;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	border: none;
+}
+
+.miller ul.pane li
+{
+	width: 100%;
+}
