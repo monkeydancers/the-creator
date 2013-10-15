@@ -21,7 +21,6 @@ $(document).ready(function() {
 		$('#miller').miller({
 				'useAjax' : false,
 				'tree': tree,
-				'columnCssClass' : 'col-md-1',
 				'toolbar': {
 					'options': {
 						'Select': function(id) { alert('Select node or leaf ' + id); },

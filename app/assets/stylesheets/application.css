@@ -89,18 +89,208 @@
 
 /* workspaces styles */
 
-
+.workspace:first-child {
+	margin-left: 15px;
+}
 
 .workspace {
-	border-left: 1px solid #afb0a8;
+	border-right: 1px solid #afb0a8;
 	min-height: 600px;
 	background-image: url('/assets/workspaces/bg-search.png');
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
+	width: 390px;
+	float: left;
 }
 
 
+/* Game Object styles */
 
 
+.game-object {
+	padding: 10px 10px;
+	font-family: Arial;
+	height: 100%;
+	background-color: #FFFFFF;
+}
+
+.game-object .header {
+	height: 32px;
+}
+.game-object .header .path {
+	float: left;
+	font-size: 12px;
+	color: #afb0a8;
+	margin-top: 4px;
+}
+
+.game-object .header .tools {
+	float: right;
+}
+
+.game-object .title {
+	color: #51534f;
+	font-size: 32px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: normal;
+	margin: 0px 0px 10px 0px;
+
+}
+
+.game-object .content h3 {
+	font-size: 18px;
+	color: #51534f;
+	font-weight: normal;
+	margin: 0px 0px 10px 0px;
+}
+
+.game-object .tabs {
+	list-style: none;
+	width: 100%;
+	margin: 0px 0px 20px 0px;
+	padding: 0px;
+	border-bottom: 1px solid #b8b9b1;
+}
+
+.game-object .tabs > li {
+	font-size: 12px;
+	float: left;
+	border-bottom: none;
+	color: #FFFFFF;
+	background-color: #b8b9b1;
+	border-radius: 4px 4px 0px 0px;
+	padding: 2px 8px 0px 8px;	
+	margin: 0px 4px 0px 0px;
+}
+
+.game-object .tabs > li:hover {
+	background-color: #626460;
+}
+
+.game-object .tabs > li.selected {
+	background-color: #626460;
+}
+
+.game-object .content .property-table {
+	width: 100%;
+	font-family: Arial;
+	margin: 0px 0px 25px 0px;
+}
 
 
+.game-object .content .property-table th {
+	color: #51534f;
+	font-weight: normal
+}
+
+.game-object .content .property-table td,th {
+	text-align: center;
+}	
+.game-object .content .property-table td:first-child, th:first-child {
+	text-align: left;
+}
+
+
+.game-object .content .property-table .active-value {
+	font-weight: bold;
+}
+
+.game-object .content .property-table .default-value {
+	color: #51534f;
+	font-weight: normal;
+}
+
+.game-object .content .desc-img {
+	height: 125px;
+	width: 125px;
+	float: left;
+	padding: 5px 5px 5px 0px;
+}
+
+/* Game Object Lists */
+
+
+.game-object-list {
+	padding: 10px 10px;
+	font-family: Arial;
+	height: 100%;
+	background-color: #FFFFFF;
+}
+
+.game-object-list .header {
+	height: 32px;
+}
+.game-object-list .header .path {
+	float: left;
+	font-size: 12px;
+	color: #afb0a8;
+	margin-top: 4px;
+}
+
+.game-object-list .header .tools {
+	float: right;
+}
+
+.game-object-list .gol-table {
+	width: 100%;
+}
+
+.game-object-list .gol-table thead  {
+	border-bottom: 10px solid #FFFFFF;
+}
+
+
+.game-object-list .gol-table thead .objects-in-list {
+	background-color: #b7b8b1;
+	border-radius: 16px;
+	font-weight: normal;
+	padding: 2px 8px;
+	font-size: 12px;
+}
+
+.game-object-list .gol-table tbody tr {
+	border-bottom: 1px solid #eeeeed;
+
+}
+
+
+.game-object-list .gol-table tbody tr:hover {
+	background-color: #eeeeed;
+	cursor: pointer;
+}
+.game-object-list .gol-table .image-col {
+
+}
+
+.game-object-list .gol-table .image-col img{
+	height: 20px;
+	width: 20px;
+	background-color: #CCCCCC;
+}
+
+.game-object-list .gol-table .name-col {
+	font-size: 18px
+}
+
+.game-object-list .gol-table .type-col {
+		font-size: 12px
+
+
+}
+
+.game-object-list .gol-table .checkbox-col {
+
+}
+.game-object-list .gol-table tfoot tr {
+	background-color: #e9e9e7;
+	height: 30px;
+}
+
+.game-object-list .gol-table tfoot {
+	border-top: 10px solid #FFFFFF;
+}
+
+.game-object-list .gol-table .col-pagination {
+	text-align: center;
+}

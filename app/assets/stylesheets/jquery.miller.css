@@ -43,7 +43,7 @@
 	margin-left: 0.5em;
 	padding-left: 1.5em;
 	padding-right: 0.5em;
-	background-image: url('../images/chevron-black.png');
+	background-image: url('/assets/header/tree-column-arrow.png');
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 	white-space: nowrap;
@@ -95,8 +95,10 @@
 
 .miller li.parent
 {	background-repeat: no-repeat;
-	background-position: 100% 50%;
-}
+		background-image: url('/assets/header/tree-column-arrow.png');
+
+	background-repeat: no-repeat;
+	background-position: 96% 50%;}
 
 .miller li.parentLoading
 {
@@ -109,8 +111,10 @@
 {
 	background-color: #51534f;
 	color: #FFFFFF;
+		background-image: url('/assets/header/tree-column-arrow.png');
+
 	background-repeat: no-repeat;
-	background-position: 100% 50%;
+	background-position: 96% 50%;
 }
 
 .miller li.selected
