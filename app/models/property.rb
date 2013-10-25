@@ -1,3 +1,33 @@
+# @author Daniel Sundström
+# The property class represents attributes on instances of {GameObjectClass} which in turn are
+# available on {GameObject} inheriting from the same {GameObjectClass}. Properties are the main 
+# way through which authors add structure to their game. 
+#
+# Properties can be of a variety of types. Typing is enforced, unless specifically asked to not be. 
+# The default setting is recommended unless you're an advanced user, due to the heightened risk of
+# shooting ones own foot.
+# 
+# Out of the box, The Creator provides the following property types.
+#
+# * String
+# * Integer
+# * Single {GameObject}
+# * List of {GameObject}s (order is preserved)
+# * Single {Asset}
+# * List of {Asset}s (order is preserverd)
+#
+# Services and extensions can provide new types of properties. See {Service}-documentation for 
+# details.
+#
+# ## Default values
+# Properties support the notion of default values, as in - values that created instances of {GameObject} 
+# receive in their properties if no changes are made.
+#
+# ## Deletion
+# TBD
+#
+# ## Rule Engine
+# TBD
 class Property < ActiveRecord::Base
 
 	belongs_to :game_object_class
@@ -8,10 +38,12 @@ class Property < ActiveRecord::Base
 	before_save :set_property_klazz, :on => :create
 	around_destroy :flush_redis_destroy
 
+	# Assign a new default value to this property. Typing is not enforced until save.
 	def default_value=(value)
 		@value = value
 	end
 
+	# Get the default value of this property.
 	def default_value
 		# This bizarre construct is done in order to not be reliant
 		# on the inherent assignment-order when using Property.new({...})
