@@ -13,7 +13,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'yard', '0.8.6.2'
 gem 'kramdown'
-gem 'rdoc'
+gem 'rdoc', '3.9.5'
 gem 'coffee-rails', '~> 4.0.0'
 
 gem 'jquery-rails'
