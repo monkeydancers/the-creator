@@ -77,18 +77,6 @@ class Property < ActiveRecord::Base
 		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :property_type_definition => self.property_type_definition, :default_value => self.value)
 	end
 
-	# def reload
-	# 	value_object.reload
-	# end
-
-	# def method_missing(name, *args, &block)
-	# 	if value_object.respond_to?(name)
-	# 		value_object.send(name, *args, &block)
-	# 	else
-	# 		super
-	# 	end
-	# end
-
 	private
 
 	def value_object
