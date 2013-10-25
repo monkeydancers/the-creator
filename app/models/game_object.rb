@@ -1,21 +1,21 @@
-class GameObject
-	include Mongoid::Document
-	include Mongoid::Attributes::Dynamic
+class GameObject < ActiveRecord::Base
 
-	field :game_object_class_id, type: Integer
+	belongs_to :object_class, :class_name => "GameObjectClass"
+
+	has_many :properties, :as => :owner, :autosave => true
 
 	before_create :instantiate_property_values
 
-	def object_class
-		return GameObjectClass.find(self.game_object_class_id)
-	end
 
 	private
 
 	def instantiate_property_values
-		object_class.properties.each do |property|
-
+		object_class.property_list(:inherited => true).each do |property|
+			p = property.clone
+			self.properties << p 
+			puts p.inspect
 		end
+		puts self.properties.inspect
 	end
 
 end

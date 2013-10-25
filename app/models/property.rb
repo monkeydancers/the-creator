@@ -39,12 +39,12 @@ class Property < ActiveRecord::Base
 	around_destroy :flush_redis_destroy
 
 	# Assign a new default value to this property. Typing is not enforced until save.
-	def default_value=(value)
+	def value=(value)
 		@value = value
 	end
 
 	# Get the default value of this property.
-	def default_value
+	def value
 		# This bizarre construct is done in order to not be reliant
 		# on the inherent assignment-order when using Property.new({...})
 		# since that hash can be ordered anywhich way .daniel
@@ -53,6 +53,11 @@ class Property < ActiveRecord::Base
 		else			
 			@value
 		end
+	end
+
+	def clone
+		raise ArgumentError.new("You can't clone an unsaved property") unless self.persisted? 
+		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :property_type_definition => self.property_type_definition, :value => self.value)
 	end
 
 	private
