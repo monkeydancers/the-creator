@@ -52,6 +52,11 @@ class PropertyProxy
 		$redis.discard
 	end
 
+	def reload
+		@value = nil
+		@default_value = nil
+	end
+
 	private
 
 	def generate_identifier(st=nil)
