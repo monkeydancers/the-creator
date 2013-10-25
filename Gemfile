@@ -6,6 +6,7 @@ gem 'sqlite3'
 gem 'mysql2'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
+gem 'redis'
 
 gem 'sass-rails', '~> 4.0.0'
 
@@ -20,6 +21,7 @@ gem 'jbuilder', '~> 1.2'
 
 group :test do 
 	gem 'shoulda-context'
+	gem 'fakeredis'
 end
 
 group :doc do

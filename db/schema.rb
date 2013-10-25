@@ -24,8 +24,9 @@ ActiveRecord::Schema.define(version: 20131018100313) do
   create_table "properties", force: true do |t|
     t.string   "name"
     t.integer  "game_object_class_id"
-    t.string   "default_value_id"
+    t.string   "property_type_definition"
     t.string   "property_klazz"
+    t.string   "value_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

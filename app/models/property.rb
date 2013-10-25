@@ -2,42 +2,64 @@ class Property < ActiveRecord::Base
 
 	belongs_to :game_object_class
 
-	before_save :assign_value_id
-	after_save :persist_default_value
-	after_destroy :remove_value
-
 	validates :name, :presence => true
 
+	around_save :flush_redis_writes
+	before_save :set_property_klazz, :on => :create
+	around_destroy :flush_redis_destroy
+
+	def default_value=(value)
+		@value = value
+	end
+
 	def default_value
-		default_value_object.nil? ? nil : default_value_object[:value]
-	end
-
-	def default_value_object
-		@value ||= PropertyValue.find(default_value_id.to_s)
-	end
-
-	def default_value=(v)
-		if self.default_value_id.blank?
-			setup_default_value_storage
+		# This bizarre construct is done in order to not be reliant
+		# on the inherent assignment-order when using Property.new({...})
+		# since that hash can be ordered anywhich way .daniel
+		if value_id
+			value_object.value
+		else			
+			@value
 		end
-		default_value_object[:value] = v
 	end
 
-	private 
+	private
 
-	def assign_value_id
-		self.default_value_id = @value.id.to_s if @value
+	def value_object
+		@value_object ||= load_value_object
 	end
 
-	def setup_default_value_storage
-		@value = PropertyValue.new
+	def available_subclasses
+		{
+			"StringProperty" => StringProperty
+		}
 	end
 
-	def persist_default_value		
-		default_value_object.save if default_value_object
+	def load_value_object
+		value_instance = value_klazz.fetch(self.value_id)
+		self.value_id = value_instance.id
+		value_instance
 	end
 
-	def remove_value
-		default_value_object.destroy if default_value_object
+	def value_klazz
+		available_subclasses[property_type_definition]
 	end
+
+	def flush_redis_writes
+		value_object.value = @value
+		value_object.save
+		yield
+		value_object.commit
+	end
+
+	def set_property_klazz
+		self.property_klazz = value_klazz.definition_class if self.property_klazz.blank? 
+	end
+
+	def flush_redis_destroy
+		value_object.destroy
+		yield
+		value_object.commit
+	end
+
 end
