@@ -32,4 +32,8 @@ class StringProperty < PropertyProxy
 		$redis.set id, @value.to_s
 	end
 
+	def self.definition_class
+		String
+	end
+
 end
