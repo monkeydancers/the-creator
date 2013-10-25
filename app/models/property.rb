@@ -55,9 +55,26 @@ class Property < ActiveRecord::Base
 		end
 	end
 
+	# Assign a new default value to this property. Typing is not enforced until save.
+	def default_value=(value)
+		@default_value = value
+	end
+
+	# Get the default value of this property.
+	def default_value
+		# This bizarre construct is done in order to not be reliant
+		# on the inherent assignment-order when using Property.new({...})
+		# since that hash can be ordered anywhich way .daniel
+		if value_id
+			value_object.default_value
+		else			
+			@default_value
+		end
+	end
+
 	def clone
 		raise ArgumentError.new("You can't clone an unsaved property") unless self.persisted? 
-		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :property_type_definition => self.property_type_definition, :value => self.value)
+		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :property_type_definition => self.property_type_definition, :default_value => self.value)
 	end
 
 	private
@@ -68,7 +85,8 @@ class Property < ActiveRecord::Base
 
 	def available_subclasses
 		{
-			"StringProperty" => StringProperty
+			"StringProperty" => StringProperty, 
+			"ObjectProperty" => SingleObjectProperty
 		}
 	end
 
@@ -84,13 +102,16 @@ class Property < ActiveRecord::Base
 
 	def flush_redis_writes
 		value_object.value = @value
+		value_object.default_value = @default_value
 		value_object.save
 		yield
 		value_object.commit
 	end
 
 	def set_property_klazz
-		self.property_klazz = value_klazz.definition_class if self.property_klazz.blank? 
+		if value_klazz.can_set_property_klazz? && self.property_klazz.blank? 
+			self.property_klazz = value_klazz.definition_class
+		end
 	end
 
 	def flush_redis_destroy

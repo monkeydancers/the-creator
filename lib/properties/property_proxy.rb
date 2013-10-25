@@ -9,12 +9,26 @@ class PropertyProxy
 		instance
 	end
 
+	def initialize(attributes)
+		@value 						= attributes[:value]
+		@default_value		= attributes[:default_value]
+		@id 							= attributes[:id] 
+	end
+
 	def value=(value)
-		raise NotImplementedError.new("#{self.class.name} does not properly implement value=")
+		@value = value		
 	end
 
 	def value
-		raise NotImplementedError.new("#{self.class.name} does not properly implement value")
+		@value
+	end
+
+	def default_value=(value)
+		@default_value = value
+	end
+
+	def default_value
+		@default_value
 	end
 
 	def set_identifier
