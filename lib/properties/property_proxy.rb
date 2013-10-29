@@ -9,10 +9,10 @@ class PropertyProxy
 		instance
 	end
 
-	def initialize(attributes)
+	def initialize(attributes={})
 		@value 						= attributes[:value]
 		@default_value		= attributes[:default_value]
-		@id 							= attributes[:id] 
+		@id 							= attributes[:id]
 	end
 
 	def value=(value)
@@ -36,6 +36,7 @@ class PropertyProxy
 	end
 
 	def save
+		@id = set_identifier if @id.nil?
 		$redis.multi
 	end
 
@@ -55,6 +56,7 @@ class PropertyProxy
 	def reload
 		@value = nil
 		@default_value = nil
+		refetch
 	end
 
 	private

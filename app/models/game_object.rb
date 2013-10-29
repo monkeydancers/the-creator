@@ -6,7 +6,6 @@ class GameObject < ActiveRecord::Base
 
 	before_create :instantiate_property_values
 
-
 	private
 
 	def instantiate_property_values

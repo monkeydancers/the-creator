@@ -4,7 +4,7 @@ class StringProperty < PropertyProxy
 		unless object_id
 			super
 		else
-			@value = $redis.get(object_id)
+			data = $redis.hgetall(object_id)
 			new({:id => object_id, :value => data['value'], :default_value => data['default_value']})
 		end
 	end
@@ -23,7 +23,15 @@ class StringProperty < PropertyProxy
 	end
 
 	def self.can_set_property_klazz?
-		true
+		false
+	end
+
+	private
+
+	def refetch
+		data 						= $redis.hgetall(self.id)
+		@value 					= data['value']
+		@default_value 	= data['default_value']
 	end
 
 end

@@ -119,7 +119,11 @@ class Property < ActiveRecord::Base
 	def flush_redis_destroy
 		value_object.destroy
 		yield
-		value_object.commit
+		if self.persisted?
+			value_object.commit
+		else
+			value_object.discard
+		end
 	end
 
 end
