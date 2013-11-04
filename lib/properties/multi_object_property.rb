@@ -11,12 +11,12 @@ class MultiObjectProperty < PropertyProxy
 	end
 
 	def value
-		return nil if @value.nil?
+		return nil if @value.blank?
 		@value_object ||= GameObject.find(@value)
 	end
 
 	def default_value
-		return nil if @default_value.nil?
+		return nil if @default_value.blank?
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 

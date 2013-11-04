@@ -86,7 +86,7 @@ class Property < ActiveRecord::Base
 	def available_subclasses
 		{
 			"StringProperty" 				=> StringProperty, 
-			"ObjectProperty" 				=> SingleObjectProperty, 
+			"SingleObjectProperty" 				=> SingleObjectProperty, 
 			"MultiObjectProperty" 	=> MultiObjectProperty, 
 			'NumericProperty'				=> NumericProperty
 		}

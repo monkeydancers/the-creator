@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/james2m/seedbank.git
+  revision: c7a272751336f0d17103028f45b88eac62cbedd7
+  specs:
+    seedbank (0.3.0.pre2)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: 5a34921251b6d159b6ef3aa2a9f9aebdc6ac687f
   specs:
@@ -51,6 +57,7 @@ GEM
     execjs (2.0.2)
     fakeredis (0.4.2)
       redis (~> 3.0.0)
+    ffi (1.9.3)
     hike (1.2.3)
     i18n (0.6.5)
     jbuilder (1.5.2)
@@ -96,6 +103,8 @@ GEM
     rake (10.1.0)
     rdoc (3.9.5)
     redis (3.0.5)
+    rufus-lua (1.1.0)
+      ffi
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
     sass (3.2.12)
@@ -148,8 +157,10 @@ DEPENDENCIES
   rails (= 4.0.0)
   rdoc (= 3.9.5)
   redis
+  rufus-lua
   sass-rails (~> 4.0.0)
   sdoc
+  seedbank!
   shoulda-context
   sqlite3
   turbolinks

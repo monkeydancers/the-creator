@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131025134616) do
+ActiveRecord::Schema.define(version: 20131104112024) do
 
   create_table "game_object_classes", force: true do |t|
     t.string   "name"
@@ -29,6 +29,12 @@ ActiveRecord::Schema.define(version: 20131025134616) do
     t.datetime "updated_at"
   end
 
+  create_table "games", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "properties", force: true do |t|
     t.string   "name"
     t.integer  "owner_id"
@@ -39,6 +45,15 @@ ActiveRecord::Schema.define(version: 20131025134616) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"
+  end
+
+  create_table "rules", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "rule_code"
+    t.integer  "game_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

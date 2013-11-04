@@ -6,6 +6,23 @@ class GameObject < ActiveRecord::Base
 
 	before_create :instantiate_property_values
 
+	def to_lua
+		{
+			'name' 				=> name, 
+			'id' 					=> id, 
+			'properties'	=> [
+				{
+					'id' 		=> 1,
+					'name' 	=> 'monkey_master'
+				}, 
+				{
+					'id' 		=> 2, 
+					'name'	=> 'monkey_minion'
+				}
+			]
+		}
+	end
+
 	private
 
 	def instantiate_property_values

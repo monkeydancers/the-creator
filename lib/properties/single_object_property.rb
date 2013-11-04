@@ -10,12 +10,12 @@ class SingleObjectProperty < PropertyProxy
 	end
 
 	def value
-		return nil if @value.nil? 
+		return nil if @value.blank? 
 		@value_object ||= GameObject.find(@value)
 	end
 
 	def default_value
-		return nil if @default_value.nil?
+		return nil if @default_value.blank?
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 
@@ -25,7 +25,7 @@ class SingleObjectProperty < PropertyProxy
 
 	def save
 		super
-		$redis.hmset id, :value, @value.id.to_s, :default_value, @default_value.id.to_s
+		$redis.hmset id, :value, (@value ? @value.id.to_s : ""), :default_value, (@default_value ? @default_value.id.to_s : "")
 	end
 
 	def self.can_set_property_klazz?

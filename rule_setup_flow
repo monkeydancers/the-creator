@@ -1,0 +1,7 @@
+1. Create context
+2. For each item in hierarchy, create Lua representation
+3. Setup gameobjects for actor/target
+4. Set simple values as properties (String, Numeric)
+5. Set lazy loading-wrappers for object-related properties 
+-- 	Probably, set these on the class-table, set class as meta-table for 
+		the object at hand

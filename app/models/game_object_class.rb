@@ -18,4 +18,6 @@ class GameObjectClass < ActiveRecord::Base
 		end
 	end
 
+	
+
 end
