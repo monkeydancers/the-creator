@@ -10,10 +10,12 @@ class SingleObjectProperty < PropertyProxy
 	end
 
 	def value
+		return nil if @value.nil? 
 		@value_object ||= GameObject.find(@value)
 	end
 
 	def default_value
+		return nil if @default_value.nil?
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 
@@ -27,7 +29,20 @@ class SingleObjectProperty < PropertyProxy
 	end
 
 	def self.can_set_property_klazz?
-		false
+		true
+	end
+
+	def self.definition_class
+		GameObject
+	end
+
+	private
+
+	def refetch
+		data 						= $redis.hgetall(self.id)
+		@value 					= data['value']
+		@default_value 	= data['default_value']
+		@value_object, @default_value_object = nil, nil
 	end
 
 end

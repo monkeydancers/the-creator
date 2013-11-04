@@ -12,9 +12,7 @@ class GameObject < ActiveRecord::Base
 		object_class.property_list(:inherited => true).each do |property|
 			p = property.clone
 			self.properties << p 
-			puts p.inspect
 		end
-		puts self.properties.inspect
 	end
 
 end
