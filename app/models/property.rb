@@ -112,7 +112,7 @@ class Property < ActiveRecord::Base
 
 	def set_property_klazz
 		if value_klazz.can_set_property_klazz? && self.property_klazz.blank? 
-			self.property_klazz = value_klazz.definition_class
+			self.property_klazz = value_klazz.definition_class.to_s
 		end
 	end
 
