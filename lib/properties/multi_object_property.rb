@@ -11,10 +11,12 @@ class MultiObjectProperty < PropertyProxy
 	end
 
 	def value
+		return nil if @value.nil?
 		@value_object ||= GameObject.find(@value)
 	end
 
 	def default_value
+		return nil if @default_value.nil?
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 
@@ -25,13 +27,26 @@ class MultiObjectProperty < PropertyProxy
 	def save
 		super	
 		$redis.del id+'-value' if @value
-		$redis.rpush id+'-value', @value.map{|g| g.id } if @value
-		$redis.del id+'-default-va' if @default_value
-		$redis.rpush id+'-default-value', @default_value.map{|g| g.id} if @default_value
+		$redis.rpush id+'-value', Array(@value).map{|g| g.id } if @value
+		$redis.del id+'-default-value' if @default_value
+		$redis.rpush id+'-default-value', Array(@default_value).map{|g| g.id} if @default_value
 	end
 
 	def self.can_set_property_klazz?
-		false
+		true
+	end
+
+	def self.definition_class
+		GameObject
+	end
+
+	private 
+
+	def refetch
+		data 						= $redis.hgetall(self.id)
+		@value 					= $redis.lrange(self.id + '-value', 0, -1)
+		@default_value 	= $redis.lrange(self.id + '-default-value', 0, -1)
+		@value_object, @default_value_object = nil, nil
 	end
 
 end
