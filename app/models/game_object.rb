@@ -13,11 +13,11 @@ class GameObject < ActiveRecord::Base
 			'properties'	=> [
 				{
 					'id' 		=> 1,
-					'name' 	=> 'monkey_master'
+					'name' 	=> 'monkey_minion'
 				}, 
 				{
 					'id' 		=> 2, 
-					'name'	=> 'monkey_minion'
+					'name'	=> 'monkey_master'
 				}
 			]
 		}

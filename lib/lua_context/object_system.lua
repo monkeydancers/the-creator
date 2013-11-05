@@ -2,7 +2,14 @@
 
 -- Base Class
 GameObjectClass = {
-	
+	find = function(_, id)
+		data = game_object_with_class_and_id(_.id, id)
+		if data then
+			return GameObject:create(data)
+		else
+			return nil
+		end
+	end
 }
 
 
@@ -11,7 +18,7 @@ GameObject = {}
 GameObject_mt = { 
 	__index = GameObject, 
 	__tostring = function(table)
-		return table.name .. " - Monkey"
+		return table.name .. " - GameObject"
 	end
 }
 
@@ -32,20 +39,9 @@ function GameObject:create(data)
 	return inst
 end
 
--- Fetch and instantiate a GameObject with the provided id
-function GameObject.find(id)
-	data = load_game_object_by_id(id)
-	if data then
-		return GameObject:create(data)
-	else
-		return "There's no GameObject with id:" .. id
-	end
-end
-
 -- Persist the GameObject to the database
-function GameObject:save()
-	print("Persisting game object with name: " .. self.name)
-	return true
+function GameObject:save(_)
+	save_game_object(self)
 end
 
 -- Return which GameObjectClass this object belongs to
@@ -85,4 +81,15 @@ function ObjectPropertyWrapper.create(_id, _name)
 	}
 	setmetatable(inst, PM)
 	return inst
+end
+
+-- Logging System -- 
+
+Log = {
+	list = {}
+}
+
+-- Append a message to the end of the log
+Log.append = function(msg)
+	Log.list[#Log.list+1] = msg
 end
