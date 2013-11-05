@@ -1,6 +1,6 @@
 -- This file contains generic functions without a given object-context to anchor on.
 
-local utils = {}
+utils = {}
 
 function utils.makeClass(baseClass)
 	local new_class = {}
@@ -19,4 +19,3 @@ function utils.makeClass(baseClass)
 	return new_class
 end
 
-return utils

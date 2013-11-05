@@ -4,8 +4,6 @@ gem 'rails', '4.0.0'
 
 gem 'sqlite3'
 gem 'mysql2'
-gem 'mongoid', github: 'mongoid/mongoid'
-gem 'bson_ext'
 gem 'redis'
 gem 'seedbank', github: 'james2m/seedbank'
 gem 'sass-rails', '~> 4.0.0'
@@ -18,6 +16,7 @@ gem 'jquery-rails'
 gem 'rufus-lua'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
+gem 'awesome_print'
 
 group :test do 
 	gem 'shoulda-context'
