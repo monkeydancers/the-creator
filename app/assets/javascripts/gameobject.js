@@ -4,4 +4,4 @@ window.gameobject = Object.create({
     	var _t            = this;
     	console.log("Initialize game-object");
 	}
-}
+});

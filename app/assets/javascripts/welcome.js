@@ -44,7 +44,7 @@ $(document).ready(function() {
 		);
 
 		// Initialize game objects
-		$( ".go-draghandle" ).draggable({ revert: true, helper: "clone" })
-
+		$( ".go-draghandle" ).draggable({ revert: true, helper: "clone" });
+		$( ".go-droparea" ).droppable({ accept: ".go-draghandle", hoverClass: "go-droparea-active", drop: function(){ console.log("Dropped")}  });
 	}
 );
