@@ -155,6 +155,11 @@
 	float: left;
 }
 
+.workspace.occupied {
+	background-image: none;	
+}
+
+
 
 /* Game Object Related Popinstyle */
 
@@ -332,6 +337,23 @@
 	font-size: 12px;
 }
 
+/* Dragging game objects style */
+
+.go-draghandle.ui-draggable-dragging {
+	font-size: 24px;
+	border: 1px solid #afb0a8;
+	background-color: #FFF;
+	box-shadow: 2px 2px 4px  rgba(0,0,0, 0.2);
+	padding: 8px;
+}
+
+.go-draghandle span.identifier {
+	font-size: 70%;
+	color: #CCC;
+}
+
+
+
 /* Game Object Lists */
 
 
@@ -397,6 +419,8 @@
 .game-object-list .gol-table .name-col {
 	font-size: 18px
 }
+
+
 
 .game-object-list .gol-table .type-col {
 		font-size: 12px

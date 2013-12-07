@@ -1,3 +1,9 @@
+//= require jquery-ui
+//= require gameobject
+//= require_self
+
+
+
 var tree = [
 	{ "id": 1, "name": "Anakin", "children" : [  
 		{ "id": 6, "name": "Luc", "children": null, "parent": false  },
@@ -36,5 +42,9 @@ $(document).ready(function() {
 				}
 			}
 		);
+
+		// Initialize game objects
+		$( ".go-draghandle" ).draggable({ revert: true, helper: "clone" })
+
 	}
 );
