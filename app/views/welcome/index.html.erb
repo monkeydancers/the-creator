@@ -22,8 +22,6 @@
 			<li>2</li>
 			<li>3</li>
 		</ul>
-
-
 	</div>
 </div>
 
@@ -42,80 +40,44 @@
 
 <div class="work-spaces">
 	<div class="row">
-	  <div class="workspace occupied go-droparea">
-	  	<div class="game-object" data-id="12" >
-		  	<div class="header">
-		  		<div class="path"> Game Object </div>
-		  		<div class="tools"> + i</div>
-		  	</div>
-		  	<h1 class="title go-draghandle">Name of GOC that is really long <span class="identifier">#3333333</span></h1>
-		  		<ul class="tabs clearfix">
-		  			<li class="selected">General</li>
-		  			<li>Rules</li>
-		  			<li>Distributions</li>
-		  		</ul>
-		  	<div class="content clearfix">
+	  <div class="workspace  go-droparea">
 
-
-		  		<h3 > Properties </h3>
-		  		<table class="property-table"> 
-		  			<thead> 
-		  				<tr> 
-		  					<th>Property</th> 
-		  					<th>Value</th> 
-		  					<th>Default Value</th> 
-		  				</tr> 
-		  			</thead> 
-		  			<tbody> 
-		  				<tr> 
-		  					<td>Strenth</td> 
-		  					<td class="active-value">12</td> 
-		  					<td class="default-value">3</td> 
-		  				</tr> 
-		  				<tr> 
-		  					<td>Ninja</td> 
-		  					<td class="active-value">121</td> 
-		  					<td class="default-value">32</td> 
-		  				</tr> 
-		  			</tbody> 
-		  		</table>
-		  		<h3>Description</h3>
-		  		<p class="goc-description">
-		  				  		<img scr="" class="desc-img" />
-
-		  			Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod.
-		  		</p>
-				<h3 class="clearfix">Tags</h3>
-				<p>Tags</p>
-		  	</div>
-	  	</div>
 	  </div>
 
-	  <div class="workspace occupied go-droppable">
+	  <div class="workspace go-droparea">
+
+	  </div>
+	  <div class="workspace go-droparea"></div>
+	</div>
+</div>
+
+<!-- Templates for javascripts-->
+<script type="text/liquid" id="game_objects_collection_template">
 	  	<div class="game-object-list">
 	  		<div class="header">
-		  		<div class="path"> Game Object </div>
-		  		<div class="tools"> + i</div>
+		  		<div class="path"> Game Objects collection </div>
+		  		<div class="tools"> 
+		  			<span class="icon x">x</span>
+			  		<span class="icon i"> i</span>
+		  			<span class="icon"> +</span>  
+		  		</div>
 		  	</div>
 		  	<table class="gol-table">
 				<thead> 
 	  				<tr> 
-	  				 	<th colspan="4"><span class="objects-in-list">239</span></th> 
+	  				 	<th colspan="4"><span class="objects-in-list go-draghandles">{{num_game_objects}}</span></th> 
 	  				</tr> 
 	  			</thead> 
 		  		<tbody> 
-		  			<tr> 
-	  					<td class="image-col"><img src="" alt="" /></td> 
-	  					<td class="name-col go-draghandle">Name of GOC <span class="identifier">#3333333</span></td> 
-	  					<td class="type-col">type</td> 
-	  					<td class="checkbox-col"><input type="checkbox" /></td> 
-		  			</tr> 
-		  			<tr> 
-	  					<td class="image-col"><img src="" alt="" /></td> 
-	  					<td class="name-col go-draghandle">Name of GOC <span class="identifier">#3333333</span></td> 
-	  					<td class="type-col">type</td> 
-	  					<td class="checkbox-col"><input type="checkbox" /></td> 
-		  			</tr> 
+		  			{% for game_object in game_objects_list %}
+			  			<tr> 
+		  					<td class="image-col"><img src="" alt="" /></td> 
+		  					<td class="name-col go-draghandle editable">{{game_object.name}} <span class="identifier">#{{game_object.identifier}}</span></td> 
+		  					<td class="type-col">type</td> 
+		  					<td class="checkbox-col"><input type="checkbox" /></td> 
+			  			</tr> 
+		  			{% endfor %}
+
 		  		</tbody>
   				<tfoot>
   					<tr>
@@ -126,8 +88,85 @@
 		  		</tfoot>
 	  		</table>
 	  	</div>
-	  </div>
-	  <div class="workspace go-droparea">3</div>
-	</div>
 
-</div>
+</script>
+
+<script type="text/liquid" id="workspace_popin_template">
+	  <div class="popin">
+		  	<div class="close"></div>
+		  	<form>
+			  	<h2>{{header}}</h2>
+
+					<input type="text" value="{{value}}" placeholder="{{default}}" /><br />
+					<input type="hidden" value="{{identifier}}" />
+			  	<div class="button-group">
+				<button type="button" class="btn btn-default btn-sm ">Cansel</button> 
+				 or
+				<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
+			</div> 
+			</form>
+		  </div>
+
+</script>
+
+<script type="text/liquid" id="game_object_template">
+  <div class="game-object" data-identifier="{{identifier}}">
+		  	<div class="header">
+		  		<div class="path"> Game Object </div>
+		  		<div class="tools"> 
+		  			<span class="icon x">x</span>
+		  			<span class="icon">+</span> 
+		  			<span class="icon i">i</span>
+
+		  		</div>
+		  	</div>
+		  	<h1 class="title go-draghandle editable" data-key="name" data-identifier='{{identifier}}' data-type="string">{{name}} <span class="identifier">#{{identifier}}</span></h1>
+		  	<div class="gameobject-tabs tabs-container content">
+			  	<ul class="tabs clearfix">
+			  		<li class="selected">General</li>
+			  		<li class="">Rules</li>
+			  		<li class="">Distributions</li>
+			  	</ul>
+			  	<div class="tabs-content clearfix">
+			  		<div class="tab-content selected">
+				  		<h3 > Properties </h3>
+				  		<table class="property-table"> 
+				  			<thead> 
+				  				<tr> 
+				  					<th>Property</th> 
+				  					<th>Value</th> 
+				  					<th>Default Value</th> 
+				  				</tr> 
+				  			</thead> 
+				  			<tbody> 
+				  			{% for property in properties %}
+				  				<tr> 
+				  					<td>{{property.name}}</td> 
+				  					<td class="active-value editable" data-key="property: {{property.name}}" data-identifier='{{identifier}}'>{{ property.current_value}}</td> 
+				  					<td class="default-value">{{ property.default_value}}</td> 
+				  				</tr> 
+				  				{% endfor %}
+				  			</tbody> 
+				  		</table>
+				  		<h3>Description</h3>
+				  		<p class="goc-description">
+				  				  		<img scr="{{image_url}}" class="desc-img" />
+
+				  			{{description}}
+				  		</p>
+						<h3 class="clearfix">Tags</h3>
+						<p>{{ tags }}</p>
+					</div>
+					<div class="tab-content">
+						Rules
+					</div>
+					<div class="tab-content">
+						Distribution
+					</div>
+				</div>
+		  	</div>
+	  	</div>
+</script>
+
+
+
