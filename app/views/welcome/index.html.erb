@@ -51,42 +51,63 @@
 	</div>
 </div>
 
-<!-- Templates for javascripts-->
+<!-- Helper Liquid templates used by other templates -->
+
+<script type="text/liquid" id="game_objects_collection_list_template">
+	{% for game_object in game_objects_list %}
+		<tr class="game_object_row" data-identifier="{{game_object.identifier}}"> 
+			<td class="image-col"><img src="" alt="" /></td> 
+			<td class="name-col go-draghandle editable">{{game_object.name}} <span class="identifier">#{{game_object.identifier}}</span></td> 
+			<td class="type-col">type</td> 
+			<td class="checkbox-col"><input type="checkbox" value="" /></td> 
+		</tr> 
+	{% endfor %}
+
+</script>
+
+<script type="text/liquid" id="game_objects_collection_pagination_template">
+	{% capture num_pages %}{{ pages | size  }}{% endcapture %}					
+	{% for page in pages %}<a href="#" class="{% if page == selected_page %}selected{% endif %}"> {{ page }}</a>
+	{% endfor %}
+</script>
+
 <script type="text/liquid" id="game_objects_collection_template">
+	<div class="game-object-list" data-identifier="{{identifier}}">
+	  	<table class="gol-table">
+			<thead> 
+					<tr> 
+					 	<th colspan="4"><a href="">select all </a> - <span class="objects-selected-in-list gameobject-list-counter gol-draghandle">0</span> of <span class="objects-in-list gameobject-list-counter gol-draghandle">{{num_game_objects}}</span></th> 
+					</tr> 
+				</thead> 
+	  		<tbody> 
+	  			{% include 'game_objects_collection_list_template'  %}
+	  		</tbody>
+				<tfoot>
+					<tr>
+					<td>{% if num_pages > 1 %} < {% endif %} </td>
+						<td colspan="2" class="col-pagination">
+						{% include 'game_objects_collection_pagination_template'  %}
+						</td>
+						<td>{% if num_pages > 1 %} > {% endif %}</td>
+					</tr>
+	  		</tfoot>
+		</table>
+	</div>
+</script>
+
+
+
+<!-- Liquid Templates for javascripts-->
+<script type="text/liquid" id="game_objects_collection_in_ws_template">
 	  	<div class="game-object-list">
 	  		<div class="header">
 		  		<div class="path"> Game Objects collection </div>
 		  		<div class="tools"> 
 		  			<span class="icon x">x</span>
-			  		<span class="icon i"> i</span>
-		  			<span class="icon"> +</span>  
+		  			<span class="icon"> + </span>  
 		  		</div>
 		  	</div>
-		  	<table class="gol-table">
-				<thead> 
-	  				<tr> 
-	  				 	<th colspan="4"><span class="objects-in-list go-draghandles">{{num_game_objects}}</span></th> 
-	  				</tr> 
-	  			</thead> 
-		  		<tbody> 
-		  			{% for game_object in game_objects_list %}
-			  			<tr> 
-		  					<td class="image-col"><img src="" alt="" /></td> 
-		  					<td class="name-col go-draghandle editable">{{game_object.name}} <span class="identifier">#{{game_object.identifier}}</span></td> 
-		  					<td class="type-col">type</td> 
-		  					<td class="checkbox-col"><input type="checkbox" /></td> 
-			  			</tr> 
-		  			{% endfor %}
-
-		  		</tbody>
-  				<tfoot>
-  					<tr>
-	  					<td> </td>
-	  					<td colspan="2" class="col-pagination"> 1 2 3 4 5 </td>
-	  					<td></td>
-  					</tr>
-		  		</tfoot>
-	  		</table>
+		  	{% include 'game_objects_collection_template'  %}
 	  	</div>
 
 </script>
@@ -95,15 +116,22 @@
 	  <div class="popin">
 		  	<div class="close"></div>
 		  	<form>
-			  	<h2>{{header}}</h2>
+			  	<h2>{{header}} </h2>
+
+			  	{% if type == 'string' or type == 'integer' %}
 
 					<input type="text" value="{{value}}" placeholder="{{default}}" /><br />
 					<input type="hidden" value="{{identifier}}" />
-			  	<div class="button-group">
-				<button type="button" class="btn btn-default btn-sm ">Cansel</button> 
-				 or
-				<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
-			</div> 
+			  		<div class="button-group">
+						<button type="button" class="btn btn-default btn-sm ">Cansel</button> 
+				 		or
+						<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
+					</div>
+				{% endif %}
+				{% if type == 'objects'%}
+				  	{% include 'game_objects_collection_template'  %}
+				{% endif %}
+ 
 			</form>
 		  </div>
 
@@ -112,11 +140,10 @@
 <script type="text/liquid" id="game_object_template">
   <div class="game-object" data-identifier="{{identifier}}">
 		  	<div class="header">
-		  		<div class="path"> Game Object </div>
+		  		<div class="path"> {{class_path}} </div>
 		  		<div class="tools"> 
 		  			<span class="icon x">x</span>
 		  			<span class="icon">+</span> 
-		  			<span class="icon i">i</span>
 
 		  		</div>
 		  	</div>
@@ -142,7 +169,7 @@
 				  			{% for property in properties %}
 				  				<tr> 
 				  					<td>{{property.name}}</td> 
-				  					<td class="active-value editable" data-key="property: {{property.name}}" data-identifier='{{identifier}}'>{{ property.current_value}}</td> 
+				  					<td class="active-value editable" data-key="property: {{property.name}}" data-identifier='{{identifier}}' data-type='{{property.type}}'>{{ property.current_value}}</td> 
 				  					<td class="default-value">{{ property.default_value}}</td> 
 				  				</tr> 
 				  				{% endfor %}
