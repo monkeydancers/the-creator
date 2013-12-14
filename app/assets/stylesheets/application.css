@@ -479,6 +479,9 @@
 	padding: 0px;
 	margin:0px;
 }
+.popin .game-object-list .gol-table thead{
+	color: #FFF;
+}
 
 .game-object-list .header {
 	height: 32px;
@@ -523,6 +526,7 @@
 	background-color: #a0a19a;
 	position: relative;
 	cursor: crosshair;
+	color: #000000;
 }
 
 .gameobject-list-counter.ui-draggable-dragging {

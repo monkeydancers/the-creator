@@ -104,15 +104,27 @@
 		  		<div class="path"> Game Objects collection </div>
 		  		<div class="tools"> 
 		  			<span class="icon x">x</span>
-		  			<span class="icon"> + </span>  
+		  			<span class="icon plus"> + </span>  
 		  		</div>
 		  	</div>
-		  	{% include 'game_objects_collection_template'  %}
+		  	{% include 'game_objects_collection_template' %}
 	  	</div>
 
 </script>
 
-<script type="text/liquid" id="workspace_popin_template">
+<script type="text/liquid" id="workspace_more_popin_template">
+	  <div class="popin">
+		  	<div class="close"></div>
+		  	<form>
+			  	<h2>Actions </h2>
+					<button type="button" class="btn btn-default ">Delete</button> 
+					<button type="button" class="btn btn-default ">Duplicate</button> 
+
+			</form>
+		  </div>
+</script>
+
+<script type="text/liquid" id="workspace_editable_popin_template">
 	  <div class="popin">
 		  	<div class="close"></div>
 		  	<form>
@@ -129,12 +141,11 @@
 					</div>
 				{% endif %}
 				{% if type == 'objects'%}
-				  	{% include 'game_objects_collection_template'  %}
+				  	{% include 'game_objects_collection_template'  %}					
 				{% endif %}
  
 			</form>
 		  </div>
-
 </script>
 
 <script type="text/liquid" id="game_object_template">
@@ -143,7 +154,7 @@
 		  		<div class="path"> {{class_path}} </div>
 		  		<div class="tools"> 
 		  			<span class="icon x">x</span>
-		  			<span class="icon">+</span> 
+		  			<span class="icon plus">+</span> 
 
 		  		</div>
 		  	</div>
