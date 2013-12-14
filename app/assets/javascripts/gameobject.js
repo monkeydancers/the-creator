@@ -172,6 +172,22 @@ window.game_objects_collection = Object.create({
 			});
 		}
 	},
+	_toggle_all_selected: function(elm){
+		var _t = this;
+
+		if(_t.all_selected){
+			_t.all_selected 		= false
+			_t.selected_objects	 	= [];
+			_t.container .find('.checkbox-col input').prop('checked', false);
+			_t.object_counter_elm.html("0");
+			elm.html("select all");
+		} else {
+			_t.all_selected = true;
+			_t.container.find('.checkbox-col input').prop('checked', true);
+			_t.object_counter_elm.html(_t.num_objects);
+			elm.html("deselect all");
+		}
+	},
 	init: function(game_objects, container, ws_manager, options){ 
     	var _t            		= this;
     	_t.selected_objects		= []; // Identifiers of selected game objects
@@ -204,6 +220,11 @@ window.game_objects_collection = Object.create({
 
     	_t.container.find('.tools .icon.plus').on('click.creator',  function(){
     		_t._open_more_actions_popover.apply(_t, [])
+    	});
+
+    	_t.container.find('.select_all').on('click.creator',  function(e){
+    		_t._toggle_all_selected.apply(_t, [$(e.currentTarget)])
+    		e.preventDefault()
     	});
 
 		_t._attach_event_handeler_to_list_page();
