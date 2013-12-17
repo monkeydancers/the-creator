@@ -55,6 +55,17 @@ if (!Function.prototype.bind) {
 // End of incantation
 
 
+// Patch liquid to read files from DOM
+Liquid.readTemplateFile = function(path) {
+  var elem = $('#' + path);
+    if(elem) {
+      return elem.html();
+    } else {
+        return false; 
+  }
+}
+
+
 
 
 
