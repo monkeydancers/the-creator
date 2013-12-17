@@ -27,9 +27,14 @@ var tree = [
 ];
 
 $(document).ready(function() {
+		var gameobject_class = Liquid.parse($('#gameobject_class_template').html())
+
+
 		$('#miller').miller({
 				'tree': tree,
-				'openLine' : function(line){ console.log(line)},
+				'openLine' : function(line){ 
+					$('.configure-container').html(gameobject_class.render({'name' : 'test'}));
+				},
 				'toolbar': {
 					'preRender' : function(current_node, path){},
 					'options': {

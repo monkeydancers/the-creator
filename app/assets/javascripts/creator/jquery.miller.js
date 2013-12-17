@@ -89,7 +89,7 @@
 						switch (event.which) {
 							case 13:
 								settings.openLine(current_node);
-								break;
+								break;	
 							case 37:
 								newCurrentLine = currentLine.parent().prev().prev().find('li.parentSelected');
 								break;
@@ -269,6 +269,7 @@
 										.data('id', data['id'])
 										.click(removeNextColumns)
 										.click(getLines)
+										.on('dblclick', function(){settings.openLine(current_node); })
 										.appendTo(column)
 									;
 
@@ -361,7 +362,6 @@
 				if(settings.toolbar['preRender']){
 					settings.toolbar['preRender'].apply(this, [current_node, path]);						
 				}
-
 					
 			}
 			;

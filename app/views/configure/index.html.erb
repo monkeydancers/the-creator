@@ -51,7 +51,12 @@
 
 
 	<div class="configure-container">
-				<h1>Game Object Class Name</h1>
+	
+
+
+	Select a class to edit it
+	<script type="text/liquid" id="gameobject_class_template">
+		<h1>{{name}}</h1>
 
 		<div class="row">
 
@@ -71,14 +76,17 @@
 		  				</tr> 
 		  			</thead> 
 		  			<tbody> 
+			  			{% for property in properties %}
 		  				<tr> 
-		  					<td>Strenth</td> 
-		  					<td class="data-type">12</td> 
-		  					<td class="default-value">3</td>
-		  					<td class="inherited-from"> </td> 
+		  					<td>{{name}}</td> 
+		  					<td class="data-type">{{property.datatype}}</td> 
+		  					<td class="default-value">{{property.default_value}}</td>
+		  					<td class="inherited-from">{{property.inherited_from}}</td> 
 		  					<td class="action"> edit </td> 
 
 		  				</tr> 
+		  				{% endfor %}
+
 		  				<tr> 
 		  					<td>Strenth</td> 
 		  					<td class="data-type">12</td> 
@@ -109,15 +117,15 @@
 		  				</tr> 
 		  			</thead> 
 		  			<tbody> 
-		  				<tr> 
-		  					<td>Subclass name</td> 
-		  					<td class="action"> Show &rarr; </td> 
 
-		  				</tr> 
-		  				<tr> 
-	<td>Subclass name</td> 
-		  					<td class="action"> Show &rarr; </td> 
-		  				</tr> 
+		  				{% for subclass in subclasses %}
+			  				<tr> 
+			  					<td>{{subclass.name}}</td> 
+			  					<td class="action"> Show &rarr; </td> 
+
+			  				</tr> 
+		  				{% endfor %}
+		  				
 		  			</tbody> 
 		  			<tfoot>
 		  				<tr>
@@ -131,9 +139,10 @@
 			<div class="col-md-4">
 				<h3> Extensions </h3>
 
-
+				???
 
 			</div>
 	  	</div>
+	  </script>
 
     </div>
