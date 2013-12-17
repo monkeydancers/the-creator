@@ -1,4 +1,6 @@
 //= require creator/jquery.miller
+//= require creator/gameobject_class
+
 //= require_self
 
 
@@ -26,14 +28,19 @@ var tree = [
 	 },
 ];
 
+var class_manager = null; 
+
+
 $(document).ready(function() {
-		var gameobject_class = Liquid.parse($('#gameobject_class_template').html())
+		console.log(window.gameobject_class_manager);
+		class_manager = Object.create(window.gameobject_class_manager).init($('.configure-container') );
 
 
 		$('#miller').miller({
 				'tree': tree,
-				'openLine' : function(line){ 
-					$('.configure-container').html(gameobject_class.render({'name' : 'test'}));
+				'openLine' : function(node){
+					console.log(node); 
+					class_manager.render_gameobject_class({'name' : node.name})
 				},
 				'toolbar': {
 					'preRender' : function(current_node, path){},
