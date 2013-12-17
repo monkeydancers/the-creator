@@ -31,7 +31,6 @@ var workspace_manager;
 
 $(document).ready(function() {
 		$('#miller').miller({
-				'useAjax' : false,
 				'tree': tree,
 				'toolbar': {
 					'preRender' : function(current_node, path){
