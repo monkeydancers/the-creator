@@ -12,5 +12,14 @@ class Game < ActiveRecord::Base
 		return data
 	end
 
+	def resolve_identifier(identifier)
+		if self.game_objects.count(["identifier = ?", identifier]) > 0
+			return self.game_objects.where(["identifier = ?", identifier])
+		elsif self.game_object_classes.count(["identifier = ?", identifier]) > 0
+			return self.game_object_classes.where(["identifier = ?", identifier])
+		else
+			return nil
+		end
+	end
 
 end

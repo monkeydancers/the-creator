@@ -25,6 +25,10 @@ class GameObject < ActiveRecord::Base
 		}
 	end
 
+	def self.resolve_identifier()
+
+	end
+
 	private
 
 	def instantiate_property_values

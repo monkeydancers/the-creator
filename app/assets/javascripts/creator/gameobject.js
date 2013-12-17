@@ -224,14 +224,80 @@ window.workspaces = Object.create({
 	_find_workspace: function(workspace){
 		return $($('.workspace')[workspace - 1]);
 	},
-	open_game_object: function(identifier, workspace){
-		// Find by ajax and send back
 
-		this._open_game_object(workspace, game_object);
-
+	open: function(identifier, opts){
+		var _t = this; 
+		$.when(this.choose_workspace(), this.load_identifier(identifier)).then(function(workspace, data){
+			_t.open_in(workspace, data, opts);
+		}, function(error){
+			console.log(error);
+		});
 	},
 
+	choose_workspace: function(){		
+		var _t 						= this; 
+		// Create a deferred object
+		var deferred 			= $.Deferred(); 
 
+		// Generalize clean-up and resolvement of the deferred object
+		var selected = function(workspace){
+			// Cleanup events
+			$(document).off('.workspace_selector'); 
+			_t.workspace_selector.find('li').off('.workspace_selector');
+			// Hide the selector
+			_t.workspace_selector.css('display', 'none'); 
+			// Resolve the deferred and pass along the selected workspace
+			deferred.resolve(workspace); 
+		}
+
+		// Add events for supporting clicking, using element-index as indicator in order
+		// to support new workspaces
+		this.workspace_selector.find('li').on('click.workspace_selector', function(e){
+			var _target = $(e.currentTarget); 
+			selected(_target.index()+1);
+		});
+
+		// Allow selection using keyboard and 1,2,3
+		$(document).on('keyup.workspace_selector', function(e){
+			var _i = [49,50,51].indexOf(e.which); 
+			if(_i >= 0){
+				selected(_i + 1); 
+			}
+		});
+
+		// Show the selector and return a "promise"
+		this.workspace_selector.css('display', 'block'); 
+		return deferred.promise(); 
+	},
+
+	load_identifier: function(identifier){
+		var deferred = $.Deferred(); 
+		$.ajax({
+			url: '/create/identifier', 
+			data: {
+				identifier: identifier
+			}, 
+			dataType: 'json', 
+			success: function(data){
+				deferred.resolve(data);
+			}, 
+			error: function(){
+				deferred.reject({
+					message: "We couldn't load that game object"
+				});
+			}
+		})
+		return deferred.promise();
+	},
+
+	open_in: function(workspace, identifier, opts){
+		console.log(arguments);
+	},
+
+	open_game_object: function(identifier, workspace){
+		// Find by ajax and send back
+		this._open_game_object(workspace, game_object);
+	},	
 	_open_game_object: function(workspace, game_object){ 
 		var _t = this;
 		var ws  = _t._find_workspace(workspace);
@@ -254,8 +320,8 @@ window.workspaces = Object.create({
 
 	prepare_gameobjects: function(gameobjects, page){
 		var _t = this;
-		gameobjects['selected_page'] = page;
-		gameobjects['pages'] 		 = window.game_objects_collection.build_pagination(gameobjects['selected_page'], gameobjects['num_game_objects'], _t.opts['gameobjects_collection']['objects_per_page'] , _t.opts['gameobjects_collection']['show_pagination_pages']);
+		gameobjects['selected_page'] 	= page;
+		gameobjects['pages'] 		 			= window.game_objects_collection.build_pagination(gameobjects['selected_page'], gameobjects['num_game_objects'], _t.opts['gameobjects_collection']['objects_per_page'] , _t.opts['gameobjects_collection']['show_pagination_pages']);
 
 		return gameobjects;
 	},
@@ -282,8 +348,11 @@ window.workspaces = Object.create({
 
 	init: function(options){ 
 		var _t           					= this;
-		_t.workspaces	 					= [];
-		_t.opts 							= {};
+		_t.workspaces	 						= [];
+		_t.opts 									= {};
+
+		_t.workspace_selector 		= $(".open-in");
+
 		_t.opts['gameobjects_collection'] 	= {};
 
     	// Default options
@@ -292,12 +361,11 @@ window.workspaces = Object.create({
 
     	// Add templates for future references
     	_t.templates 	= {};
-    	_t.templates['game_object'] 						= Liquid.parse($('#game_object_template').html());
-    	_t.templates['game_objects_collection_in_ws'] 		= Liquid.parse($('#game_objects_collection_in_ws_template').html());
-    	_t.templates['game_objects_collection_pagination'] 	= Liquid.parse($('#game_objects_collection_pagination_template').html());
-    	_t.templates['game_objects_collection_list'] 		= Liquid.parse($('#game_objects_collection_list_template').html());
-    	_t.templates['game_objects_collection'] 			= Liquid.parse($('#game_objects_collection_template').html());
-
+    	_t.templates['game_object'] 													= Liquid.parse($('#game_object_template').html());
+    	_t.templates['game_objects_collection_in_ws'] 				= Liquid.parse($('#game_objects_collection_in_ws_template').html());
+    	_t.templates['game_objects_collection_pagination'] 		= Liquid.parse($('#game_objects_collection_pagination_template').html());
+    	_t.templates['game_objects_collection_list'] 					= Liquid.parse($('#game_objects_collection_list_template').html());
+    	_t.templates['game_objects_collection'] 							= Liquid.parse($('#game_objects_collection_template').html());
 
     	return _t;
     }

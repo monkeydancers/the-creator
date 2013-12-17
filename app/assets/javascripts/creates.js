@@ -36,7 +36,7 @@ var workspace_manager;
 
 function setupMiller(data){
 	$('#miller').miller({
-		'useAjax' : false,
+		'openLine' : function(line){ console.log("Hepp")},
 		'tree': data,
 		'toolbar': {
 			'preRender' : function(current_node, path){
@@ -77,7 +77,12 @@ $(document).ready(function() {
 
 		// Initialize game objects
 
-		$( ".go-droparea" ).droppable({ accept: ".go-draghandle", hoverClass: "go-droparea-active", drop: function(){ console.log("Dropped")}  });
+		$( ".go-droparea" ).droppable({ 
+			accept: ".go-draghandle, .gol-draghandle", 
+			hoverClass: "go-droparea-active", 
+			drop: function(){ 
+				alert("monkey");
+			}});
 
 
 		// Close button on all popin
@@ -86,17 +91,49 @@ $(document).ready(function() {
 		// Close a workspace object 
 		$(".work-spaces").on('click.creator', '.tools .icon.x',  function(){ console.log($(this).parent('.workspace'));$(this).parents('.workspace').html(' ').removeClass('occupied')});
 
-
 		// Editable HACK
 		$(".work-spaces").on('click.creator', '.editable',  function(){ console.log("EDIT");});
 
-
-
 		workspace_manager = Object.create(window.workspaces).init();
 
-		// This is just functionallity test
-		// workspace_manager._open_game_object(1, {'class_path': 'Robots / C3PO', 'name' : 'Name of game object that is really long', 'identifier' : '7777777', 'properties': [{'name': 'ninjor', 'current_value' : '0', 'default_value': '2', 'type' : 'integer'}, {'name': 'minions', 'current_value' : '10', 'default_value': '0', 'type' : 'integer'}, {'name': 'tomtar', 'current_value' : '125 objects', 'default_value': 'empty', 'type' : 'objects', 'id' : '123'} ], 'description' : 'Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod.', 'image_url': ''})
-		// workspace_manager._open_game_object(3, { 'class_path': 'Robots / R2D2', 'name' : 'Min get', 'identifier' : '6666', 'properties': [{'name': 'styrkan', 'current_value' : 'etsy', 'default_value': 'nope', 'type' : 'string'}, {'name': 'glädje', 'current_value' : '1', 'default_value': '0', 'type' : 'integer'} ], 'description' : 'loremipsum', 'image_url': ''})
-		// workspace_manager._open_game_objects_collection(2, {'identifier' : '23gf33', 'num_game_objects' : 120, 'objects_per_page' : 5, 'game_objects_list': [{'name' : 'objekt 1', 'identifier' : '123'}, {'name' : 'objekt 2', 'identifier' : '1234'}] });
+/*
+		 This is just functionallity test
+		
+		 workspace_manager._open_game_object(1, 
+		 {
+		 	'class_path': 'Robots / C3PO', 
+		 	'name' : 'Name of game object that is really long', 
+		 	'identifier' : '7777777', 
+		 	'properties': [
+		 		{'name': 'ninjor', 'current_value' : '0', 'default_value': '2', 'type' : 'integer'}, 
+		 		{'name': 'minions', 'current_value' : '10', 'default_value': '0', 'type' : 'integer'}, 
+		 		{
+		 			'name': 'tomtar', 
+		 			'current_value' : '125 objects', 
+		 			'default_value': 'empty', 
+		 			'type' : 'objects', 
+		 			'id' : '123'} 
+		 		], 
+		 		'description' : 'Praesent commodo cursus magna, vel scelerisque 
+		 		nisl consectetur et. Maecenas faucibus mollis interdum. Aenean 
+		 		eu leo quam. Pellentesque ornare sem lacinia quam venenatis 
+		 		vestibulum. Nullam id dolor id nibh ultricies vehicula ut id 
+		 		elit. Etiam porta sem malesuada magna mollis euismod.', 
+		 		'image_url': ''
+		 })
+		 workspace_manager._open_game_object(3, { 'class_path': 'Robots / R2D2', 'name' : 'Min get', 'identifier' : '6666', 'properties': [{'name': 'styrkan', 'current_value' : 'etsy', 'default_value': 'nope', 'type' : 'string'}, {'name': 'glädje', 'current_value' : '1', 'default_value': '0', 'type' : 'integer'} ], 'description' : 'loremipsum', 'image_url': ''})
+		 workspace_manager._open_game_objects_collection(2, 
+		 {
+		 	'identifier' : '23gf33', 
+		 	'num_game_objects' : 120, 
+		 	'objects_per_page' : 5, 
+		 	'game_objects_list': [
+		 		{'name' : 'objekt 1', 'identifier' : '123'}, 
+		 		{'name' : 'objekt 2', 'identifier' : '1234'}
+		 	] 
+		 });
+
+*/
+
 	}
 	);

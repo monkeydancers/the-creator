@@ -17,7 +17,7 @@ TheCreator::Application.routes.draw do
   resources :configure
   resource :create do 
     get :structure
-
+    get :identifier
   end
 
   # Example resource route with options:
