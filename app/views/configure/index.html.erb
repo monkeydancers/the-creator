@@ -1,46 +1,6 @@
-<div class="popin" style="display: none;">
-	<div class="edit-property-popin" style="display: none;>
-		<form>
-		<h2>New Property</h2>
-		<input type="text" value="" placeholder="Property Name" /><br />
-
-
-		<select >
-			<option value="" disabled selected>Datatype</option>
-			<option value="int">Integer</option>
-			<option value="str">String</option>
-			<option value="obj">Object</option>
-			<option value="obs">Objects</option>
-			<option value="ass">Asset</option>
-
-		</select> <br />
-		
-		<input type="text" value="" placeholder="Default Value" /><br />
-
-		<div class="button-group">
-			<button type="button" class="btn btn-default btn-sm ">Delete</button> 
-			 or
-			<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
-		</div> 
-		</form>
-	</div>
-</div>
-
-
-<div class="popin" style="display: none;">
-	<div class="new-subclass-popin" style="display: none;">
-		<form>
-		<h2>New Subclass</h2>
-		<input type="text" value="" placeholder="Property Name" /><br />
 
 
 
-		<div class="button-group">
-			<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
-		</div> 
-		</form>
-	</div>
-</div>
 
 
 	<div class="tree-viewer" style="">
@@ -51,98 +11,152 @@
 
 
 	<div class="configure-container">
-	
+		Select a class to edit it	
+	</div>
 
 
-	Select a class to edit it
-	<script type="text/liquid" id="gameobject_class_template">
-		<h1>{{name}}</h1>
+<script type="text/liquid" id="new_property_template">
+	<div class="popin" >
+		<div class="close"></div>
 
-		<div class="row">
-
-			<div class="col-md-4 goc-properties">
-
-		  		<h3 > Properties </h3>
-		  		<table class="property-table"> 
-		  			<thead> 
-		  				<tr> 
-		  					<th>Property</th> 
-		  					<th>Datatype</th> 
-		  					<th>Default Value</th> 
-		  					<th>Inherited from</th> 
-		  					<th></th> 
+		<div class="edit-property-popin">
+			<form>
+			<h2>New Property</h2>
+			<input type="text" value="" placeholder="Property Name" /><br />
 
 
-		  				</tr> 
-		  			</thead> 
-		  			<tbody> 
-			  			{% for property in properties %}
-		  				<tr> 
-		  					<td>{{name}}</td> 
-		  					<td class="data-type">{{property.datatype}}</td> 
-		  					<td class="default-value">{{property.default_value}}</td>
-		  					<td class="inherited-from">{{property.inherited_from}}</td> 
-		  					<td class="action"> edit </td> 
+			<select >
+				<option value="" disabled selected>Datatype</option>
+				<option value="int">Integer</option>
+				<option value="str">String</option>
+				<option value="obj">Object</option>
+				<option value="obs">Objects</option>
+				<option value="ass">Asset</option>
 
-		  				</tr> 
-		  				{% endfor %}
+			</select> <br />
+			
+			<input type="text" value="" placeholder="Default Value" /><br />
 
-		  				<tr> 
-		  					<td>Strenth</td> 
-		  					<td class="data-type">12</td> 
-		  					<td class="default-value">3</td>
-		  					<td class="inherited-from"> </td> 
-		  					<td class="action"> edit </td> 
-
-		  				</tr> 
-		  			</tbody> 
-		  			<tfoot>
-		  				<tr>
-		  					<td colspan="5" >   <button type="button" class="btn btn-default btn-sm ">Add Property</button> </td>
-		  				</tr>	
-		  			</tfoot>
-		  		</table>
-		  	</div>
-		  	<div class="col-md-4">
-		  	<h3> Subclasses </h3>
-
-		  	<table class="subclasses-table"> 
-		  			<thead> 
-		  				<tr> 
-		  					<th>Name</th> 
-		
-		  					<th></th> 
+			<div class="button-group">
+				<button type="button" class="btn btn-default btn-sm ">Delete</button> 
+				 or
+				<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
+			</div> 
+			</form>
+		</div>
+	</div>
+</script>
 
 
-		  				</tr> 
-		  			</thead> 
-		  			<tbody> 
 
-		  				{% for subclass in subclasses %}
-			  				<tr> 
-			  					<td>{{subclass.name}}</td> 
-			  					<td class="action"> Show &rarr; </td> 
+<script type="text/liquid" id="new_subclass_template">
 
-			  				</tr> 
-		  				{% endfor %}
-		  				
-		  			</tbody> 
-		  			<tfoot>
-		  				<tr>
-		  					<td colspan="5" >   <button type="button" class="btn btn-default btn-sm ">Add Subclass</button> </td>
-		  				</tr>	
-		  			</tfoot>
-		  		</table>
+	<div class="popin" style="display: block;">
+	  	<div class="close"></div>
+
+		<div class="new-subclass-popin" style="display: block;">
+
+			<form>
+			<h2>New Subclass</h2>
+			<input type="text" value="" placeholder="Subclass Name" /><br />
 
 
-			</div>
-			<div class="col-md-4">
-				<h3> Extensions </h3>
 
-				???
+			<div class="button-group">
+				<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
+			</div> 
+			</form>
+		</div>
+	</div>
+</script>
 
-			</div>
+<script type="text/liquid" id="gameobject_class_template">
+	<h1>{{name}}</h1>
+
+	<div class="row">
+
+		<div class="col-md-4 goc-properties">
+
+	  		<h3 > Properties </h3>
+	  		<table class="property-table"> 
+	  			<thead> 
+	  				<tr> 
+	  					<th>Property</th> 
+	  					<th>Datatype</th> 
+	  					<th>Default Value</th> 
+	  					<th>Inherited from</th> 
+	  					<th></th> 
+
+
+	  				</tr> 
+	  			</thead> 
+	  			<tbody> 
+		  			{% for property in properties %}
+	  				<tr> 
+	  					<td>{{name}}</td> 
+	  					<td class="data-type">{{property.datatype}}</td> 
+	  					<td class="default-value">{{property.default_value}}</td>
+	  					<td class="inherited-from">{{property.inherited_from}}</td> 
+	  					<td class="action"> edit </td> 
+
+	  				</tr> 
+	  				{% endfor %}
+
+	  				<tr> 
+	  					<td>Strenth</td> 
+	  					<td class="data-type">12</td> 
+	  					<td class="default-value">3</td>
+	  					<td class="inherited-from"> </td> 
+	  					<td class="action"> edit </td> 
+
+	  				</tr> 
+	  			</tbody> 
+	  			<tfoot>
+	  				<tr>
+	  					<td colspan="5" >   <button type="button" class="btn btn-default btn-sm add-property-button">Add Property</button> </td>
+	  				</tr>	
+	  			</tfoot>
+	  		</table>
 	  	</div>
-	  </script>
+	  	<div class="col-md-4">
+	  	<h3> Subclasses </h3>
 
-    </div>
+	  	<table class="subclasses-table"> 
+	  			<thead> 
+	  				<tr> 
+	  					<th>Name</th> 
+	
+	  					<th></th> 
+
+
+	  				</tr> 
+	  			</thead> 
+	  			<tbody> 
+
+	  				{% for subclass in subclasses %}
+		  				<tr> 
+		  					<td>{{subclass.name}}</td> 
+		  					<td class="action"> Show &rarr; </td> 
+
+		  				</tr> 
+	  				{% endfor %}
+	  				
+	  			</tbody> 
+	  			<tfoot>
+	  				<tr>
+	  					<td colspan="5" >   <button type="button" class="btn btn-default btn-sm  add-subclass-button">Add Subclass</button> </td>
+	  				</tr>	
+	  			</tfoot>
+	  		</table>
+
+
+		</div>
+		<div class="col-md-4">
+			<h3> Extensions </h3>
+
+			???
+
+		</div>
+  	</div>
+</script>
+

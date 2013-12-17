@@ -36,28 +36,19 @@ $(document).ready(function() {
 		class_manager = Object.create(window.gameobject_class_manager).init($('.configure-container') );
 
 
+
 		$('#miller').miller({
 				'tree': tree,
 				'openLine' : function(node){
-					console.log(node); 
-					class_manager.render_gameobject_class({'name' : node.name})
+					// Call ajax with node['info']['identifier']
+					var class_definition = {'name' : node.name}
+					class_manager.render_gameobject_class(class_definition);
 				},
-				'toolbar': {
-					'preRender' : function(current_node, path){},
-					'options': {
-						'Select': function(id) { alert('Select node or leaf ' + id); },
-						'Show all ': function(id) { alert('Quickview on node or leaf ' + id); }
-					}
-				},
-				'pane': {
-					'options': {
-						'Add': function(id) { alert('Add to leaf ' + id); },
-						'Update': function(id) { alert('Update leaf ' + id); },
-						'Delete': function(id) { alert('Delete leaf ' + id); }
-					}
-				}
 			}
 		);
+
+		$("body").on('click.creator', '.popin .close',  function(){ $(this).parent('.popin').css({'display': 'none'})});
+
 
 	}
 );
