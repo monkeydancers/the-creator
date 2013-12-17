@@ -74,7 +74,7 @@ class Property < ActiveRecord::Base
 
 	def clone
 		raise ArgumentError.new("You can't clone an unsaved property") unless self.persisted? 
-		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :property_type_definition => self.property_type_definition, :default_value => self.value)
+		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :category => self.category, :default_value => self.value)
 	end
 
 	private
@@ -85,10 +85,10 @@ class Property < ActiveRecord::Base
 
 	def available_subclasses
 		{
-			"StringProperty" 				=> StringProperty, 
-			"SingleObjectProperty" 				=> SingleObjectProperty, 
-			"MultiObjectProperty" 	=> MultiObjectProperty, 
-			'NumericProperty'				=> NumericProperty
+			"string" 				=> StringProperty, 
+			"object" 				=> SingleObjectProperty, 
+			"multi_object" 	=> MultiObjectProperty, 
+			"numeric"				=> NumericProperty
 		}
 	end
 
@@ -99,7 +99,7 @@ class Property < ActiveRecord::Base
 	end
 
 	def value_klazz
-		available_subclasses[property_type_definition]
+		available_subclasses[category.to_s]
 	end
 
 	def flush_redis_writes

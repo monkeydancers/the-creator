@@ -5,10 +5,10 @@ class GameObjectTest < ActiveSupport::TestCase
 	context 'When creating game objects, the system' do
 		setup do
 			@parent_class = GameObjectClass.create(:name => "Ninja")
-			@property1 = @parent_class.properties.create(:name => "Mana", :property_type_definition => "StringProperty", :value => "monkey", :default_value => "laser")
+			@property1 = @parent_class.properties.create(:name => "Mana", :category => :string, :value => "monkey", :default_value => "laser")
 
 			@child_class = GameObjectClass.create(:name => "Death Ninja", :parent => @parent_class)
-			@property2 = @child_class.properties.create(:name => "Ninja Stars", :property_type_definition => "NumericProperty", :value => 10, :default_value => 5)
+			@property2 = @child_class.properties.create(:name => "Ninja Stars", :category => :numeric, :value => 10, :default_value => 5)
 		end
 
 		should 'create the correct set of properties' do 
