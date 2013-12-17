@@ -227,14 +227,21 @@ window.workspaces = Object.create({
 
 	open: function(identifier, opts){
 		var _t = this; 
-		$.when(this.choose_workspace(), this.load_identifier(identifier)).then(function(workspace, data){
+		$.when(this._choose_workspace(), this._load_identifier(identifier)).then(function(workspace, data){
 			_t.open_in(workspace, data, opts);
 		}, function(error){
 			console.log(error);
 		});
 	},
 
-	choose_workspace: function(){		
+	open_in: function(workspace, identifier, opts){
+		var _t = this;
+		$.when(this._load_identifier(identifier)).then(function(data){
+			_t._render_list(workspace, data);
+		});
+	},
+
+	_choose_workspace: function(){		
 		var _t 						= this; 
 		// Create a deferred object
 		var deferred 			= $.Deferred(); 
@@ -270,7 +277,7 @@ window.workspaces = Object.create({
 		return deferred.promise(); 
 	},
 
-	load_identifier: function(identifier){
+	_load_identifier: function(identifier){
 		var deferred = $.Deferred(); 
 		$.ajax({
 			url: '/create/identifier', 
@@ -290,15 +297,7 @@ window.workspaces = Object.create({
 		return deferred.promise();
 	},
 
-	open_in: function(workspace, identifier, opts){
-		console.log(arguments);
-	},
-
-	open_game_object: function(identifier, workspace){
-		// Find by ajax and send back
-		this._open_game_object(workspace, game_object);
-	},	
-	_open_game_object: function(workspace, game_object){ 
+	_render_object: function(workspace, game_object){ 
 		var _t = this;
 		var ws  = _t._find_workspace(workspace);
 		
@@ -309,9 +308,14 @@ window.workspaces = Object.create({
 		Object.create(window.game_object).init(game_object, ws, this);
 	},
 
-	_open_game_objects_collection: function(workspace, gameobjects){ 
+	_render_list: function(workspace, gameobjects){ 
+		console.log(gameobjects);
 		var _t  = this;
-		var ws  = _t._find_workspace(workspace);
+		if(typeof(workspace) == "object"){
+			var ws = workspace;
+		}else{
+			var ws  = _t._find_workspace(workspace);			
+		}
 
 		ws.addClass('occupied');
 
@@ -352,6 +356,17 @@ window.workspaces = Object.create({
 		_t.opts 									= {};
 
 		_t.workspace_selector 		= $(".open-in");
+
+
+		// Initialize game objects
+		$( ".workspace.go-droparea" ).droppable({ 
+			accept: ".go-draghandle, .gol-draghandle", 
+			hoverClass: "go-droparea-active", 
+			drop: function(e, ui){ 
+				var identifier = ui.draggable.data('identifier');
+				_t.open_in($(e.target), identifier, {}); 
+			}
+		});
 
 		_t.opts['gameobjects_collection'] 	= {};
 

@@ -22,6 +22,19 @@ class GameObjectClass < ActiveRecord::Base
 		end
 	end
 
+	def objects(recursive = true)
+		list = []
+		if recursive
+			list = list + objects(false)
+			self.children.each do |child|
+				list = list + child.objects(true)
+			end
+		else
+			list = list + self.game_objects.map{|go| {:name => go.name, :identifier => go.identifier} }
+		end
+		list
+	end
+
 	def generate_as_lua
 		parent_name = (parent ? parent.name : 'GameObjectClass')
 		a = %{
@@ -42,8 +55,18 @@ class GameObjectClass < ActiveRecord::Base
 		return {
 			:id 			=> self.id, 
 			:name 		=> self.name, 
-			:info 		=> {:objects => 20}, 
+			:info 		=> {:objects => 20, :identifier => self.identifier}, 
 			:children => self.children.map(&:as_tree)
+		}
+	end
+
+	def as_list
+		object_list = objects(true)
+		return {
+			:identifier 				=> self.identifier, 
+			:num_game_objects		=> object_list.length, 
+			:objects_per_page 	=> 10, 
+			:game_objects_list 	=> object_list
 		}
 	end
 
@@ -61,9 +84,9 @@ class GameObjectClass < ActiveRecord::Base
 
 
 	def generate_identifier
-		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
 		while(GameObject.exists?(["identifier = ?", self.identifier])) 
-			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
 		end
 	end
 

@@ -43,9 +43,13 @@ function setupMiller(data){
 				if(current_node){
 					var objects = $('<span class="gol-draghandle num-of-object-in-selected-class gameobject-list-counter ">' + current_node['info']['objects'] + ' Objects</span>');
 					path.append(objects);
-					objects.draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
-
-
+					objects.draggable({
+						revert: true, 
+						helper: "clone", 
+						appendTo: "body", 
+						zIndex: 1000 
+					});
+					objects.data('identifier', current_node.info.identifier);
 				}
 			},
 			'options': {
@@ -74,16 +78,6 @@ $(document).ready(function() {
 				setupMiller(data);
 			}
 		})
-
-		// Initialize game objects
-
-		$( ".go-droparea" ).droppable({ 
-			accept: ".go-draghandle, .gol-draghandle", 
-			hoverClass: "go-droparea-active", 
-			drop: function(){ 
-				alert("monkey");
-			}});
-
 
 		// Close button on all popin
 		$("body").on('click.creator', '.popin .close',  function(){ console.log("close");$(this).parent('.popin').css({'display': 'none'})});

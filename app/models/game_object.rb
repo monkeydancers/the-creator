@@ -39,9 +39,9 @@ class GameObject < ActiveRecord::Base
 	end
 
 	def generate_identifier
-		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
 		while(GameObject.exists?(["identifier = ?", self.identifier])) 
-			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
 		end
 	end
 
