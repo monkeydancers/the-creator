@@ -50,7 +50,6 @@ class MultiObjectPropertyTest < ActiveSupport::TestCase
 
 			$redis.rpush('monkey-value', @game_object.id)
 			$redis.rpush('monkey-default-value', @game_object2.id)
-
 		end
 
 		should 'return a loaded instance' do 
@@ -68,7 +67,7 @@ class MultiObjectPropertyTest < ActiveSupport::TestCase
 			assert_equal property.value, [@game_object]
 			property.reload
 			assert_equal property.value, [@game_object2]
-		end
+		end		
 	end
 
 end
