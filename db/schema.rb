@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131104112024) do
+ActiveRecord::Schema.define(version: 20131217053831) do
 
   create_table "game_object_classes", force: true do |t|
     t.string   "name"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20131104112024) do
     t.string   "name"
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.string   "property_type_definition"
+    t.string   "category"
     t.string   "property_klazz"
     t.string   "value_id"
     t.datetime "created_at"
