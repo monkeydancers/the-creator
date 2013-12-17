@@ -25,8 +25,15 @@ class GameObject < ActiveRecord::Base
 		}
 	end
 
-	def self.resolve_identifier()
-
+	def as_list
+		return {
+			:list 						=> false,
+			:class_path 			=> "fetto", 
+			:name 						=> self.name, 
+			:identifier 			=> self.identifier, 
+			:properties 			=> self.properties.map{|p| {:name => p.name, :current_value => p.value, :default_value => p.default_value, :type => p.type } }, 
+			:description 			=> "Lorem ipsum dolor sit amet..."
+		}
 	end
 
 	private
@@ -39,9 +46,9 @@ class GameObject < ActiveRecord::Base
 	end
 
 	def generate_identifier
-		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
 		while(GameObject.exists?(["identifier = ?", self.identifier])) 
-			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
 		end
 	end
 

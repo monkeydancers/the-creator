@@ -16,7 +16,7 @@ class CreatesController < ApplicationController
 	def identifier
 		@object = @active_game.resolve_identifier(params[:identifier])
 		respond_to do |format|
-			format.json{ render :text => @structure.to_json, :status => 200 and return }
+			format.json{ render :text => @object.as_list.to_json, :status => 200 and return }
 		end
 	end
 

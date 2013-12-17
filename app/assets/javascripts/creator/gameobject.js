@@ -95,7 +95,10 @@ window.game_objects_collection = Object.create({
 	},
 	_attach_event_handeler_to_list_page: function(){
 		var _t = this;
-		_t.container.find( ".go-draghandle").draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+		_t.container.find( ".go-draghandle").each(function(idx, el){
+			var _e = $(el); 
+			_e.data('identifier', _e.find('.identifier').text().replace(/#/, "")); 
+		}).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
 
 		// Pagination Event Handlers
 		_t.container.find('.gol-table .col-pagination a').on('click.creator', function(e){
@@ -166,7 +169,9 @@ window.game_objects_collection = Object.create({
     	_t.container.find( ".go-droparea" ).droppable({ 
     		accept: ".go-draghandle", 
     		hoverClass: "go-droparea-active", 
-    		drop: function(){ console.log("Dropped")}  
+    		drop: function(){ 
+    			console.log("Dropped")
+    		}  
     	});
 
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
@@ -227,14 +232,25 @@ window.workspaces = Object.create({
 
 	open: function(identifier, opts){
 		var _t = this; 
-		$.when(this.choose_workspace(), this.load_identifier(identifier)).then(function(workspace, data){
+		$.when(this._choose_workspace(), this._load_identifier(identifier)).then(function(workspace, data){
 			_t.open_in(workspace, data, opts);
 		}, function(error){
 			console.log(error);
 		});
 	},
 
-	choose_workspace: function(){		
+	open_in: function(workspace, identifier, opts){
+		var _t = this;
+		$.when(this._load_identifier(identifier)).then(function(data){
+			if(data.list){
+				_t._render_list(workspace, data);				
+			}else{
+				_t._render_object(workspace, data);
+			}
+		});
+	},
+
+	_choose_workspace: function(){		
 		var _t 						= this; 
 		// Create a deferred object
 		var deferred 			= $.Deferred(); 
@@ -270,7 +286,7 @@ window.workspaces = Object.create({
 		return deferred.promise(); 
 	},
 
-	load_identifier: function(identifier){
+	_load_identifier: function(identifier){
 		var deferred = $.Deferred(); 
 		$.ajax({
 			url: '/create/identifier', 
@@ -290,17 +306,15 @@ window.workspaces = Object.create({
 		return deferred.promise();
 	},
 
-	open_in: function(workspace, identifier, opts){
-		console.log(arguments);
-	},
-
-	open_game_object: function(identifier, workspace){
-		// Find by ajax and send back
-		this._open_game_object(workspace, game_object);
-	},	
-	_open_game_object: function(workspace, game_object){ 
+	_render_object: function(workspace, game_object){ 
 		var _t = this;
-		var ws  = _t._find_workspace(workspace);
+		if(typeof(workspace) == "object"){
+			var ws = workspace;
+		}else{
+			var ws  = _t._find_workspace(workspace);			
+		}
+
+		console.log(game_object);
 		
 		// Perhaps some effect should be used to indicate interaction?
 		ws.html(_t.templates['game_object'].render(game_object));
@@ -309,9 +323,13 @@ window.workspaces = Object.create({
 		Object.create(window.game_object).init(game_object, ws, this);
 	},
 
-	_open_game_objects_collection: function(workspace, gameobjects){ 
+	_render_list: function(workspace, gameobjects){ 
 		var _t  = this;
-		var ws  = _t._find_workspace(workspace);
+		if(typeof(workspace) == "object"){
+			var ws = workspace;
+		}else{
+			var ws  = _t._find_workspace(workspace);			
+		}
 
 		ws.addClass('occupied');
 
@@ -352,6 +370,17 @@ window.workspaces = Object.create({
 		_t.opts 									= {};
 
 		_t.workspace_selector 		= $(".open-in");
+
+
+		// Initialize game objects
+		$( ".workspace.go-droparea" ).droppable({ 
+			accept: ".go-draghandle, .gol-draghandle", 
+			hoverClass: "go-droparea-active", 
+			drop: function(e, ui){
+				var identifier = ui.draggable.data('identifier');
+				_t.open_in($(e.target), identifier, {}); 
+			}
+		});
 
 		_t.opts['gameobjects_collection'] 	= {};
 
