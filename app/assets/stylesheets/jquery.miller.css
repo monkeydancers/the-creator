@@ -25,15 +25,18 @@
 
 .miller div.path
 {
-	display: none;
+	display: block;
 	position: absolute;
 	margin: 0;
 	left: 0;
 	top: 0;
+	background: #d9dad2;
+	border-bottom: 1px solid #51534f;
+	border-left: 1px solid #51534f;
 	width: 100%;
-	height: 20px;
-	font-size: 0.6em;
-	line-height: 20px;
+	height: 26px;
+	font-size: 12px;
+	line-height: 26px;
 	overflow: auto;
 	z-index: 9999;
 }
@@ -50,6 +53,14 @@
 	cursor: pointer;
 }
 
+.miller div.path span.num-of-object-in-selected-class{
+	background-image: none;
+	margin-left: 10px;
+	padding: 2px 8px;
+}
+
+
+
 .miller div.toolbar
 {
 	display: none;
@@ -57,7 +68,10 @@
 	margin: 0;
 	left: 0;
 	bottom: 0;
-	background: #fff;
+	background: #afb0a8;
+	border-top: 1px solid #51534f;
+	border-left: 1px solid #51534f;
+	color: #FFF;
 	width: 100%;
 	height: 20px;
 	font-size: 0.6em;
@@ -78,7 +92,7 @@
 	position: absolute;
 	border-left: 1px solid #51534f;
 	padding: 0;
-	margin: 0;
+	margin: 26px 0;
 	overflow: auto;
 	width: 250px;
 	height: 100%;

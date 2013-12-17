@@ -19,19 +19,26 @@ Liquid.readTemplateFile = function(path) {
 
 
 var tree = [
-	{ "id": 1, "name": "Anakin", "children" : [  
-		{ "id": 6, "name": "Luc", "children": null, "parent": false  },
-		{ "id": 7, "name": "Leia", "children": [
-			{ "id": 11, "name": "Leia Junior", "children": null, "parent": false  },
-			{ "id": 12, "name": "Chewleia", "children": null, "parent": false  },
-			{ "id": 13, "name": "Han Polo", "children": null, "parent": false  },
-			], "parent": true  },
-		], "parent": true 
+	{ 'id': 1, 'name': 'Anakin', 'info' : {'objects': 31}, 'children' : [  
+		{ 'id': 6, 'name': 'Luc', 'info' : {'objects': 32}, 'children': null, 'parent': false  },
+		{ 'id': 7, 'name': 'Leia', 'info' : {'objects': 33}, 'children': [
+			{ 'id': 11, 'name': 'Leia Junior', 'info' : {'objects': 34}, 'children': null, 'parent': false  },
+			{ 'id': 12, 'name': 'Chewleia', 'info' : {'objects': 35}, 'children': null, 'parent': false  },
+			{ 'id': 13, 'name': 'Han Polo', 'info' : {'objects': 36}, 'children': null, 'parent': false  },
+			], 'parent': true  },
+		], 'parent': true 
 	},
-	{ "id": 2, "name": "Robots", "children" : [
-		{ "id": 3, "name": "C3PO", "children": null, "parent": false   },
-		{ "id": 4, "name": "R2D2", "children": null, "parent": false   },
-		], "parent": true
+	{ 'id': 2, 'info' : {'objects': 320}, 'name': 'Robots', 'children' : [
+		{ 'id': 3, 'name': 'C3PO', 'info' : {'objects': 37}, 'children': null, 'parent': false   },
+		{ 'id': 4, 'name': 'R2D2', 'info' : {'objects': 38}, 'children': null, 'parent': false   },
+		{ 'id': 5, 'name': 'C3PO 2', 'info' : {'objects': 39}, 'children': null, 'parent': false   },
+		{ 'id': 66, 'name': 'R2D2 2', 'info' : {'objects': 40}, 'children': null, 'parent': false   },
+
+		{ 'id': 77, 'name': 'C3PO 3', 'info' : {'objects': 41}, 'children': null, 'parent': false   },
+		{ 'id': 8, 'name': 'R2D2 3', 'info' : {'objects': 42}, 'children': null, 'parent': false   },
+		{ 'id': 9, 'name': 'C3PO 4', 'info' : {'objects': 43}, 'children': null, 'parent': false   },
+		{ 'id': 10, 'name': 'R2D2 4', 'info' : {'objects': 44}, 'children': null, 'parent': false   },
+		], 'parent': true
 	 },
 ];
 
@@ -42,9 +49,18 @@ $(document).ready(function() {
 				'useAjax' : false,
 				'tree': tree,
 				'toolbar': {
+					'preRender' : function(current_node, path){
+						if(current_node){
+							var objects = $('<span class="gol-draghandle num-of-object-in-selected-class gameobject-list-counter ">' + current_node['info']['objects'] + ' Objects</span>');
+							path.append(objects);
+							objects.draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+
+
+						}
+ 					},
 					'options': {
 						'Select': function(id) { alert('Select node or leaf ' + id); },
-						'Quickview': function(id) { alert('Quickview on node or leaf ' + id); }
+						'Show all ': function(id) { alert('Quickview on node or leaf ' + id); }
 					}
 				},
 				'pane': {

@@ -19,6 +19,9 @@
 			var miller 		= this;
 			var hasFocus 	= false;
 			var currentAjaxRequest = null;
+
+			var current_node = null;
+
 			var settings = $.extend(true, {
 						'url': function(id) { return id; },
 						'useAjax':true,
@@ -159,7 +162,7 @@
 						)
 						.appendTo(path)
 					;
-
+					
 					var child = column.index();
 
 					child -= (child - (child / 2));
@@ -174,11 +177,15 @@
 			;
 
 			var buildColumn = function(lines) {
+
+
 					if (lines == null) {
 						$('li.parentLoading').remove();
 					} else {
 						if (currentLine && toolbar) {
 							toolbar.children().remove();
+
+									
 
 							$.each(settings.toolbar.options, function(key, callback) {
 									$('<span>', { 'text': key })
@@ -210,6 +217,7 @@
 						}
 
 						var width = 0;
+
 
 						var lastGrip = columns.children('div.grip:last')[0];
 
@@ -250,15 +258,16 @@
 
 							var column = $('<ul>')
 								.css({ 'top': 0, 'left': width })
-							;
-
+							;	
 							$.each(lines, function(id, data) {
+
 									var line = $('<li>', { 'text': data['name'] })
 										.data('id', data['id'])
 										.click(removeNextColumns)
 										.click(getLines)
 										.appendTo(column)
 									;
+
 
 									if (data['parent']) {
 										line.addClass('parent');
@@ -315,8 +324,8 @@
 			var searchTree = function(parentID, tree){
 				var child = null;
 				for(var i = 0; i < tree.length; i++){
-					if(tree[i]['id'] == parentID && tree[i]['parent']){
-						child = tree[i]['children'];
+					if(tree[i]['id'] == parentID){
+						child = tree[i]; // ['children'];
 					}
 					if(!child && tree[i]['parent'] == true){
 						child =  searchTree(parentID, tree[i]['children']);
@@ -327,13 +336,24 @@
 
 
 			var getLines = function(event) {
+
+
 					if(settings.useAjax == false){
 						if(event == null || $(this).data('id') == null){
+							current_node = null;
 							buildColumn(settings.tree);
 						} else {
 							currentLine = $(event.currentTarget);
 							parent 		= $(this).data('id');
-							buildColumn(searchTree(parent, settings.tree));
+							current_node = searchTree(parent, settings.tree)
+
+							if(current_node['parent'] && current_node['children'].length > 0) {
+								buildColumn(current_node['children']);								
+							}
+						}
+
+						if(settings.toolbar['preRender']){
+							settings.toolbar['preRender'].apply(this, [current_node, path]);						
 						}
 
 					} else {
