@@ -26,6 +26,10 @@ class StringProperty < PropertyProxy
 		false
 	end
 
+	def type
+		'string'
+	end
+
 	private
 
 	def refetch

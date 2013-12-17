@@ -95,7 +95,10 @@ window.game_objects_collection = Object.create({
 	},
 	_attach_event_handeler_to_list_page: function(){
 		var _t = this;
-		_t.container.find( ".go-draghandle").draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+		_t.container.find( ".go-draghandle").each(function(idx, el){
+			var _e = $(el); 
+			_e.data('identifier', _e.find('.identifier').text().replace(/#/, "")); 
+		}).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
 
 		// Pagination Event Handlers
 		_t.container.find('.gol-table .col-pagination a').on('click.creator', function(e){
@@ -166,7 +169,9 @@ window.game_objects_collection = Object.create({
     	_t.container.find( ".go-droparea" ).droppable({ 
     		accept: ".go-draghandle", 
     		hoverClass: "go-droparea-active", 
-    		drop: function(){ console.log("Dropped")}  
+    		drop: function(){ 
+    			console.log("Dropped")
+    		}  
     	});
 
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
@@ -237,7 +242,11 @@ window.workspaces = Object.create({
 	open_in: function(workspace, identifier, opts){
 		var _t = this;
 		$.when(this._load_identifier(identifier)).then(function(data){
-			_t._render_list(workspace, data);
+			if(data.list){
+				_t._render_list(workspace, data);				
+			}else{
+				_t._render_object(workspace, data);
+			}
 		});
 	},
 
@@ -299,7 +308,13 @@ window.workspaces = Object.create({
 
 	_render_object: function(workspace, game_object){ 
 		var _t = this;
-		var ws  = _t._find_workspace(workspace);
+		if(typeof(workspace) == "object"){
+			var ws = workspace;
+		}else{
+			var ws  = _t._find_workspace(workspace);			
+		}
+
+		console.log(game_object);
 		
 		// Perhaps some effect should be used to indicate interaction?
 		ws.html(_t.templates['game_object'].render(game_object));
@@ -309,7 +324,6 @@ window.workspaces = Object.create({
 	},
 
 	_render_list: function(workspace, gameobjects){ 
-		console.log(gameobjects);
 		var _t  = this;
 		if(typeof(workspace) == "object"){
 			var ws = workspace;
@@ -362,7 +376,7 @@ window.workspaces = Object.create({
 		$( ".workspace.go-droparea" ).droppable({ 
 			accept: ".go-draghandle, .gol-draghandle", 
 			hoverClass: "go-droparea-active", 
-			drop: function(e, ui){ 
+			drop: function(e, ui){
 				var identifier = ui.draggable.data('identifier');
 				_t.open_in($(e.target), identifier, {}); 
 			}

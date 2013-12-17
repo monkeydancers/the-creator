@@ -77,6 +77,10 @@ class Property < ActiveRecord::Base
 		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :category => self.category, :default_value => self.value)
 	end
 
+	def type
+		value_object.type
+	end
+
 	private
 
 	def value_object

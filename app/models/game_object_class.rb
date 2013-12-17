@@ -63,6 +63,7 @@ class GameObjectClass < ActiveRecord::Base
 	def as_list
 		object_list = objects(true)
 		return {
+			:list 							=> true,
 			:identifier 				=> self.identifier, 
 			:num_game_objects		=> object_list.length, 
 			:objects_per_page 	=> 10, 

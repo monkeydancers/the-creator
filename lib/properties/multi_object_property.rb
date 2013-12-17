@@ -11,17 +11,21 @@ class MultiObjectProperty < PropertyProxy
 	end
 
 	def value
-		return nil if @value.blank?
+		return [] if @value.blank?
 		@value_object ||= GameObject.find(@value)
 	end
 
 	def default_value
-		return nil if @default_value.blank?
+		return [] if @default_value.blank?
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 
 	def stem
 		'mio'
+	end
+
+	def type
+		'objects'
 	end
 
 	def save

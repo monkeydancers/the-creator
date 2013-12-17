@@ -20,6 +20,10 @@ class NumericProperty < PropertyProxy
 		'num'
 	end
 
+	def type
+		'integer'
+	end
+
 	def save
 		super
 		$redis.hmset id, :value, @value.to_s, :default_value, @default_value.to_s
