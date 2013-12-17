@@ -1,9 +1,12 @@
+require 'digest/sha1'
 class GameObjectClass < ActiveRecord::Base
 
 	belongs_to :parent, :class_name => "GameObjectClass"
 	has_many :children, :class_name => "GameObjectClass", :foreign_key => :parent_id
 	has_many :properties, :as => :owner
 	has_many :game_objects, :foreign_key => 'object_class_id'
+
+	before_create :generate_identifier
 
 	def property_list(opts = {:inherited => false})
 		opts = {:list => []}.merge(opts)
@@ -35,6 +38,15 @@ class GameObjectClass < ActiveRecord::Base
 		end
 	end
 
+	def as_tree
+		return {
+			:id 			=> self.id, 
+			:name 		=> self.name, 
+			:info 		=> {:objects => 20}, 
+			:children => self.children.map(&:as_tree)
+		}
+	end
+
 	# Return the class-structure for the passed game as a tree. 
 	def self.class_tree(game)
 		data = []
@@ -43,6 +55,16 @@ class GameObjectClass < ActiveRecord::Base
 			data.push(parent_class.descendants)
 		end
 		data
+	end
+
+	private
+
+
+	def generate_identifier
+		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+		while(GameObject.exists?(["identifier = ?", self.identifier])) 
+			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s)[0..6]
+		end
 	end
 
 end

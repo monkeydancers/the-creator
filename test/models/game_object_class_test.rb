@@ -12,6 +12,12 @@ class GameObjectClassTest < ActiveSupport::TestCase
 			assert child_class.valid? 
 			assert_equal child_class.parent, parent_class
 		end
+
+		should 'generate an identifier for every instance' do 
+			parent_class = GameObjectClass.create(:name => "Ninja")
+			assert_not_nil parent_class.identifier
+			assert_equal parent_class.identifier.length, 7
+		end
 	end
 
 	context 'When settings properties on GameObjectClasses, the system' do 
