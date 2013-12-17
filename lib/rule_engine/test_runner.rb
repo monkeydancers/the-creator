@@ -4,9 +4,11 @@ require './engine_context'
 
 ctx = EngineContext.new(Game.first)
 
+puts ctx.inspect
+
 puts ctx.run %{
 
-	d = Detective:find(36)
+	d = Detective:find(1)
 
 	d.name = "Sherlock Holmes"
 

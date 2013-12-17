@@ -5,7 +5,7 @@ window.editable = Object.create({
 
 		// Temporary var - Identifier here is the same as the property
 		var objects 			  = {'identifier' 		: '23g363', 'num_game_objects' : 125,
-									 'game_objects_list': [{'name' : 'objekt 1', 'identifier' : '123'}, {'name' : 'objekt 2', 'identifier' : '1234'}]};
+		'game_objects_list': [{'name' : 'objekt 1', 'identifier' : '123'}, {'name' : 'objekt 2', 'identifier' : '1234'}]};
 
 		var data = {
 			'header' 			: 'Editing ' + edit_entry.data('key'),
@@ -28,19 +28,19 @@ window.editable = Object.create({
 	},
 
 
-		
+	
 	init: function(workspace, ws_manager){
 		var _t 			= this;
 		_t.workspace 	= workspace;
 		_t.ws_manager	= ws_manager;
 
 
-    	_t.template		= Liquid.parse($('#workspace_editable_popin_template').html());
+		_t.template		= Liquid.parse($('#workspace_editable_popin_template').html());
 
 		// Attach events
-    	_t.workspace.find('.editable').each(function( index){ 
-    		$(this).on('click.creator.editable', function() { _t._edit_clicked.apply(_t, [index, this]) } );
-    	});
+		_t.workspace.find('.editable').each(function( index){ 
+			$(this).on('click.creator.editable', function() { _t._edit_clicked.apply(_t, [index, this]) } );
+		});
 		return _t;
 	}
 });
@@ -50,13 +50,13 @@ window.game_objects_tabs = Object.create({
 		
 		// Switch content
 		this.tabs_content.find('.tab-content').removeClass('selected');
-    	this.tabs_content.find('.tab-content:eq(' +  index +')').addClass('selected');
+		this.tabs_content.find('.tab-content:eq(' +  index +')').addClass('selected');
 
     	// Select the approparite tab 
     	this.tabs.find('li').removeClass('selected');
     	this.tabs.find('li:eq(' +  index +')').addClass('selected');
-	},
-	init: function(container){ 
+    },
+    init: function(container){ 
     	var _t            	= this;
     	_t.container 		= container;
 
@@ -70,7 +70,7 @@ window.game_objects_tabs = Object.create({
     	
     	return _t;
     }	
-});
+  });
 
 
 
@@ -155,7 +155,7 @@ window.game_objects_collection = Object.create({
 		// Checkbox Event Handlers
 		_t.container.find('input[type=checkbox]').on('click.creator', function(e){ 
 			var checkbox = $(e.currentTarget);
-			 _t._checkbox_clicked.apply(_t, [checkbox, checkbox.parent('.checkbox-col').parent('.game_object_row')]) 
+			_t._checkbox_clicked.apply(_t, [checkbox, checkbox.parent('.checkbox-col').parent('.game_object_row')]) 
 		});
 	},
 	_check_selected_objects: function(){
@@ -189,7 +189,7 @@ window.game_objects_collection = Object.create({
 		}
 	},
 	init: function(game_objects, container, ws_manager, options){ 
-    	var _t            		= this;
+		var _t            		= this;
     	_t.selected_objects		= []; // Identifiers of selected game objects
     	_t.all_selected 		= false;
     	_t.opts  				= options
@@ -209,14 +209,14 @@ window.game_objects_collection = Object.create({
 
 
     	// Add drag drop
-		_t.container.find( ".gol-draghandle" ).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
-		_t.container.find( ".go-droparea" ).droppable({ 
-			accept: ".go-draghandle", 
-			hoverClass: "go-droparea-active", 
-			drop: function(){ console.log("Dropped")}  
-		});
+    	_t.container.find( ".gol-draghandle" ).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+    	_t.container.find( ".go-droparea" ).droppable({ 
+    		accept: ".go-draghandle", 
+    		hoverClass: "go-droparea-active", 
+    		drop: function(){ console.log("Dropped")}  
+    	});
 
-		_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
+    	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
     	_t.container.find('.tools .icon.plus').on('click.creator',  function(){
     		_t._open_more_actions_popover.apply(_t, [])
@@ -227,12 +227,12 @@ window.game_objects_collection = Object.create({
     		e.preventDefault()
     	});
 
-		_t._attach_event_handeler_to_list_page();
-		_t._check_selected_objects();
+    	_t._attach_event_handeler_to_list_page();
+    	_t._check_selected_objects();
 
-		return _t;
-	}
-});
+    	return _t;
+    }
+  });
 
 window.game_object = Object.create({
 	_open_more_actions_popover: function(){
@@ -240,15 +240,15 @@ window.game_object = Object.create({
 		_t.container.prepend(_t.more_template.render());
 	},
 	init: function(game_object, workspace, ws_manager){ 
-    	var _t            	= this;
-    	_t.container 	  	= workspace;
-    	_t.ws_manager 		= ws_manager;
+		var _t            	= this;
+		_t.container 	  	= workspace;
+		_t.ws_manager 		= ws_manager;
 
-    	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
+		_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
-    	_t.container.find('.tools .icon.plus').on('click.creator',  function(){
-    		_t._open_more_actions_popover.apply(_t, [])
-    	});
+		_t.container.find('.tools .icon.plus').on('click.creator',  function(){
+			_t._open_more_actions_popover.apply(_t, [])
+		});
 
 
 		_t.container.find( ".go-draghandle").draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
@@ -262,7 +262,7 @@ window.game_object = Object.create({
 		_t.tabs 	= Object.create(window.game_objects_tabs).init(_t.container.find('.gameobject-tabs'));
 		_t.editable = Object.create(window.editable).init(_t.container, ws_manager);
 
-    	return _t;
+		return _t;
 	}
 });
 
@@ -328,10 +328,10 @@ window.workspaces = Object.create({
 	},
 
 	init: function(options){ 
-    	var _t           					= this;
-    	_t.workspaces	 					= [];
-    	_t.opts 							= {};
-    	_t.opts['gameobjects_collection'] 	= {};
+		var _t           					= this;
+		_t.workspaces	 					= [];
+		_t.opts 							= {};
+		_t.opts['gameobjects_collection'] 	= {};
 
     	// Default options
     	_t.opts['gameobjects_collection']['objects_per_page'] 			= 5;
@@ -347,5 +347,5 @@ window.workspaces = Object.create({
 
 
     	return _t;
-	}
-});
+    }
+  });

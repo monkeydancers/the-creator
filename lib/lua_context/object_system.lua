@@ -57,7 +57,7 @@ ObjectPropertyWrapper = {}
 PM = {
 	__index = ObjectPropertyWrapper, 
 	__call = function(table)
-		print(table.id)
+		return("monkey")
 	end
 }
 

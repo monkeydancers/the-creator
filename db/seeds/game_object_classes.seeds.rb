@@ -16,11 +16,11 @@ cultist 			= GameObjectClass.create(:name => "Cultist", :parent => monster, :gam
 item 					= GameObjectClass.create(:name => "Item", :game_id => @game.id)
 
 
-investigator.properties.create(:name => "Weapon", :property_type_definition => "SingleObjectProperty", :property_klazz => "Item")
-investigator.properties.create(:name => "Backpack", :property_type_definition => "MultiObjectProperty", :property_klazz => "Item")
-detective.properties.create(:name => "Investigation Skill", :property_type_definition => "NumericProperty", :value => 10)
-priest.properties.create(:name => "Piety", :property_type_definition => "NumericProperty", :value => 100)
-sorceress.properties.create(:name => "Mana", :property_type_definition => "NumericProperty", :value => 100)
+investigator.properties.create(:name => "Weapon", :category => :object, :property_klazz => "Item")
+investigator.properties.create(:name => "Backpack", :category => :multi_object, :property_klazz => "Item")
+detective.properties.create(:name => "Investigation Skill", :category => :numeric, :value => 10)
+priest.properties.create(:name => "Piety", :category => :numeric, :value => 100)
+sorceress.properties.create(:name => "Mana", :category => :numeric, :value => 100)
 
-monster.properties.create(:name => "Horror", :property_type_definition => "NumericProperty", :value => 10)
-monster.properties.create(:name => "Weak Link", :property_type_definition => "SingleObjectProperty", :property_klazz => "Item")
+monster.properties.create(:name => "Horror", :category => :numeric, :value => 10)
+monster.properties.create(:name => "Weak Link", :category => :object, :property_klazz => "Item")
