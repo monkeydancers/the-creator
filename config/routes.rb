@@ -15,7 +15,10 @@ TheCreator::Application.routes.draw do
   resource :welcome
 
   resources :configure
-  resources :create
+  resource :create do 
+    get :structure
+
+  end
 
   # Example resource route with options:
   #   resources :products do
