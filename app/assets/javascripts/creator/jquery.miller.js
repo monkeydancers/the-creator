@@ -344,50 +344,27 @@
 
 			var getLines = function(event) {
 
+				if(event == null || $(this).data('id') == null){
+					current_node = null;
+					buildColumn(settings.tree);
+				} else {
+					currentLine = $(event.currentTarget);
+					parent 		= $(this).data('id');
+					current_node = searchTree(parent, settings.tree);
 
-					if(settings.useAjax == false){
-						if(event == null || $(this).data('id') == null){
-							current_node = null;
-							buildColumn(settings.tree);
-						} else {
-							currentLine = $(event.currentTarget);
-							parent 		= $(this).data('id');
-							current_node = searchTree(parent, settings.tree);
+					console.log(current_node);
 
-							console.log(current_node);
-
-							if(current_node['children'] != null && current_node['children'].length > 0) {
-								buildColumn(current_node['children']);								
-							}
-						}
-
-						if(settings.toolbar['preRender']){
-							settings.toolbar['preRender'].apply(this, [current_node, path]);						
-						}
-
-					} else {
-						if (currentAjaxRequest) {
-							currentAjaxRequest.abort();
-						}
-
-						currentLine = $(event.currentTarget)
-							.removeClass('parentSelected')
-							.addClass('parentLoading')
-						;
-
-						currentAjaxRequest = $.getJSON(settings.url($(this).data('id')), buildColumn)
-							.always(function() {
-									currentLine
-										.removeClass('parentLoading')
-									;
-
-									currentAjaxRequest = null;
-								}
-							)
-							.fail(function() {})
-						;
+					if(current_node['children'] != null && current_node['children'].length > 0) {
+						buildColumn(current_node['children']);								
 					}
 				}
+
+				if(settings.toolbar['preRender']){
+					settings.toolbar['preRender'].apply(this, [current_node, path]);						
+				}
+
+					
+			}
 			;
 
 			// $.getJSON(settings.url(), buildColumn);
