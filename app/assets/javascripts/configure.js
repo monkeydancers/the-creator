@@ -1,10 +1,5 @@
 //= require creator/jquery.miller
-
 //= require_self
-
-
-
-
 
 
 var tree = [
@@ -30,8 +25,6 @@ var tree = [
 		], 'parent': true
 	 },
 ];
-
-var workspace_manager;
 
 $(document).ready(function() {
 		$('#miller').miller({

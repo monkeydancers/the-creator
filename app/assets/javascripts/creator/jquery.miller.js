@@ -1,3 +1,5 @@
+// This has been heavily modified and patched for use in the creator
+
 (function($) {
  	var methods = {
 		'getPath': function() {
@@ -58,6 +60,8 @@
 			;
 
 			var toolbar = null;
+
+			var node_clicked_event = new Event('node_clicked');
 
 			if (!$.isEmptyObject(settings.toolbar.options)) {
 				var toolbar = $('<div>', { 'class': 'toolbar' })
@@ -268,9 +272,9 @@
 										.appendTo(column)
 									;
 
-
-									if (data['parent']) {
+									if (data['children'] && data['children'].length > 0) {
 										line.addClass('parent');
+
 									}
 								}
 							);
@@ -324,11 +328,14 @@
 			var searchTree = function(parentID, tree){
 				var child = null;
 				for(var i = 0; i < tree.length; i++){
-					if(tree[i]['id'] == parentID){
-						child = tree[i]; // ['children'];
+					var node = tree[i];
+
+					if( node['id'] == parentID){
+						child = node; 
 					}
-					if(!child && tree[i]['parent'] == true){
-						child =  searchTree(parentID, tree[i]['children']);
+
+					if(!child  && node['children'] && node['children'].length > 0){
+						child =  searchTree(parentID, node['children']);
 					}
 				}
 				return child
@@ -345,9 +352,11 @@
 						} else {
 							currentLine = $(event.currentTarget);
 							parent 		= $(this).data('id');
-							current_node = searchTree(parent, settings.tree)
+							current_node = searchTree(parent, settings.tree);
 
-							if(current_node['parent'] && current_node['children'].length > 0) {
+							console.log(current_node);
+
+							if(current_node['children'] != null && current_node['children'].length > 0) {
 								buildColumn(current_node['children']);								
 							}
 						}
