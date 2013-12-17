@@ -18,16 +18,15 @@
 		if (methods[mixed] ) {
 			return methods[mixed].apply(this, Array.prototype.slice.call(arguments, 1));
 		} else {
-			var miller 		= this;
-			var hasFocus 	= false;
-			var currentAjaxRequest = null;
+			var miller 			= this;
+			var hasFocus 		= false;
+			var current_node 	= null;
 
-			var current_node = null;
-
-			var settings = $.extend(true, {
+			var settings = {};
+			 $.extend(true, settings, {
 						'url': function(id) { return id; },
-						'useAjax':true,
 						'tabindex': 0,
+						'openLine' : function(current_line){ },
 						'minWidth': 40,
 						'carroussel': false,
 						'toolbar': {
@@ -38,8 +37,7 @@
 						}
 					},
 					mixed
-				)
-			;
+				);
 
 			if (!miller.attr('tabindex')) {
 				miller.attr('tabindex', settings.tabindex);
@@ -84,15 +82,17 @@
 
 			$(document).keydown(function(event) {
 
-					if (hasFocus && currentLine && (event.which == 37 || event.which == 38 || event.which == 39 || event.which == 40)) {
+					if (hasFocus && currentLine && (event.which == 13 || event.which == 37 || event.which == 38 || event.which == 39 || event.which == 40)) {
 						var newCurrentLine = [];
 						var scrollTop = currentLine.parent().scrollTop();
 
 						switch (event.which) {
+							case 13:
+								settings.openLine(current_node);
+								break;
 							case 37:
 								newCurrentLine = currentLine.parent().prev().prev().find('li.parentSelected');
 								break;
-
 							case 38:
 								newCurrentLine = currentLine.prev();
 
@@ -352,7 +352,6 @@
 					parent 		= $(this).data('id');
 					current_node = searchTree(parent, settings.tree);
 
-					console.log(current_node);
 
 					if(current_node['children'] != null && current_node['children'].length > 0) {
 						buildColumn(current_node['children']);								

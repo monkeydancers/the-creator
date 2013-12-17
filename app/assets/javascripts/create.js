@@ -32,14 +32,13 @@ var workspace_manager;
 $(document).ready(function() {
 		$('#miller').miller({
 				'tree': tree,
+				'openLine' : function(line){ console.log("Hepp")},
 				'toolbar': {
 					'preRender' : function(current_node, path){
 						if(current_node){
-							var objects = $('<span class="gol-draghandle num-of-object-in-selected-class gameobject-list-counter ">' + current_node['info']['objects'] + ' Objects</span>');
+							var objects = $('<span class="gol-draghandle num-of-object-in-selected-class gameobject-list-counter " data-identifier="' + current_node['info']['identifier']  + '">' + current_node['info']['objects'] + ' Objects</span>');
 							path.append(objects);
 							objects.draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
-
-
 						}
  					},
 					'options': {

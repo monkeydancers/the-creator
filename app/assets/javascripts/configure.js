@@ -28,12 +28,10 @@ var tree = [
 
 $(document).ready(function() {
 		$('#miller').miller({
-				'useAjax' : false,
 				'tree': tree,
+				'openLine' : function(line){ console.log(line)},
 				'toolbar': {
-					'preRender' : function(current_node, path){
-
- 					},
+					'preRender' : function(current_node, path){},
 					'options': {
 						'Select': function(id) { alert('Select node or leaf ' + id); },
 						'Show all ': function(id) { alert('Quickview on node or leaf ' + id); }
