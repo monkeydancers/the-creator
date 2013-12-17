@@ -28,7 +28,7 @@
 					<a href="<%= configure_index_path %>" <% if params[:controller] == 'configure'%>class="selected" <% end %>>Configure</a> 
 				</li> 
 				<li> 
-					<a href="" >Create</a> 
+				<a href="<%= create_index_path %>" <% if params[:controller] == 'create'%>class="selected" <% end %>>Create</a> 
 				</li> 
 				<li> 
 					<a href="">Orchestrate</a> 
@@ -41,11 +41,8 @@
 
 <%= yield %>
 
+<%= javascript_include_tag "application", controller_name, "data-turbolinks-track" => true %>
 
-  <%= javascript_include_tag "jquery-2.0.3.min", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "bootstrap", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "welcome", "data-turbolinks-track" => true %>
 
 
 
