@@ -22,6 +22,12 @@ class GameObjectTest < ActiveSupport::TestCase
 			assert_equal death_ninja.properties.last.name, @property1.name
 		end
 
+		should 'generate a unique identifier' do 
+			ninja = @parent_class.game_objects.create(:name => "Ninja")
+			assert_not_nil ninja.identifier
+			assert_equal ninja.identifier.length, 7
+		end
+
 	end
 
 end

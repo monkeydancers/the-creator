@@ -27,7 +27,6 @@ window.game_objects_tabs = Object.create({
   });
 
 
-
 window.game_objects_collection = Object.create({
 	// Class Methods
 	build_pagination: function(current_page, num_game_objects, objects_per_page, paginations_pages){
