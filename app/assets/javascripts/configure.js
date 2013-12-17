@@ -41,7 +41,18 @@ $(document).ready(function() {
 				'tree': tree,
 				'openLine' : function(node){
 					// Call ajax with node['info']['identifier']
-					var class_definition = {'name' : node.name}
+					var class_definition = {'name' : node.name, 'properties' : [
+					{'name' : 'test prop', 
+					'datatype' : 'integer',
+					'default_value' : 12,
+					'inherited_from' : '',
+					'identifier' : '1234123i'},
+					{'name' : 'test prop 2', 
+					'datatype' : 'string',		
+					'default_value' : 'HUNGER',
+					'inherited_from' : '',
+					'identifier' : '12323i'} ]};
+
 					class_manager.render_gameobject_class(class_definition);
 				},
 			}

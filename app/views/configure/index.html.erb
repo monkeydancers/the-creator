@@ -93,23 +93,16 @@
 	  			<tbody> 
 		  			{% for property in properties %}
 	  				<tr> 
-	  					<td>{{name}}</td> 
+	  					<td>{{property.name}}</td> 
 	  					<td class="data-type">{{property.datatype}}</td> 
 	  					<td class="default-value">{{property.default_value}}</td>
 	  					<td class="inherited-from">{{property.inherited_from}}</td> 
-	  					<td class="action"> edit </td> 
+	  					<td class="action"><a href="#" class="edit_propery_link" data-identifier="{{property.identifier}}"> edit</a> </td> 
 
 	  				</tr> 
 	  				{% endfor %}
 
-	  				<tr> 
-	  					<td>Strenth</td> 
-	  					<td class="data-type">12</td> 
-	  					<td class="default-value">3</td>
-	  					<td class="inherited-from"> </td> 
-	  					<td class="action"> edit </td> 
 
-	  				</tr> 
 	  			</tbody> 
 	  			<tfoot>
 	  				<tr>
@@ -125,10 +118,7 @@
 	  			<thead> 
 	  				<tr> 
 	  					<th>Name</th> 
-	
 	  					<th></th> 
-
-
 	  				</tr> 
 	  			</thead> 
 	  			<tbody> 
