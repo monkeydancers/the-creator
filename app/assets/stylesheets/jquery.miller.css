@@ -16,7 +16,7 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	left: 0;
+	left: 0px;
 	top: 0px;
 	padding: 0;
 	margin: 0;
@@ -27,7 +27,6 @@
 {
 	display: block;
 	position: absolute;
-	margin: 0;
 	left: 0;
 	top: 0;
 	background: #d9dad2;
@@ -92,7 +91,7 @@
 	position: absolute;
 	border-left: 1px solid #51534f;
 	padding: 0;
-	margin: 26px 0;
+	margin: 26px 0px 0px 0px;
 	overflow: auto;
 	width: 250px;
 	height: 100%;
@@ -141,8 +140,8 @@
 {
 	cursor: col-resize;
 	position: absolute;
-		background-color: #51534f;
-
+	background-color: #51534f;
+	margin-top: 26px;
 	width: 1px;
 	height: 100%;
 	background-repeat: repeat-y;
