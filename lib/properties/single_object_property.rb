@@ -10,12 +10,12 @@ class SingleObjectProperty < PropertyProxy
 	end
 
 	def value
-		return [] if @value.blank? 
+		return nil if @value.blank? 
 		@value_object ||= GameObject.find(@value)
 	end
 
 	def default_value
-		return [] if @default_value.blank?
+		return nil if @default_value.blank?
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 

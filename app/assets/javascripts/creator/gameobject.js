@@ -312,10 +312,7 @@ window.workspaces = Object.create({
 			var ws = workspace;
 		}else{
 			var ws  = _t._find_workspace(workspace);			
-		}
-
-		console.log(game_object);
-		
+		}		
 		// Perhaps some effect should be used to indicate interaction?
 		ws.html(_t.templates['game_object'].render(game_object));
 
