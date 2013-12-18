@@ -32,7 +32,6 @@ var class_manager = null;
 
 
 $(document).ready(function() {
-		console.log(window.gameobject_class_manager);
 		class_manager = Object.create(window.gameobject_class_manager).init($('.configure-container') );
 
 
@@ -43,12 +42,12 @@ $(document).ready(function() {
 					// Call ajax with node['info']['identifier']
 					var class_definition = {'name' : node.name, 'properties' : [
 					{'name' : 'test prop', 
-					'datatype' : 'integer',
+					'datatype' : 'Integer',
 					'default_value' : 12,
 					'inherited_from' : '',
 					'identifier' : '1234123i'},
 					{'name' : 'test prop 2', 
-					'datatype' : 'string',		
+					'datatype' : 'String',		
 					'default_value' : 'HUNGER',
 					'inherited_from' : '',
 					'identifier' : '12323i'} ]};

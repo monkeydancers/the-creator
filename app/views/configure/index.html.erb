@@ -21,27 +21,26 @@
 
 		<div class="edit-property-popin">
 			<form>
-			<h2>New Property</h2>
-			<input type="text" value="" placeholder="Property Name" /><br />
+				<h2>{{ name or 'New Property'}}</h2>
+				<input type="text" value="{{name}}" placeholder="Property Name" /><br />
 
 
-			<select >
-				<option value="" disabled selected>Datatype</option>
-				<option value="int">Integer</option>
-				<option value="str">String</option>
-				<option value="obj">Object</option>
-				<option value="obs">Objects</option>
-				<option value="ass">Asset</option>
+				<select >
+					<option value="" disabled {% if datatype == '' %}selected{% endif %} >Datatype</option>
+					<option value="int" {% if datatype == 'Integer' %}selected{% endif %}>Integer</option>
+					<option value="str" {% if datatype == 'String' %}selected{% endif %}>String</option>
+					<option value="obj" {% if datatype == 'Objet' %}selected{% endif %}>Object</option>
+					<option value="obs" {% if datatype == 'Objects' %}selected{% endif %} >Objects</option>
+					<option value="ass" {% if datatype == 'Asset' %}selected{% endif %} >Asset</option>
 
-			</select> <br />
-			
-			<input type="text" value="" placeholder="Default Value" /><br />
-
-			<div class="button-group">
-				<button type="button" class="btn btn-default btn-sm ">Delete</button> 
-				 or
-				<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
-			</div> 
+				</select> <br />
+				
+				<input type="text" value="{{default}}" placeholder="Default Value" class="default-value"/><br />
+				<div class="button-group">
+					<button type="button" class="btn btn-default btn-sm delete-property-button">Delete</button> 
+					 or
+					<button type="button" class="btn btn-default btn-sm save-property-button">Save (&crarr;)</button>
+				</div> 
 			</form>
 		</div>
 	</div>
@@ -92,13 +91,12 @@
 	  			</thead> 
 	  			<tbody> 
 		  			{% for property in properties %}
-	  				<tr> 
+	  				<tr data-identifier='{{property.identifier}}'> 
 	  					<td>{{property.name}}</td> 
 	  					<td class="data-type">{{property.datatype}}</td> 
 	  					<td class="default-value">{{property.default_value}}</td>
 	  					<td class="inherited-from">{{property.inherited_from}}</td> 
 	  					<td class="action"><a href="#" class="edit_propery_link" data-identifier="{{property.identifier}}"> edit</a> </td> 
-
 	  				</tr> 
 	  				{% endfor %}
 
@@ -134,7 +132,7 @@
 	  			</tbody> 
 	  			<tfoot>
 	  				<tr>
-	  					<td colspan="5" >   <button type="button" class="btn btn-default btn-sm  add-subclass-button">Add Subclass</button> </td>
+	  					<td colspan="5" >  <button type="button" class="btn btn-default btn-sm  add-subclass-button">Add Subclass</button> </td>
 	  				</tr>	
 	  			</tfoot>
 	  		</table>
