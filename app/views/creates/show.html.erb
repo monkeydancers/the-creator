@@ -175,7 +175,8 @@
 				  			{% for property in properties %}
 				  				<tr> 
 				  					<td>{{property.name}}</td> 
-				  					<td class="active-value editable" data-key="property: {{property.name}}" data-identifier='{{identifier}}' data-type='{{property.type}}'>{{ property.current_value }}</td> 
+
+				  					<td class="active-value editable" data-key="property: {{property.name}}" data-identifier='{{property.identifier}}' data-type='{{property.type}}'>{{ property.current_value}}</td> 
 				  					<td class="default-value">{{ property.default_value}}</td> 
 				  				</tr> 
 				  				{% endfor %}
