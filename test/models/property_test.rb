@@ -4,19 +4,21 @@ class PropertyTest < ActiveSupport::TestCase
 
 	context 'When creating a property, the system' do 
 		setup do 
+			@game = Game.create(:name => "Monkey Game")
+
 			$redis = Redis.new
 			$redis.flushall
 		end
 
 		should 'keep a local copy of value until explicitly saved' do 
 			assert_equal $redis.keys("*").length, 0
-			p = Property.new(:name => "Monkey", :category =>  :string, :default_value => "laser")
+			p = Property.new(:name => "Monkey", :category =>  :string, :default_value => "laser", :game_id => @game.id)
 			assert_equal $redis.keys("*").length, 0
 			assert_equal p.default_value, "laser"			
 		end
 
 		should 'persist a value to Redis when explicitly saved' do 
-			p = Property.new(:name => "Monkey", :category => :string, :default_value => "laser")
+			p = Property.new(:name => "Monkey", :category => :string, :default_value => "laser", :game_id => @game.id)
 			assert_nil p.value_id
 			p.save
 			assert_not_nil p.value_id
@@ -27,14 +29,14 @@ class PropertyTest < ActiveSupport::TestCase
 
 		should 'not persist to redis if saving of property fails' do 
 			assert_equal $redis.keys("*").length, 0
-			p = Property.new(:name => nil, :category => :string, :default_value => "laser")
+			p = Property.new(:name => nil, :category => :string, :default_value => "laser", :game_id => @game.id)
 			p.save
 			assert !p.persisted? 
 			assert_equal $redis.keys("*").length, 0
 		end
 
 		should 'properly handle stacked failed calls' do 
-			p = Property.new(:name => nil, :category => :string, :default_value => "laser")
+			p = Property.new(:name => nil, :category => :string, :default_value => "laser", :game_id => @game.id)
 			p.save
 			p.save
 			assert_equal $redis.keys("*").length, 0			
@@ -42,7 +44,7 @@ class PropertyTest < ActiveSupport::TestCase
 		end	
 
 		should 'require a property name' do 
-			p = Property.new(:name => nil, :category => :string, :default_value => "laser")
+			p = Property.new(:name => nil, :category => :string, :default_value => "laser", :game_id => @game.id)
 			p.save
 			assert_not_empty p.errors[:name]
 			assert !p.persisted?
@@ -55,7 +57,8 @@ class PropertyTest < ActiveSupport::TestCase
 
 	context 'When cloning properties, the system' do 
 		setup do 
-			@property = Property.create(:name => "Monkey", :category => :string, :default_value => "laser")
+			@game = Game.create(:name => "Monkey Test")
+			@property = Property.create(:name => "Monkey", :category => :string, :default_value => "laser", :game_id => @game.id)
 		end
 
 		should 'support cloning the property' do 

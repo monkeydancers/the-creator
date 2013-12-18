@@ -34,6 +34,7 @@ class Property < ActiveRecord::Base
 	belongs_to :game_object_class
 
 	validates :name, :presence => true
+	validates :game_id, :presence => true
 
 	around_save :flush_redis_writes
 	before_save :set_property_klazz, :on => :create
@@ -75,7 +76,7 @@ class Property < ActiveRecord::Base
 
 	def clone
 		raise ArgumentError.new("You can't clone an unsaved property") unless self.persisted? 
-		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :category => self.category, :default_value => self.value)
+		return Property.new(:parent_id => self.id, :name => self.name, :property_klazz => self.property_klazz, :category => self.category, :default_value => self.value, :game_id => self.game_id)
 	end
 
 	def type

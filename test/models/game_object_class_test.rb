@@ -21,19 +21,23 @@ class GameObjectClassTest < ActiveSupport::TestCase
 	end
 
 	context 'When settings properties on GameObjectClasses, the system' do 
+		setup do 
+			@game = Game.create(:name => "Test Game")
+		end
+
 		should 'support basic property creation' do 
 			object_class = GameObjectClass.create(:name => "Death Ninja")
-			property = object_class.properties.create(:name => "Mana", :category => :string, :value => "monkey", :default_value => "laser")
+			property = object_class.properties.create(:name => "Mana", :category => :string, :value => "monkey", :default_value => "laser", :game_id => @game.id)
 			assert property.valid?
 			assert_equal object_class.property_list, [property]
 		end
 
 		should 'support property inheritance' do 
 			parent_class = GameObjectClass.create(:name => "Ninja")
-			property1 = parent_class.properties.create(:name => "Mana", :category => :string, :value => "monkey", :default_value => "laser")
+			property1 = parent_class.properties.create(:name => "Mana", :category => :string, :value => "monkey", :default_value => "laser", :game_id => @game.id)
 
 			child_class = GameObjectClass.create(:name => "Death Ninja", :parent => parent_class)
-			property2 = child_class.properties.create(:name => "Ninja Stars", :category => :numeric, :value => 10, :default_value => 5)
+			property2 = child_class.properties.create(:name => "Ninja Stars", :category => :numeric, :value => 10, :default_value => 5, :game_id => @game.id)
 
 			assert_equal child_class.property_list(:inherited => true).to_a, [property2, property1]
 		end

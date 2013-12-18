@@ -1,7 +1,7 @@
 window.editable = Object.create({
-	_edit_clicked: function(index, event){
+	_edit_clicked: function(index, trigger_element){
 		var _t 			= this;
-		var edit_entry 	= $(event);
+		var edit_entry 	= $(trigger_element);
 
 		// Temporary var - Identifier here is the same as the property
 		var objects 			  = 
@@ -20,7 +20,6 @@ window.editable = Object.create({
 			'type'				: 	edit_entry.data('type')	
 		}
 
-		console.log(data);
 		if(edit_entry.data('type') == 'objects'){
 			objects = _t.ws_manager.prepare_gameobjects(objects, 1);
 			$.extend(data, objects);
@@ -32,10 +31,22 @@ window.editable = Object.create({
 			Object.create(window.game_objects_collection).init(objects, popin, _t.ws_manager, _t.ws_manager.opts['gameobjects_collection']);
 		}
 		
+		popin.find('.save-btn').one('click', _t.save.bind(_t, [popin]));
+		popin.find('.property-edit-field').on('keypress', function(e){
+			if(e.which == 13){
+				e.preventDefault();
+				_t.save.apply(_t, [popin])
+			}
+		});
+
 		_t.workspace.prepend(popin);
 	},
 
-
+	save: function(e, popin){
+		popin.find('.property-edit-field').off('keypress'); 
+		
+		
+	},
 
 	init: function(workspace, ws_manager){
 		var _t 			= this;
@@ -46,9 +57,8 @@ window.editable = Object.create({
 		_t.template		= Liquid.parse($('#workspace_editable_popin_template').html());
 
 		// Attach events
-		_t.workspace.find('.editable').each(function( index){ 
+		_t.workspace.find('.editable').each(function(index){ 
 			$(this).on('click.creator.editable', function() { 
-				alert("monkey");
 				_t._edit_clicked.apply(_t, [index, this]) 
 			});
 		});

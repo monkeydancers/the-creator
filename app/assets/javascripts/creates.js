@@ -85,11 +85,6 @@ $(document).ready(function() {
 		// Close a workspace object 
 		$(".work-spaces").on('click.creator', '.tools .icon.x',  function(){ console.log($(this).parent('.workspace'));$(this).parents('.workspace').html(' ').removeClass('occupied')});
 
-		// Editable HACK
-		$(".work-spaces").on('click.creator', '.editable',  function(){ 
-			console.log("EDIT");
-		});
-
 		workspace_manager = Object.create(window.workspaces).init();
 
 /*
