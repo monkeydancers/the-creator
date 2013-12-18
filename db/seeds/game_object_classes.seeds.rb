@@ -1,4 +1,5 @@
 GameObjectClass.destroy_all
+Property.destroy_all
 
 @game = Game.first
 

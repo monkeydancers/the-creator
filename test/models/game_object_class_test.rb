@@ -49,13 +49,6 @@ class GameObjectClassTest < ActiveSupport::TestCase
 			assert child_class.valid? 
 			assert_equal child_class.parent, @parent_class
 		end
-
-		should 'return a proper list definition' do 
-			list = @parent_class.as_list
-
-		end
-
 	end
-
 
 end
