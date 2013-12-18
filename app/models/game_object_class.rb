@@ -1,12 +1,11 @@
 require 'digest/sha1'
 class GameObjectClass < ActiveRecord::Base
+	include Identifier
 
 	belongs_to :parent, :class_name => "GameObjectClass"
 	has_many :children, :class_name => "GameObjectClass", :foreign_key => :parent_id
 	has_many :properties, :as => :owner
 	has_many :game_objects, :foreign_key => 'object_class_id'
-
-	before_create :generate_identifier
 
 	def property_list(opts = {:inherited => false})
 		opts = {:list => []}.merge(opts)
@@ -81,14 +80,5 @@ class GameObjectClass < ActiveRecord::Base
 		data
 	end
 
-	private
-
-
-	def generate_identifier
-		self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
-		while(GameObject.exists?(["identifier = ?", self.identifier])) 
-			self.identifier = Digest::SHA1.hexdigest(Time.now.to_i.to_s + rand.to_s)[0..6]
-		end
-	end
 
 end

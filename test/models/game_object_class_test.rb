@@ -39,5 +39,23 @@ class GameObjectClassTest < ActiveSupport::TestCase
 		end
 	end
 
+	context 'When rendering a GameObjectClass as a list, the system' do 
+		setup do 
+			@parent_class = GameObjectClass.create(:name => "Ninja")
+			assert @parent_class.valid? 
+			assert_nil @parent_class.parent
+
+			child_class = GameObjectClass.create(:name => "Death Ninja", :parent => @parent_class)
+			assert child_class.valid? 
+			assert_equal child_class.parent, @parent_class
+		end
+
+		should 'return a proper list definition' do 
+			list = @parent_class.as_list
+
+		end
+
+	end
+
 
 end

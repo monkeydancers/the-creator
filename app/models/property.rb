@@ -29,6 +29,7 @@
 # ## Rule Engine
 # TBD
 class Property < ActiveRecord::Base
+	include Identifier
 
 	belongs_to :game_object_class
 
