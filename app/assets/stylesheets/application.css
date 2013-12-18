@@ -147,6 +147,23 @@
  }
 
 
+.popin .property-drop-area {
+ 	font-family: Arial, sans-serif;
+ 	font-size: 20px;
+ 	color: #FFF;
+ 	margin: 20px 0px;
+ 	padding: 0px 50px;
+}
+
+.popin .property-drop-area .icon{
+ 	background-image: url('/assets/popin/bg-search.png');
+ 	background-repeat: no-repeat;
+ 	background-position: center;
+ 	height: 42px;
+ 	width: 42px;
+ 	margin: 0px auto;	
+}
+
 
 
 

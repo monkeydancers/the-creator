@@ -40,17 +40,21 @@ $(document).ready(function() {
 				'tree': tree,
 				'openLine' : function(node){
 					// Call ajax with node['info']['identifier']
-					var class_definition = {'name' : node.name, 'properties' : [
-					{'name' : 'test prop', 
-					'datatype' : 'Integer',
-					'default_value' : 12,
-					'inherited_from' : '',
-					'identifier' : '1234123i'},
-					{'name' : 'test prop 2', 
-					'datatype' : 'String',		
-					'default_value' : 'HUNGER',
-					'inherited_from' : '',
-					'identifier' : '12323i'} ]};
+					var class_definition = {
+						'name' : node.name, 
+						'identifier' : '23904234kdd',
+						'properties' : [
+							{'name' : 'test prop', 
+							'datatype' : 'Integer',
+							'default_value' : 12,
+							'inherited_from' : '',
+							'identifier' : '1234123i'},
+							{'name' : 'test prop 2', 
+							'datatype' : 'String',		
+							'default_value' : 'HUNGER',
+							'inherited_from' : '',
+							'identifier' : '12323i'} 
+						]};
 
 					class_manager.render_gameobject_class(class_definition);
 				},
