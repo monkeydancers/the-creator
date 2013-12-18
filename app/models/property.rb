@@ -42,6 +42,7 @@ class Property < ActiveRecord::Base
 
 	# Assign a new default value to this property. Typing is not enforced until save.
 	def value=(value)
+		self.updated_at = Time.now
 		@value = value
 	end
 

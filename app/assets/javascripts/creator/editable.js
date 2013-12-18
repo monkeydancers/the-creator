@@ -31,21 +31,34 @@ window.editable = Object.create({
 			Object.create(window.game_objects_collection).init(objects, popin, _t.ws_manager, _t.ws_manager.opts['gameobjects_collection']);
 		}
 		
-		popin.find('.save-btn').one('click', _t.save.bind(_t, [popin]));
+		popin.find('.save-btn').one('click', _t.save.bind(_t, popin, data));
 		popin.find('.property-edit-field').on('keypress', function(e){
 			if(e.which == 13){
 				e.preventDefault();
-				_t.save.apply(_t, [popin])
+				_t.save.apply(_t, [popin, data])
 			}
 		});
 
 		_t.workspace.prepend(popin);
 	},
 
-	save: function(e, popin){
+	save: function(popin, data){
 		popin.find('.property-edit-field').off('keypress'); 
-		
-		
+		var payload = {identifier: data.identifier, value: popin.find('.property-edit-field').val(), authenticity_token: authToken()};
+		$.ajax({
+			url: '/create/property', 
+			type: 'post', 
+			dataType: 'json',
+			data: payload,
+			success: function(data){
+				$(document).trigger('update.property', [payload]);
+				popin.remove();
+			},
+			error: function(){
+				alert("Something went wrong!");
+			}
+		})
+
 	},
 
 	init: function(workspace, ws_manager){
@@ -53,8 +66,11 @@ window.editable = Object.create({
 		_t.workspace 	= workspace;
 		_t.ws_manager	= ws_manager;
 
-
 		_t.template		= Liquid.parse($('#workspace_editable_popin_template').html());
+
+		$(document).on('update.property', function(e, payload){
+			$("[data-identifier='"+payload.identifier+"']").html(payload.value);
+		});
 
 		// Attach events
 		_t.workspace.find('.editable').each(function(index){ 

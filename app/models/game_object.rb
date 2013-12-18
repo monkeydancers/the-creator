@@ -30,7 +30,7 @@ class GameObject < ActiveRecord::Base
 			:class_path 			=> "fetto", 
 			:name 						=> self.name, 
 			:identifier 			=> self.identifier, 
-			:properties 			=> self.properties.map{|p| {:name => p.name, :current_value => p.value, :default_value => p.default_value, :type => p.type, :identifier => p.identifier } }, 
+			:properties 			=> self.properties.map{|p| {:name => p.name, :current_value => p.value, :default_value => p.default_value, :type => p.type, :identifier => p.Identifier } }, 
 			:description 			=> "Lorem ipsum dolor sit amet..."
 		}
 	end

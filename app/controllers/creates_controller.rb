@@ -20,6 +20,20 @@ class CreatesController < ApplicationController
 		end
 	end
 
+	def property
+		property = @active_game.properties.where(["identifier = ?", params[:identifier]]).first
+		respond_to do |format|	
+			if property
+				property.value = params[:value]
+				property.save
+				format.json{ render :text => {:value => property.value, :error => false}.to_json, :status => 200 and return }
+			else
+				format.json{ render :nothing => true, :status => 500 and return }
+			end
+		end
+
+	end
+
 	private
 
 	def setup_active_game

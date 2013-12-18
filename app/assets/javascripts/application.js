@@ -18,6 +18,10 @@
 //= require_self
 
 
+function authToken(){
+  return $("meta[name=csrf-token]").attr('content')
+}
+
 // Daniels Magic incantaion to Provide object create
 
 if (typeof Object.create !== 'function') {
