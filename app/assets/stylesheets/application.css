@@ -178,6 +178,7 @@
  	background-color: #8b8b85;
  	min-height: 130px;
  	width: 100%;
+ 	overflow: hidden;
  	border-bottom: 1px solid #51534f;
  	font-family: Verdana, Arial, sans-serif;
  	font-size: 11px;
