@@ -59,17 +59,6 @@ class GameObjectClass < ActiveRecord::Base
 		}
 	end
 
-	def as_list
-		object_list = objects(true)
-		return {
-			:list 							=> true,
-			:identifier 				=> self.identifier, 
-			:num_game_objects		=> object_list.length, 
-			:objects_per_page 	=> 10, 
-			:game_objects_list 	=> object_list
-		}
-	end
-
 	# Return the class-structure for the passed game as a tree. 
 	def self.class_tree(game)
 		data = []

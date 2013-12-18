@@ -17,8 +17,11 @@ cultist 			= GameObjectClass.create(:name => "Cultist", :parent => monster, :gam
 item 					= GameObjectClass.create(:name => "Item", :game_id => @game.id)
 
 
+
+
 investigator.properties.create(:name => "Weapon", :category => :object, :property_klazz => "Item", :game_id => @game.id)
 investigator.properties.create(:name => "Backpack", :category => :multi_object, :property_klazz => "Item", :game_id => @game.id)
+investigator.properties.create(:name => "Password", :category => :string, :game_id => @game.id)
 detective.properties.create(:name => "Investigation Skill", :category => :numeric, :value => 10, :game_id => @game.id)
 priest.properties.create(:name => "Piety", :category => :numeric, :value => 100, :game_id => @game.id)
 sorceress.properties.create(:name => "Mana", :category => :numeric, :value => 100, :game_id => @game.id)

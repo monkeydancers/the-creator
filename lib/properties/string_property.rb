@@ -9,6 +9,14 @@ class StringProperty < PropertyProxy
 		end
 	end
 
+
+	def value_description(regular)
+		if regular
+			return @value.to_s
+		else
+			return @default_value.to_s
+		end
+	end
 	def stem
 		'str'
 	end
