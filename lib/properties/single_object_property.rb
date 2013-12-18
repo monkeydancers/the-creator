@@ -19,6 +19,14 @@ class SingleObjectProperty < PropertyProxy
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 
+	def value_description(regular)
+		if regular
+			return value.nil? ? 'No object' : value.name
+		else
+			return default_value.nil? ? 'No object' : default_value.name
+		end
+	end
+
 	def stem
 		'sio'
 	end

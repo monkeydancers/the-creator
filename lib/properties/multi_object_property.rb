@@ -20,6 +20,15 @@ class MultiObjectProperty < PropertyProxy
 		@default_value_object ||= GameObject.find(@default_value)
 	end
 
+	# This can be optimized!
+	def value_description(regular)
+		if regular
+			return "#{value.nil? ? 0 : value.length} objects"
+		else
+			return "#{default_value.nil? ? 0 : default_value.length} objects"
+		end
+	end
+
 	def stem
 		'mio'
 	end

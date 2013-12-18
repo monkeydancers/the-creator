@@ -130,12 +130,12 @@
 
 			  	{% if type == 'string' or type == 'integer' %}
 
-					<input type="text" value="{{value}}" placeholder="{{default}}" /><br />
+					<input type="text" value="{{value}}" placeholder="{{default}}" class="property-edit-field" /><br />
 					<input type="hidden" value="{{identifier}}" />
 			  		<div class="button-group">
-						<button type="button" class="btn btn-default btn-sm ">Cansel</button> 
+						<button type="button" class="btn btn-default btn-sm">Cancel</button> 
 				 		or
-						<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
+						<button type="button" class="btn btn-default btn-sm save-btn">Save (&crarr;)</button>
 					</div>
 				{% endif %}
 				{% if type == 'objects'%}

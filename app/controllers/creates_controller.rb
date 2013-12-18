@@ -16,8 +16,22 @@ class CreatesController < ApplicationController
 	def identifier
 		@object = @active_game.resolve_identifier(params[:identifier])
 		respond_to do |format|
-			format.json{ render :text => @object.as_list.to_json, :status => 200 and return }
+			format.json{ render :template => "/creates/#{@object.class.name.downcase}", :status => 200 }
 		end
+	end
+
+	def property
+		property = @active_game.properties.where(["identifier = ?", params[:identifier]]).first
+		respond_to do |format|	
+			if property
+				property.value = params[:value]
+				property.save
+				format.json{ render :text => {:value => property.value, :error => false}.to_json, :status => 200 and return }
+			else
+				format.json{ render :nothing => true, :status => 500 and return }
+			end
+		end
+
 	end
 
 	private
