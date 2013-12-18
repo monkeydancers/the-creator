@@ -144,6 +144,15 @@ window.game_objects_collection = Object.create({
 			elm.html("deselect all");
 		}
 	},
+	_delete_selected_items: function(){
+		var _t = this;
+		console.log('Delete:');		
+		if(_t.all_selected){
+			console.log('All objects');		
+		} else {
+			console.log(_t.selected_objects);
+		}
+	},
 	init: function(game_objects, container, ws_manager, options){ 
 		var _t            		= this;
     	_t.selected_objects		= []; // Identifiers of selected game objects
@@ -175,6 +184,13 @@ window.game_objects_collection = Object.create({
     	});
 
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
+
+
+		_t.container.find('.delete-selected-button').on('click.creator',  function(){
+    		_t._delete_selected_items.apply(_t, [])
+    	});
+
+
 
     	_t.container.find('.tools .icon.plus').on('click.creator',  function(){
     		_t._open_more_actions_popover.apply(_t, [])
