@@ -12,12 +12,12 @@ class MultiObjectProperty < PropertyProxy
 
 	def value
 		return nil if @value.blank?
-		@value_object ||= GameObject.find(@value)
+		@value_object ||= GameObject.where(["identifier in (?)", @value])
 	end
 
 	def default_value
 		return nil if @default_value.blank?
-		@default_value_object ||= GameObject.find(@default_value)
+		@default_value_object ||= GameObject.where(["identifier in (?)", @default_value])
 	end
 
 	# This can be optimized!
@@ -40,9 +40,9 @@ class MultiObjectProperty < PropertyProxy
 	def save
 		super	
 		$redis.del id+'-value' if @value
-		$redis.rpush id+'-value', Array(@value).map{|g| g.id } if @value
+		$redis.rpush id+'-value', Array(@value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if @value
 		$redis.del id+'-default-value' if @default_value
-		$redis.rpush id+'-default-value', Array(@default_value).map{|g| g.id} if @default_value
+		$redis.rpush id+'-default-value', Array(@default_value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if @default_value
 	end
 
 	def self.can_set_property_klazz?

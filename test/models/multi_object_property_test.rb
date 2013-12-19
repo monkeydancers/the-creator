@@ -48,8 +48,8 @@ class MultiObjectPropertyTest < ActiveSupport::TestCase
 			@game_object = game_object_class.game_objects.create(:name => "Monkey Master")			
 			@game_object2 = game_object_class.game_objects.create(:name => "Monkey Minion")
 
-			$redis.rpush('monkey-value', @game_object.id)
-			$redis.rpush('monkey-default-value', @game_object2.id)
+			$redis.rpush('monkey-value', @game_object.identifier)
+			$redis.rpush('monkey-default-value', @game_object2.identifier)
 		end
 
 		should 'return a loaded instance' do 
@@ -63,7 +63,7 @@ class MultiObjectPropertyTest < ActiveSupport::TestCase
 			property = MultiObjectProperty.fetch("monkey")
 			assert_equal property.value, [@game_object]
 			$redis.del('monkey-value')
-			$redis.rpush('monkey-value', @game_object2.id)
+			$redis.rpush('monkey-value', @game_object2.identifier)
 			assert_equal property.value, [@game_object]
 			property.reload
 			assert_equal property.value, [@game_object2]

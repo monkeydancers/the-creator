@@ -24,7 +24,6 @@ class NumericProperty < PropertyProxy
 		end
 	end
 
-
 	def stem
 		'num'
 	end

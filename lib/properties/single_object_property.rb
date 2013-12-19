@@ -11,12 +11,12 @@ class SingleObjectProperty < PropertyProxy
 
 	def value
 		return nil if @value.blank? 
-		@value_object ||= GameObject.find(@value)
+		@value_object ||= GameObject.where(["identifier = ?", @value]).first
 	end
 
 	def default_value
 		return nil if @default_value.blank?
-		@default_value_object ||= GameObject.find(@default_value)
+		@default_value_object ||= GameObject.where(["identifier = ?", @default_value]).first
 	end
 
 	def value_description(regular)
@@ -37,7 +37,7 @@ class SingleObjectProperty < PropertyProxy
 
 	def save
 		super
-		$redis.hmset id, :value, (@value ? @value.id.to_s : ""), :default_value, (@default_value ? @default_value.id.to_s : "")
+		$redis.hmset id, :value, (@value ? (@value.is_a?(GameObject) ? @value.identifier.to_s : @value) : ""), :default_value, (@default_value ? (@default_value.is_a?(GameObject) ? @default_value.identifier.to_s : @default_value) : "")
 	end
 
 	def self.can_set_property_klazz?

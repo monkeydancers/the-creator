@@ -45,7 +45,7 @@ class SingleObjectPropertyTest < ActiveSupport::TestCase
 			game_object_class = GameObjectClass.create(:name => "Ninja")
 			@game_object = game_object_class.game_objects.create(:name => "Monkey Master")			
 			@game_object2 = game_object_class.game_objects.create(:name => "Monkey Minion")
-			$redis.hmset "monkey-id", :value, @game_object.id, :default_value, @game_object2.id
+			$redis.hmset "monkey-id", :value, @game_object.identifier, :default_value, @game_object2.identifier
 		end
 
 		should 'return a loaded instance' do 
@@ -58,7 +58,7 @@ class SingleObjectPropertyTest < ActiveSupport::TestCase
 		should 'support forced reloading' do 
 			property = SingleObjectProperty.fetch("monkey-id")
 			assert_equal property.value, @game_object			
-			$redis.hset "monkey-id", :value, @game_object2.id
+			$redis.hset "monkey-id", :value, @game_object2.identifier
 			assert_equal property.value, @game_object			
 			property.reload
 			assert_equal property.value, @game_object2

@@ -55,9 +55,10 @@ window.editable = Object.create({
 			hoverClass: "go-droparea-active", 
 			drop: function(e, ui){ 
 				var identifier = ui.draggable.data('identifier');
-
+				_t.save({identifier: data.identifier}, identifier)
 			}  
 		});
+
 		this.popin.find('.save-btn').one('click', _t.save.bind(_t, data, _t.popin.find('.property-edit-field').val()));
 		this.popin.find('.property-edit-field').on('keypress', function(e){
 			if(e.which == 13){

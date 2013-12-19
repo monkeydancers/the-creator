@@ -35,7 +35,6 @@ class CreatesController < ApplicationController
 
 	def load_property
 		@property = @active_game.properties.where(["identifier = ?", params[:identifier]]).first
-		sleep 5
 		respond_to do |format|
 			if @property
 				format.json{}
