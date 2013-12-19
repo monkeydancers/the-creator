@@ -40,6 +40,28 @@
 	z-index: 9999;
 }
 
+.miller div.path a {
+	color: #000;
+	font-family: Arial, sans-serif;
+	position: relative;
+}
+
+
+.miller div.path a:after {
+ 	content: '';
+ 	position: absolute;
+ 	top: -2px;
+ 	right: -19px;
+ 	width: 16px;
+ 	height: 16px;
+ 	background-image: url(/assets/jquery_ui/ui-icons_888888_256x240.png);
+	background-position: 0 -192px; 
+ }
+
+ .miller div.path:hover a:after {
+ 	background-image: url(/assets/jquery_ui/ui-icons_454545_256x240.png);
+}
+
 .miller div.path span
 {
 	margin-left: 0.5em;
