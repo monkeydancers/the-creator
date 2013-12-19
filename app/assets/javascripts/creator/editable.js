@@ -92,7 +92,8 @@ save: function(data, value){
 		type: 'post', 
 		dataType: 'json',
 		data: payload,
-		success: function(data){
+		success: function(server_data){
+			$.extend(payload, server_data);
 			$(document).trigger('update.property', [payload]);
 			_t.hide_edit();
 		},

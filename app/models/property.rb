@@ -88,6 +88,10 @@ class Property < ActiveRecord::Base
 		value_object.type
 	end
 
+	def reload
+		value_object.reload
+	end
+
 	private
 
 	def value_object

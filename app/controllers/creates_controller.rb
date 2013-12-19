@@ -26,7 +26,8 @@ class CreatesController < ApplicationController
 			if property
 				property.value = params[:value]
 				property.save
-				format.json{ render :text => {:value => property.value, :error => false}.to_json, :status => 200 and return }
+				property.reload
+				format.json{ render :text => {:value => property.value_description, :error => false}.to_json, :status => 200 and return }
 			else
 				format.json{ render :nothing => true, :status => 500 and return }
 			end
