@@ -35,7 +35,7 @@
 
 <div class="work-spaces">
 	<div class="row">
-	  <div class="workspace  go-droparea">
+	  <div class="workspace go-droparea">
 
 	  </div>
 
@@ -68,25 +68,30 @@
 
 <script type="text/liquid" id="game_objects_collection_template">
 	<div class="game-object-list" data-identifier="{{identifier}}">
-	  	<table class="gol-table">
-			<thead> 
-					<tr> 
-					 	<th colspan="4"><a href="#" class="select_all">select all </a> - <span class="objects-selected-in-list gameobject-list-counter gol-draghandle">0</span> of <span class="objects-in-list gameobject-list-counter gol-draghandle">{{num_game_objects}}</span></th> 
-					</tr> 
-				</thead> 
-	  		<tbody> 
-	  			{% include 'game_objects_collection_list_template'  %}
-	  		</tbody>
-				<tfoot>
-					<tr>
-					<td>{% if num_pages > 1 %} < {% endif %} </td>
-						<td colspan="2" class="col-pagination">
-						{% include 'game_objects_collection_pagination_template'  %}
-						</td>
-						<td>{% if num_pages > 1 %} > {% endif %}</td>
-					</tr>
-	  		</tfoot>
-		</table>
+
+			{% if loading %}
+				<div class="loader"></div>
+			{% else %}
+				  	<table class="gol-table">
+						<thead> 
+								<tr> 
+								 	<th colspan="4"><a href="#" class="select_all">select all </a> - <span class="objects-selected-in-list gameobject-list-counter gol-draghandle">0</span> of <span class="objects-in-list gameobject-list-counter gol-draghandle">{{num_game_objects}}</span></th> 
+								</tr> 
+							</thead> 
+				  		<tbody> 
+				  			{% include 'game_objects_collection_list_template'  %}
+				  		</tbody>
+							<tfoot>
+								<tr>
+								<td>{% if num_pages > 1 %} < {% endif %} </td>
+									<td colspan="2" class="col-pagination">
+									{% include 'game_objects_collection_pagination_template'  %}
+									</td>
+									<td>{% if num_pages > 1 %} > {% endif %}</td>
+								</tr>
+				  		</tfoot>
+					</table>
+			{% endif %}
 	</div>
 </script>
 
@@ -130,20 +135,17 @@
 					<input type="text" value="{{value}}" placeholder="{{default}}" class="property-edit-field" /><br />
 					<input type="hidden" value="{{identifier}}" />
 			  		<div class="button-group">
-						<button type="button" class="btn btn-default btn-sm">Cancel</button> 
+						<button type="button" class="btn btn-default btn-sm cancel-btn">Cancel</button> 
 				 		or
 						<button type="button" class="btn btn-default btn-sm save-btn">Save (&crarr;)</button>
 					</div>
 				{% endif %}
 				{% if type == 'objects'%}
 				  	{% include 'game_objects_collection_template'  %}
-
-
 				  		<div class="property-drop-area go-droparea">
 				  			<div class="icon"></div>
 				  			Drop object here or click to add by search
 						</div>
-
 				{% endif %}
  
 			</form>

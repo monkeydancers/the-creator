@@ -496,6 +496,15 @@
  	padding: 0px;
  	margin:0px;
  }
+
+.popin .game-object-list .loader{
+	width:16px;
+	height:11px;
+	display: block; 
+	background-image:url(/assets/popin/loader.gif);
+	margin:50px auto 30px auto;
+}
+
  .popin .game-object-list .gol-table thead{
  	color: #FFF;
  }

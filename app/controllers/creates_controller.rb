@@ -20,7 +20,7 @@ class CreatesController < ApplicationController
 		end
 	end
 
-	def property
+	def save_property
 		property = @active_game.properties.where(["identifier = ?", params[:identifier]]).first
 		respond_to do |format|	
 			if property
@@ -31,7 +31,18 @@ class CreatesController < ApplicationController
 				format.json{ render :nothing => true, :status => 500 and return }
 			end
 		end
+	end
 
+	def load_property
+		@property = @active_game.properties.where(["identifier = ?", params[:identifier]]).first
+		sleep 5
+		respond_to do |format|
+			if @property
+				format.json{}
+			else
+				format.json{ render :text => {:error => true}.to_json, :status => 404 and return }
+			end
+		end
 	end
 
 	private

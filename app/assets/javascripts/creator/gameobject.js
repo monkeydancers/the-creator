@@ -90,10 +90,10 @@ window.game_objects_collection = Object.create({
 		var _t = this;
 
 		_t.ws_manager.render_gameobjects_collection_page(_t.container.find('tbody'), _t.pagination_elm, _t.current_page,  gameobjects);
-		_t._attach_event_handeler_to_list_page();
+		_t._attach_event_handler_to_list_page();
 		_t._check_selected_objects();
 	},
-	_attach_event_handeler_to_list_page: function(){
+	_attach_event_handler_to_list_page: function(){
 		var _t = this;
 		_t.container.find( ".go-draghandle").each(function(idx, el){
 			var _e = $(el); 
@@ -145,34 +145,27 @@ window.game_objects_collection = Object.create({
 		}
 	},
 	init: function(game_objects, container, ws_manager, options){ 
-		var _t            		= this;
-    	_t.selected_objects		= []; // Identifiers of selected game objects
-    	_t.all_selected 		= false;
-    	_t.opts  				= options
+		var _t            				= this;
+    	_t.selected_objects			= []; // Identifiers of selected game objects
+    	_t.all_selected 				= false;
+    	_t.opts  								= options
 
-    	_t.container 	  		= container;
-    	_t.ws_manager			= ws_manager;
+    	_t.container 	  				= container;
+    	_t.ws_manager						= ws_manager;
 
-    	_t.game_objects 		= game_objects;
+    	_t.game_objects 				= game_objects;
 
-    	_t.identifier 			= game_objects.identifier;
-    	_t.num_objects 			= game_objects.num_game_objects;
+    	_t.identifier 					= game_objects.identifier;
+    	_t.num_objects 					= game_objects.num_game_objects;
 
-    	_t.current_page 		= 1;
+    	_t.current_page 				= 1;
 
     	_t.object_counter_elm 	= _t.container.find(".objects-selected-in-list");
-    	_t.pagination_elm		= _t.container.find(".col-pagination");
+    	_t.pagination_elm				= _t.container.find(".col-pagination");
 
 
     	// Add drag drop
     	_t.container.find( ".gol-draghandle" ).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
-    	_t.container.find( ".go-droparea" ).droppable({ 
-    		accept: ".go-draghandle", 
-    		hoverClass: "go-droparea-active", 
-    		drop: function(){ 
-    			console.log("Dropped")
-    		}  
-    	});
 
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
@@ -185,7 +178,7 @@ window.game_objects_collection = Object.create({
     		e.preventDefault()
     	});
 
-    	_t._attach_event_handeler_to_list_page();
+    	_t._attach_event_handler_to_list_page();
     	_t._check_selected_objects();
 
     	return _t;
@@ -316,7 +309,8 @@ window.workspaces = Object.create({
 		// Perhaps some effect should be used to indicate interaction?
 		ws.html(_t.templates['game_object'].render(game_object));
 
-		ws.addClass('occupied');
+		_t.occupy(ws);
+
 		Object.create(window.game_object).init(game_object, ws, this);
 	},
 
@@ -328,7 +322,7 @@ window.workspaces = Object.create({
 			var ws  = _t._find_workspace(workspace);			
 		}
 
-		ws.addClass('occupied');
+		_t.occupy(ws);
 
 		_t.render_game_objects_collection(ws, gameobjects);
 	},
@@ -361,6 +355,13 @@ window.workspaces = Object.create({
 		container.html(tmpl);
 	},
 
+	occupy: function(ws){
+		var ws = $(ws); 
+		ws.addClass('occupied');
+		ws.droppable('disable');
+
+	},
+
 	init: function(options){ 
 		var _t           					= this;
 		_t.workspaces	 						= [];
@@ -370,7 +371,7 @@ window.workspaces = Object.create({
 
 
 		// Initialize game objects
-		$( ".workspace.go-droparea" ).droppable({ 
+		$(".workspace.go-droparea" ).droppable({ 
 			accept: ".go-draghandle, .gol-draghandle", 
 			hoverClass: "go-droparea-active", 
 			drop: function(e, ui){

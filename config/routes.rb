@@ -18,7 +18,9 @@ TheCreator::Application.routes.draw do
   resource :create do 
     get :structure
     get :identifier
-    post :property
+
+    post :property, to: 'creates#save_property'
+    get :property, to: 'creates#load_property'
   end
 
   # Example resource route with options:
