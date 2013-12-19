@@ -68,7 +68,6 @@
 
 <script type="text/liquid" id="game_objects_collection_template">
 	<div class="game-object-list" data-identifier="{{identifier}}">
-
 			{% if loading %}
 				<div class="loader"></div>
 			{% else %}
@@ -91,6 +90,10 @@
 								</tr>
 				  		</tfoot>
 					</table>
+						<div style="text-align: right; margin-top: 5px;">
+					  		<button type="button" class="btn btn-default btn-xs delete-selected-button ">Delete selected	</button>
+					  	</div>
+
 			{% endif %}
 	</div>
 </script>
