@@ -375,7 +375,12 @@ window.workspaces = Object.create({
 		var ws = $(ws); 
 		ws.addClass('occupied');
 		ws.droppable('disable');
+	},
 
+	empty_workspace: function(e){
+		var target = $(e.currentTarget); 
+		var workspace = target.parents('.workspace'); 
+		workspace.html('').removeClass('occupied').droppable('enable');
 	},
 
 	init: function(options){ 
@@ -395,6 +400,8 @@ window.workspaces = Object.create({
 				_t.open_in($(e.target), identifier, {}); 
 			}
 		});
+
+		$(".work-spaces").on('click.creator', '.tools .icon.x',  this.empty_workspace.bind(this));
 
 		_t.opts['gameobjects_collection'] 	= {};
 

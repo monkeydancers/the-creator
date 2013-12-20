@@ -66,9 +66,6 @@ $(document).ready(function() {
 			e.preventDefault();
 		})
 
-		// Close a workspace object 
-		$(".work-spaces").on('click.creator', '.tools .icon.x',  function(){ console.log($(this).parent('.workspace'));$(this).parents('.workspace').html(' ').removeClass('occupied')});
-
 		workspace_manager = Object.create(window.workspaces).init();
 
 /*
