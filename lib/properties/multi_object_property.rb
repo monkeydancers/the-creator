@@ -44,7 +44,7 @@ class MultiObjectProperty < PropertyProxy
 	def save
 		super	
 		$redis.del id+'-value' if @value
-		$redis.rpush id+'-value', Array(@value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if @value
+		$redis.rpush id+'-value', Array(@value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if Array(@value).length > 0
 		$redis.del id+'-default-value' if @default_value
 		$redis.rpush id+'-default-value', Array(@default_value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if @default_value
 	end
