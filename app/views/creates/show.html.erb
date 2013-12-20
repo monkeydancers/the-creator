@@ -1,13 +1,4 @@
-<div class="popin" style="display: none;">
-	<div class="find-and-open" >
-		<form>
-		<h2>Search to open:</h2>
-		<input type="text" value="" placeholder="Object Id or name" /><br />
-		<div class="results-container">
-		</div>
-		</form>
-	</div>
-</div>
+
 
 <div class="popin open-in" style="display: none">
 	<div class="" >
@@ -47,14 +38,36 @@
 </div>
 
 <!-- Helper Liquid templates used by other templates -->
+<script type="text/liquid" id="game_objects_search_template">
+
+	<div class="popin search" style="display: block;">
+		<div class="close"></div>
+		<div class="find-and-open" >
+			<form>
+				<h2>Search to open:</h2>
+				<input type="text" value="" placeholder="Object Id or name" class="search-field" /><br />
+				<div class="results-container game-object-list">
+					<table class="gol-table">
+
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</script>
+
 
 <script type="text/liquid" id="game_objects_collection_list_template">
 	{% for game_object in game_objects_list %}
 		<tr class="game_object_row" data-identifier="{{game_object.identifier}}"> 
 			<td class="image-col"><img src="" alt="" /></td> 
 			<td class="name-col go-draghandle editable">{{game_object.name}} <span class="identifier">#{{game_object.identifier}}</span></td> 
-			<td class="type-col">type</td> 
-			<td class="checkbox-col"><input type="checkbox" value="" /></td> 
+			<td class="type-col">{{game_object.class_name}}</td> 
+			{% if game_object.no_checkbox == true %}
+				<td class="checkbox-col"> </td> 
+			{% else %}
+				<td class="checkbox-col"><input type="checkbox" value="" /></td> 
+			{% endif %}
 		</tr> 
 	{% endfor %}
 

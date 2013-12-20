@@ -88,16 +88,22 @@
  	text-align: center
  }
 
- .popin .close {
- 	position: absolute;
- 	top: 6px;
- 	right: 6px;
+
+
+.popin .close {
+	position: absolute;
+	top: 12px;
+ 	right: 12px;
  	width: 14px;
  	height: 14px;
  	background-image: url('/assets/popin/close.png');
  	background-repeat: no-repeat;
  	opacity: 0.8;
  	z-index: 61;
+}
+.workspace .popin .close {
+ 	top: 6px;
+ 	right: 6px;
  }
 
  .popin .close:hover {
@@ -169,6 +175,23 @@
  	width: 42px;
  	margin: 0px auto;	
 }
+
+
+.popin.search  {
+ 	width: 400px;
+ 	margin-left:-200px;
+}
+
+.popin.search .results-container{
+	width: 90%;
+	margin: 20px auto;
+}
+
+.popin.search .results-container tr.selected {
+	position :relative;
+	background-color: #d5d5d3;
+}
+
 
 
  /* Tree viewer styles */
