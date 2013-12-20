@@ -41,6 +41,7 @@ class MultiObjectProperty < PropertyProxy
 		'objects'
 	end
 
+	# Refactor the id-changing bits here
 	def save
 		super	
 		$redis.del id+'-value' if @value
