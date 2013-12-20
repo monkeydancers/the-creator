@@ -62,7 +62,50 @@ class CreatesControllerTest < ActionController::TestCase
 			assert_equal data['identifier'], @game_object.identifier
 			assert_equal data['description'], @game_object.description
 			assert_equal data['properties'], []
+		end
+	end
 
+	context 'When managing properties, the system' do 
+		setup do 
+			Game.destroy_all
+			@game = Game.create(:name => "Test Game")
+
+			@game_object_class 	= @game.game_object_classes.create(:name => "Ninja")
+			@string_property		= @game_object_class.properties.create(:name => "Password", :category => :string, :game_id => @game.id, :value => "monkey")
+			@object_property		= @game_object_class.properties.create(:name => "Backpack", :category => :multi_object, :game_id => @game.id)
+
+			@game_object 				= @game_object_class.game_objects.create(:name => "Hugo", :game_id => @game.id)
+
+			@request.env['HTTP_ACCEPT'] = 'application/json'
+		end
+
+		should 'provide a valid data representation' do 
+			get :load_property, {:identifier => @object_property.identifier}
+			assert_response 200
+			data = JSON.parse(@response.body)
+
+			assert !data['error']
+			assert_equal data['identifier'], @object_property.identifier
+			assert_equal data['num_game_objects'], Array(@object_property.value).length
+			assert_equal data['game_objects_list'].length, Array(@object_property.value).length
+		end
+
+		should 'support updating object properties' do 
+			property = @game_object.properties.last
+			assert_equal 0, Array(property.value).length
+			post :save_property, {:identifier => property.identifier, :value => @game_object.identifier}
+			assert_response 200 
+			property.reload
+			assert_equal 1, Array(property.value).length
+		end
+
+		should 'support updating string properties' do 
+			property = @game_object.properties.first
+			assert_equal property.default_value, "monkey"
+			post :save_property, {:identifier => property.identifier, :value => "troll"}
+			assert_response 200
+			property.reload
+			assert_equal property.value, "troll"
 		end
 
 	end
