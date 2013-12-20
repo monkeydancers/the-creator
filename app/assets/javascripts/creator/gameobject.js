@@ -146,6 +146,7 @@ window.game_objects_collection = Object.create({
 	},
 	_delete_selected_items: function(){
 		var _t = this;
+		console.log(_t);
 		console.log('Delete:');		
 		if(_t.selection == "all"){
 			console.log('All objects');		

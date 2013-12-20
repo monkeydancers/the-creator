@@ -55,7 +55,6 @@ window.editable = Object.create({
 			hoverClass: "go-droparea-active", 
 			drop: function(e, ui){ 
 				var identifier_data = ui.draggable.data('identifier');
-				console.log(identifier_data);
 				_t.save({identifier: data.identifier}, identifier_data.identifier)
 			}  
 		});
