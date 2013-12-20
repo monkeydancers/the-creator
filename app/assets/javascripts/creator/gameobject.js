@@ -64,14 +64,17 @@ window.game_objects_collection = Object.create({
 	},
 	_checkbox_clicked: function(checkbox, row){
 		var _t = this;
-		if(checkbox.is(':checked')){
-			_t.selected_objects.push(row.data('identifier'));
-		} else {
-			_t.selected_objects.splice(_t.selected_objects.indexOf(row.data('identifier')), 1);;
+		if(_t.selection == "all"){
+			_t.selection = [];
 		}
-		_t.object_counter_elm.html(_t.selected_objects.length);
+		if(checkbox.is(':checked')){
+			_t.selection.push(row.data('identifier'));
+		} else {
+			_t.selection.splice(_t.selection.indexOf(row.data('identifier')), 1);;
+		}
+		_t.object_counter_elm.html(_t.selection.length);
 
-		console.log(_t.selected_objects);
+		console.log(_t.selection);
 	},
 	_pagination_clicked: function(number_elm){
 		var _t = this;
@@ -117,12 +120,12 @@ window.game_objects_collection = Object.create({
 	_check_selected_objects: function(){
 		var _t = this;
 
-		if(_t.all_selected){
+		if(_t.selection == "all"){
 			_t.container.find('.checkbox-col input').attr('checked', true);
 		} else {
 			_t.container.find('.game_object_row').each(function(i, elm) {
 				elm = $(elm);
-				if(_t.selected_objects.indexOf(elm.data('identifier')) > -1){
+				if(_t.selection.indexOf(elm.data('identifier')) > -1){
 					elm.find('.checkbox-col input').attr('checked', true);
 				}
 			});
@@ -130,15 +133,13 @@ window.game_objects_collection = Object.create({
 	},
 	_toggle_all_selected: function(elm){
 		var _t = this;
-
-		if(_t.all_selected){
-			_t.all_selected 		= false
-			_t.selected_objects	 	= [];
+		if(_t.selection == "all"){
+			_t.selection	 	= [];
 			_t.container .find('.checkbox-col input').prop('checked', false);
 			_t.object_counter_elm.html("0");
 			elm.html("select all");
 		} else {
-			_t.all_selected = true;
+			_t.selection = "all";
 			_t.container.find('.checkbox-col input').prop('checked', true);
 			_t.object_counter_elm.html(_t.num_objects);
 			elm.html("deselect all");
@@ -147,16 +148,15 @@ window.game_objects_collection = Object.create({
 	_delete_selected_items: function(){
 		var _t = this;
 		console.log('Delete:');		
-		if(_t.all_selected){
+		if(_t.selection == "all"){
 			console.log('All objects');		
 		} else {
-			console.log(_t.selected_objects);
+			console.log(_t.selection);
 		}
 	},
 	init: function(game_objects, container, ws_manager, options){ 
 		var _t            				= this;
-    	_t.selected_objects			= []; // Identifiers of selected game objects
-    	_t.all_selected 				= false;
+    	_t.selection						= [];
     	_t.opts  								= options
 
     	_t.container 	  				= container;
@@ -174,7 +174,15 @@ window.game_objects_collection = Object.create({
 
 
     	// Add drag drop
-    	_t.container.find( ".gol-draghandle" ).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+    	_t.container.find(".gol-draghandle" ).draggable({ 
+    		revert: true, 
+    		helper: "clone", 
+    		appendTo: "body", 
+    		zIndex: 1000, 
+    		start: function(e, ui){
+    			$(ui.helper).data('identifier', (_t.all_selected || _t.selected_objects));
+    		}
+    	});
 
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
@@ -395,8 +403,10 @@ window.workspaces = Object.create({
 		$(".workspace.go-droparea" ).droppable({ 
 			accept: ".go-draghandle, .gol-draghandle", 
 			hoverClass: "go-droparea-active", 
-			drop: function(e, ui){
+			drop: function(e, ui){				
 				var identifier = ui.draggable.data('identifier');
+				console.log(identifier);
+				console.log(ui.helper.data('identifier'));
 				_t.open_in($(e.target), identifier, {}); 
 			}
 		});
