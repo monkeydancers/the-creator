@@ -91,7 +91,6 @@ window.game_objects_collection = Object.create({
 
 	_render_new_page: function(gameobjects){
 		var _t = this;
-
 		_t.ws_manager.render_gameobjects_collection_page(_t.container.find('tbody'), _t.pagination_elm, _t.current_page,  gameobjects);
 		_t._attach_event_handler_to_list_page();
 		_t._check_selected_objects();
@@ -99,8 +98,9 @@ window.game_objects_collection = Object.create({
 	_attach_event_handler_to_list_page: function(){
 		var _t = this;
 		_t.container.find( ".go-draghandle").each(function(idx, el){
-			var _e = $(el); 
-			_e.data('identifier', _e.find('.identifier').text().replace(/#/, "")); 
+			var _e = $(el);
+			_e.data('identifier', {identifier: _e.find('.identifier').text().replace(/#/, ""), scope: null}); 
+
 		}).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
 
 		// Pagination Event Handlers
@@ -119,7 +119,6 @@ window.game_objects_collection = Object.create({
 	},
 	_check_selected_objects: function(){
 		var _t = this;
-
 		if(_t.selection == "all"){
 			_t.container.find('.checkbox-col input').attr('checked', true);
 		} else {
@@ -178,9 +177,9 @@ window.game_objects_collection = Object.create({
     		revert: true, 
     		helper: "clone", 
     		appendTo: "body", 
-    		zIndex: 1000, 
+    		zIndex: 1000,
     		start: function(e, ui){
-    			$(ui.helper).data('identifier', (_t.all_selected || _t.selected_objects));
+    			$(ui.helper).data('identifier', _t.selection);
     		}
     	});
 
@@ -404,10 +403,11 @@ window.workspaces = Object.create({
 			accept: ".go-draghandle, .gol-draghandle", 
 			hoverClass: "go-droparea-active", 
 			drop: function(e, ui){				
-				var identifier = ui.draggable.data('identifier');
-				console.log(identifier);
-				console.log(ui.helper.data('identifier'));
-				_t.open_in($(e.target), identifier, {}); 
+				var data = ui.draggable.data('identifier');
+				if(!data){
+					var data = ui.helper.data('identifier');
+				}
+				_t.open_in($(e.target), data.identifier, {}); 
 			}
 		});
 

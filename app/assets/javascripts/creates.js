@@ -24,7 +24,7 @@ function setupMiller(data){
 						appendTo: "body", 
 						zIndex: 1000 
 					});
-					objects.data('identifier', current_node.info.identifier);
+					objects.data('identifier', {identifier: current_node.info.identifier, scope: null});
 				}
 			},
 			'options': {
