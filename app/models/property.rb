@@ -43,7 +43,11 @@ class Property < ActiveRecord::Base
 	# Assign a new default value to this property. Typing is not enforced until save.
 	def value=(value)
 		self.updated_at = Time.now
-		@value = value
+		if is_multi_object?
+			(@value ||= []) << value
+		else
+			@value = value
+		end
 	end
 
 	# Get the default value of this property.
