@@ -14,18 +14,18 @@ class GameObjectTest < ActiveSupport::TestCase
 		end
 
 		should 'create the correct set of properties' do 
-			ninja = @parent_class.game_objects.create(:name => "Ninja")
+			ninja = @parent_class.game_objects.create(:name => "Ninja", :game_id => @game.id)
 			assert_equal ninja.properties.length, 1
 			assert_equal ninja.properties.first.name, @property1.name
 
-			death_ninja = @child_class.game_objects.create(:name => "Svart Ninja")
+			death_ninja = @child_class.game_objects.create(:name => "Svart Ninja", :game_id => @game.id)
 			assert_equal death_ninja.properties.length, 2
 			assert_equal death_ninja.properties.first.name, @property2.name
 			assert_equal death_ninja.properties.last.name, @property1.name
 		end
 
 		should 'generate a unique identifier' do 
-			ninja = @parent_class.game_objects.create(:name => "Ninja")
+			ninja = @parent_class.game_objects.create(:name => "Ninja", :game_id => @game.id)
 			assert_not_nil ninja.identifier
 			assert_equal ninja.identifier.length, 7
 		end

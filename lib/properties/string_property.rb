@@ -9,7 +9,6 @@ class StringProperty < PropertyProxy
 		end
 	end
 
-
 	def value_description(regular)
 		if regular
 			return @value.to_s

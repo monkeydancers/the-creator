@@ -78,4 +78,32 @@ class PropertyTest < ActiveSupport::TestCase
 		end
 	end
 
+	context 'When identifying properties, the system' do 
+		setup do 
+			@game = Game.create(:name => "Monkey Test")
+			@property = Property.create(:name => "Monkey", :category => :string, :default_value => "laser", :game_id => @game.id)
+		end
+
+		should 'properly identify string properties' do 
+			assert @property.is_string? 
+		end
+
+		should 'properly identify numeric properties' do 
+			@property.category = 'numeric'
+			assert @property.is_numeric? 
+		end
+
+		should 'properly identify single object properties' do 
+			@property.category = 'object'
+			assert @property.is_single_object? 
+		end
+
+		should 'properly identify multi object properties' do 
+			@property.category = 'multi_object'
+			assert @property.is_multi_object? 
+		end
+
+
+	end
+
 end

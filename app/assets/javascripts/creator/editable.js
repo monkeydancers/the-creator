@@ -54,10 +54,12 @@ window.editable = Object.create({
 			accept: ".go-draghandle", 
 			hoverClass: "go-droparea-active", 
 			drop: function(e, ui){ 
-				var identifier = ui.draggable.data('identifier');
-
+				var identifier_data = ui.draggable.data('identifier');
+				console.log(identifier_data);
+				_t.save({identifier: data.identifier}, identifier_data.identifier)
 			}  
 		});
+
 		this.popin.find('.save-btn').one('click', _t.save.bind(_t, data, _t.popin.find('.property-edit-field').val()));
 		this.popin.find('.property-edit-field').on('keypress', function(e){
 			if(e.which == 13){
@@ -91,7 +93,8 @@ save: function(data, value){
 		type: 'post', 
 		dataType: 'json',
 		data: payload,
-		success: function(data){
+		success: function(server_data){
+			$.extend(payload, server_data);
 			$(document).trigger('update.property', [payload]);
 			_t.hide_edit();
 		},

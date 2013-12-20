@@ -24,7 +24,7 @@ function setupMiller(data){
 						appendTo: "body", 
 						zIndex: 1000 
 					});
-					objects.data('identifier', current_node.info.identifier);
+					objects.data('identifier', {identifier: current_node.info.identifier, scope: null});
 				}
 			},
 			'options': {
@@ -65,9 +65,6 @@ $(document).ready(function() {
 			console.log(e.currentTarget);
 			e.preventDefault();
 		})
-
-		// Close a workspace object 
-		$(".work-spaces").on('click.creator', '.tools .icon.x',  function(){ console.log($(this).parent('.workspace'));$(this).parents('.workspace').html(' ').removeClass('occupied')});
 
 		workspace_manager = Object.create(window.workspaces).init();
 
