@@ -46,7 +46,7 @@ class MultiObjectProperty < PropertyProxy
 		$redis.del id+'-value' if @value
 		$redis.rpush id+'-value', Array(@value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if Array(@value).length > 0
 		$redis.del id+'-default-value' if @default_value
-		$redis.rpush id+'-default-value', Array(@default_value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if @default_value
+		$redis.rpush id+'-default-value', Array(@default_value).map{|g| g.is_a?(GameObject) ? g.identifier : g } if Array(@default_value).length > 0
 	end
 
 	def self.can_set_property_klazz?
@@ -55,6 +55,18 @@ class MultiObjectProperty < PropertyProxy
 
 	def self.definition_class
 		GameObject
+	end
+
+	def handle_removal(scope)
+		if scope.is_a?(Array)
+			scope.map!{|o| o.is_a?(GameObject) ? o.identifier : o }			
+			refetch
+			@value = @value.reject{|object| scope.include?(object) }
+			puts @value.inspect
+		elsif scope == 'all'
+			@value = []
+		end
+		return true
 	end
 
 	private 

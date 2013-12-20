@@ -18,6 +18,8 @@ class Game < ActiveRecord::Base
 			return self.game_objects.where(["identifier = ?", identifier]).first
 		elsif self.game_object_classes.where(["identifier = ?", identifier]).count > 0
 			return self.game_object_classes.where(["identifier = ?", identifier]).first
+		elsif self.properties.where(["identifier = ?", identifier]).count > 0 
+			return self.properties.where(["identifier = ?", identifier]).first
 		else
 			return nil
 		end

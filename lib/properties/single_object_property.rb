@@ -48,6 +48,11 @@ class SingleObjectProperty < PropertyProxy
 		GameObject
 	end
 
+	def handle_removal(scope)
+		@value = []
+		return true
+	end
+
 	private
 
 	def refetch

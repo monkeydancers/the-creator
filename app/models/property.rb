@@ -114,6 +114,10 @@ class Property < ActiveRecord::Base
 		return category.to_s.eql?('numeric')
 	end
 
+	def handle_removal(scope)
+		value_object.handle_removal(scope)
+	end
+
 	private
 
 	def value_object

@@ -19,6 +19,7 @@ TheCreator::Application.routes.draw do
     get :structure
     get :identifier
 
+    post :remove
     post :property, to: 'creates#save_property'
     get :property, to: 'creates#load_property'
   end

@@ -100,7 +100,6 @@ window.game_objects_collection = Object.create({
 		_t.container.find( ".go-draghandle").each(function(idx, el){
 			var _e = $(el);
 			_e.data('identifier', {identifier: _e.find('.identifier').text().replace(/#/, ""), scope: null}); 
-
 		}).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
 
 		// Pagination Event Handlers
@@ -146,13 +145,19 @@ window.game_objects_collection = Object.create({
 	},
 	_delete_selected_items: function(){
 		var _t = this;
-		console.log(_t);
-		console.log('Delete:');		
-		if(_t.selection == "all"){
-			console.log('All objects');		
-		} else {
-			console.log(_t.selection);
-		}
+		console.log(_t.selection);
+		$.ajax({
+			url: '/create/remove', 
+			type: 'post',
+			dataType: 'json', 
+			data: {identifier: _t.game_objects.identifier, scope: _t.selection, authenticity_token: authToken()}, 
+			success: function(data){
+				console.log(data); 
+			}, 
+			error: function(){
+				console.log(arguments);
+			}
+		})
 	},
 	init: function(game_objects, container, ws_manager, options){ 
 		var _t            				= this;
@@ -180,7 +185,8 @@ window.game_objects_collection = Object.create({
     		appendTo: "body", 
     		zIndex: 1000,
     		start: function(e, ui){
-    			$(ui.helper).data('identifier', _t.selection);
+    			$(ui.helper).data('identifier', {identifier: _t.game_objects.identifier, scope:_t.selection});
+    			console.log({identifier: _t.game_objects.identifier, scope:_t.selection});
     		}
     	});
 
@@ -227,7 +233,9 @@ window.game_object = Object.create({
 
 
 		_t.container.find( ".go-draghandle").draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+
 		_t.container.find( ".gol-draghandle" ).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+
 		_t.container.find( ".go-droparea" ).droppable({ 
 			accept: ".go-draghandle", 
 			hoverClass: "go-droparea-active", 

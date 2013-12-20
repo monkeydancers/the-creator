@@ -46,6 +46,17 @@ class CreatesController < ApplicationController
 		end
 	end
 
+	def remove
+		@object = @active_game.resolve_identifier(params[:identifier])
+		respond_to do |format|
+			if @object && @object.handle_removal(params[:scope]) && @object.save
+				format.json{ render :text => {:error => false}.to_json, :status => 200 }
+			else
+				format.json{ render :text => {:error => true}.to_json, :status => 500 }
+			end
+		end
+	end
+
 	private
 
 	def setup_active_game
