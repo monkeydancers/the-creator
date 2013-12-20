@@ -116,6 +116,7 @@ class Property < ActiveRecord::Base
 
 	def handle_removal(scope)
 		value_object.handle_removal(scope)
+		save
 	end
 
 	private
