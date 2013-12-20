@@ -92,6 +92,24 @@ class Property < ActiveRecord::Base
 		value_object.reload
 	end
 
+	# Identifier methods
+
+	def is_multi_object? 
+		return category.to_s.eql?('multi_object')
+	end
+
+	def is_single_object?
+		return category.to_s.eql?('object')
+	end
+
+	def is_string?
+		return category.to_s.eql?('string')
+	end
+
+	def is_numeric?
+		return category.to_s.eql?('numeric')
+	end
+
 	private
 
 	def value_object
