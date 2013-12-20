@@ -1,8 +1,8 @@
 class Game < ActiveRecord::Base
 
-	has_many :game_objects
-	has_many :game_object_classes
-	has_many :properties
+	has_many :game_objects, :dependent => :destroy
+	has_many :game_object_classes, :dependent => :destroy
+	has_many :properties, :dependent => :destroy
 	has_many :root_classes, ->{ where(["parent_id is null"]) }, :class_name => "GameObjectClass"
 
 	def class_structure

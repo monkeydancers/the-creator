@@ -4,8 +4,9 @@ class SingleObjectPropertyTest < ActiveSupport::TestCase
 
 	context 'When creating SingleObjectProperties, the system' do 
 		setup do 
+			@game = Game.create(:name => "Test Game")
 			game_object_class = GameObjectClass.create(:name => "Ninja")
-			@game_object = game_object_class.game_objects.create(:name => "Monkey Master")			
+			@game_object = game_object_class.game_objects.create(:name => "Monkey Master", :game_id => @game.id)			
 		end
 
 		should 'return a new instance if passed nil' do 
@@ -19,8 +20,9 @@ class SingleObjectPropertyTest < ActiveSupport::TestCase
 
 	context 'SingleObjectProperties' do 
 		setup do 
+			@game = Game.create(:name => "Test Gmae")
 			game_object_class = GameObjectClass.create(:name => "Ninja")
-			@game_object = game_object_class.game_objects.create(:name => "Monkey Master")			
+			@game_object = game_object_class.game_objects.create(:name => "Monkey Master", :game_id => @game.id)			
 		end
 
 		should 'only be able to contain instances of GameObject' do 
@@ -42,9 +44,10 @@ class SingleObjectPropertyTest < ActiveSupport::TestCase
 
 	context 'When retrieving instances of SingleObjectProperty, the system' do 
 		setup do 
+			@game = Game.create(:name => "Test Gmae")
 			game_object_class = GameObjectClass.create(:name => "Ninja")
-			@game_object = game_object_class.game_objects.create(:name => "Monkey Master")			
-			@game_object2 = game_object_class.game_objects.create(:name => "Monkey Minion")
+			@game_object = game_object_class.game_objects.create(:name => "Monkey Master", :game_id => @game.id)			
+			@game_object2 = game_object_class.game_objects.create(:name => "Monkey Minion", :game_id => @game.id)
 			$redis.hmset "monkey-id", :value, @game_object.identifier, :default_value, @game_object2.identifier
 		end
 
