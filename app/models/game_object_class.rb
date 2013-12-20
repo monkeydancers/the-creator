@@ -5,6 +5,7 @@ class GameObjectClass < ActiveRecord::Base
 	belongs_to :parent, :class_name => "GameObjectClass"
 	has_many :children, :class_name => "GameObjectClass", :foreign_key => :parent_id
 	has_many :properties, :as => :owner
+	belongs_to :game
 	has_many :game_objects, :foreign_key => 'object_class_id'
 
 	def property_list(opts = {:inherited => false})
@@ -67,6 +68,14 @@ class GameObjectClass < ActiveRecord::Base
 			data.push(parent_class.descendants)
 		end
 		data
+	end
+
+	def handle_removal(scope)
+		if scope == "all"
+			self.game.game_objects.destroy_all
+		else
+			self.game.game_objects.where(["identifier in (?)", scope]).destroy_all
+		end
 	end
 
 
