@@ -32,7 +32,7 @@ class SingleObjectProperty < PropertyProxy
 	end
 
 	def type
-		'objects'
+		'object'
 	end
 
 	def save

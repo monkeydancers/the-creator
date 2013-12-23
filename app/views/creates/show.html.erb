@@ -143,7 +143,7 @@
 						<button type="button" class="btn btn-default btn-sm save-btn">Save (&crarr;)</button>
 					</div>
 				{% endif %}
-				{% if type == 'objects'%}
+				{% if type == 'object' or type == 'objects' %}
 				  	{% include 'game_objects_collection_template'  %}
 				  		<div class="property-drop-area go-droparea">
 				  			<div class="icon"></div>

@@ -133,7 +133,7 @@ window.game_objects_collection = Object.create({
 		var _t = this;
 		if(_t.selection == "all"){
 			_t.selection	 	= [];
-			_t.container .find('.checkbox-col input').prop('checked', false);
+			_t.container.find('.checkbox-col input').prop('checked', false);
 			_t.object_counter_elm.html("0");
 			elm.html("select all");
 		} else {
@@ -145,14 +145,13 @@ window.game_objects_collection = Object.create({
 	},
 	_delete_selected_items: function(){
 		var _t = this;
-		console.log(_t.selection);
 		$.ajax({
 			url: '/create/remove', 
 			type: 'post',
 			dataType: 'json', 
 			data: {identifier: _t.game_objects.identifier, scope: _t.selection, authenticity_token: authToken()}, 
 			success: function(data){
-				console.log(data); 
+				console.log("done");
 			}, 
 			error: function(){
 				console.log(arguments);

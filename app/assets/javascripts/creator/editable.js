@@ -13,7 +13,7 @@ window.editable = Object.create({
 		// If we need to load the value from the server, render the popin
 		// with loading == true, and start loading the data, replace the popin
 		// once loading has completed.
-		if(data.type == 'objects'){
+		if(['object', 'objects'].indexOf(data.type) >= 0){
 			$.ajax({
 				url: '/create/property', 
 				type: 'get', 
@@ -101,7 +101,6 @@ save: function(data, value){
 			alert("Something went wrong!");
 		}
 	})
-
 },
 
 init: function(workspace, ws_manager){
