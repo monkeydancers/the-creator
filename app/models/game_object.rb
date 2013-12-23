@@ -8,6 +8,8 @@ class GameObject < ActiveRecord::Base
 
 	before_create :instantiate_property_values
 
+	EDITABLE_ATTRIBUTES = ["name", "description"]
+
 	def to_lua
 		{
 			'name' 				=> name, 
@@ -34,6 +36,14 @@ class GameObject < ActiveRecord::Base
 			:properties 			=> self.properties.map{|p| {:name => p.name, :current_value => p.value, :default_value => p.default_value, :type => p.type, :identifier => p.identifier } }, 
 			:description 			=> "Lorem ipsum dolor sit amet..."
 		}
+	end
+
+	def update(key, value)
+		if EDITABLE_ATTRIBUTES.include?(key)
+			return self.update_attribute(key.to_sym, value)
+		else
+			return false
+		end
 	end
 
 	private

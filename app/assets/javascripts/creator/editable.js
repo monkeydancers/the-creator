@@ -7,7 +7,9 @@ window.editable = Object.create({
 			'header' 			: 	'Editing ' + edit_entry.data('key'),
 			'value' 			: 	edit_entry.text(),
 			'identifier' 	: 	edit_entry.data('identifier'),
-			'type'				: 	edit_entry.data('type')	
+			'type'				: 	edit_entry.data('type'), 
+			'attribute'		: 	edit_entry.data('attribute'), 
+			'key'					: 	edit_entry.data('key')
 		}
 
 		// If we need to load the value from the server, render the popin
@@ -85,16 +87,24 @@ save: function(data, value){
 	var payload = {
 		identifier: data.identifier, 
 		value: value,
+		key: data.key,
 		authenticity_token: authToken()
 	};
+
+	console.log(data);
+
 	$.ajax({
-		url: '/create/property', 
-		type: 'post', 
+		url: (data.attribute ? '/create' : '/create/property'), 
+		type: (data.attribute ? 'put' : 'post'), 
 		dataType: 'json',
 		data: payload,
 		success: function(server_data){
 			$.extend(payload, server_data);
-			$(document).trigger('update.property', [payload]);
+			if(data.attribute){
+				$(document).trigger('update.object', [payload]);				
+			}else{
+				$(document).trigger('update.property', [payload]);				
+			}
 			_t.hide_edit();
 		},
 		error: function(){
@@ -110,9 +120,15 @@ init: function(workspace, ws_manager){
 
 	_t.template		= Liquid.parse($('#workspace_editable_popin_template').html());
 
+	$(document).on('update.object', function(e, payload){
+		console.log(payload);
+		$("[data-identifier='"+payload.identifier.identifier+"']").find('.' + payload.key).html(payload.value);
+	});
+
 	$(document).on('update.property', function(e, payload){
 		$("[data-identifier='"+payload.identifier+"']").html(payload.value);
 	});
+
 
 		// Attach events
 		_t.workspace.find('.editable').each(function(index){ 

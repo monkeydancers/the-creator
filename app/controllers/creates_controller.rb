@@ -57,6 +57,17 @@ class CreatesController < ApplicationController
 		end
 	end
 
+	def update
+		@object = @active_game.resolve_identifier(params[:identifier][:identifier])
+		respond_to do |format|
+			if @object && @object.update(params[:key], params[:value])
+				format.json{}
+			else
+				format.json{ render :text => {:error => true}.to_json, :status => 500 }
+			end
+		end
+	end
+
 	private
 
 	def setup_active_game

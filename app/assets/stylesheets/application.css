@@ -402,6 +402,14 @@
  	letter-spacing: -2px;
  }
 
+ .game-object .title-container{
+ 	margin-bottom: 16px;
+ }
+
+ .game-object .title-container .title{
+ 	display:inline;
+ }
+
  .game-object .content h3 {
  	font-size: 18px;
  	color: #51534f;
@@ -500,9 +508,16 @@
  	cursor: crosshair;
  }
 
- .go-draghandle span.identifier {
+ .go-draghandle span.identifier, 
+ .title-container span.identifier {
  	font-size: 70%;
  	color: #CCC;
+ }
+
+ .title-container span.identifier{
+ 	font-size:22px;
+ 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+ 	font-weight:lighter;
  }
 
  .go-droparea-active {

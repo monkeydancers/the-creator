@@ -1,6 +1,4 @@
 //= require creator/editable
-//= require creator/search
-
 
 window.game_objects_tabs = Object.create({
 	_tab_clicked: function(index){
@@ -188,7 +186,7 @@ window.game_objects_collection = Object.create({
     		zIndex: 1000,
     		start: function(e, ui){
     			$(ui.helper).data('identifier', {identifier: _t.game_objects.identifier, scope:_t.selection});
-    			console.log({identifier: _t.game_objects.identifier, scope:_t.selection});
+
     		}
     	});
 
@@ -234,7 +232,17 @@ window.game_object = Object.create({
 		});
 
 
-		_t.container.find( ".go-draghandle").draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
+		_t.container.find( ".go-draghandle").each(function(idx, el){
+			var _e = $(el);
+			_e.data('identifier', {identifier: _e.attr('data-identifier'), scope: null}); 
+		}).draggable({ 
+			revert: true, 
+			helper: "clone", 
+			appendTo: "body", 
+			zIndex: 1000, 
+			start: function(){
+
+			}});
 
 		_t.container.find( ".gol-draghandle" ).draggable({ revert: true, helper: "clone", appendTo: "body", zIndex: 1000 });
 
@@ -409,7 +417,7 @@ window.workspaces = Object.create({
 		$('body').append(container);
 		console.log(container);
 
-		_t.search 	= Object.create(window.game_object_search).init(container, callback);
+//		_t.search 	= Object.create(window.game_object_search).init(container, callback);
 	},
 	init: function(options){ 
 		var _t           			= this;
