@@ -68,6 +68,8 @@ $(document).ready(function() {
 
 		workspace_manager = Object.create(window.workspaces).init();
 
+
+		
 /*
 		 This is just functionallity test
 		

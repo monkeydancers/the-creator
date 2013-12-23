@@ -1,4 +1,7 @@
 //= require creator/editable
+//= require creator/search
+
+
 window.game_objects_tabs = Object.create({
 	_tab_clicked: function(index){
 		
@@ -390,6 +393,7 @@ window.workspaces = Object.create({
 		var ws = $(ws); 
 		ws.addClass('occupied');
 		ws.droppable('disable');
+
 	},
 
 	empty_workspace: function(e){
@@ -398,13 +402,22 @@ window.workspaces = Object.create({
 		workspace.html('').removeClass('occupied').droppable('enable');
 	},
 
-	init: function(options){ 
-		var _t           					= this;
-		_t.workspaces	 						= [];
-		_t.opts 									= {};
+	_setup_search: function(callback){
+		var _t        = this;
+		var container = $(_t.templates['game_objects_search'].render());
 
+		$('body').append(container);
+		console.log(container);
+
+		_t.search 	= Object.create(window.game_object_search).init(container, callback);
+	},
+	init: function(options){ 
+		var _t           			= this;
+		_t.workspaces	 			= [];
+		_t.opts 					= {};
 		_t.workspace_selector 		= $(".open-in");
 
+	
 
 		// Initialize game objects
 		$(".workspace.go-droparea" ).droppable({ 
@@ -429,11 +442,15 @@ window.workspaces = Object.create({
 
     	// Add templates for future references
     	_t.templates 	= {};
-    	_t.templates['game_object'] 													= Liquid.parse($('#game_object_template').html());
-    	_t.templates['game_objects_collection_in_ws'] 				= Liquid.parse($('#game_objects_collection_in_ws_template').html());
+    	_t.templates['game_object'] 							= Liquid.parse($('#game_object_template').html());
+    	_t.templates['game_objects_collection_in_ws'] 			= Liquid.parse($('#game_objects_collection_in_ws_template').html());
     	_t.templates['game_objects_collection_pagination'] 		= Liquid.parse($('#game_objects_collection_pagination_template').html());
-    	_t.templates['game_objects_collection_list'] 					= Liquid.parse($('#game_objects_collection_list_template').html());
-    	_t.templates['game_objects_collection'] 							= Liquid.parse($('#game_objects_collection_template').html());
+    	_t.templates['game_objects_collection_list'] 			= Liquid.parse($('#game_objects_collection_list_template').html());
+    	_t.templates['game_objects_collection'] 				= Liquid.parse($('#game_objects_collection_template').html());
+    	_t.templates['game_objects_search'] 					= Liquid.parse($('#game_objects_search_template').html());
+
+
+    	_t._setup_search(function(identifier){ alert("It is me mario" + identifier)});
 
     	return _t;
     }
