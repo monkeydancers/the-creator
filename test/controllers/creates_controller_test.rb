@@ -44,7 +44,11 @@ class CreatesControllerTest < ActionController::TestCase
 
 		should 'support deleting game objects' do 
 			assert_equal @game_object_class.game_objects.count, 1
-
+			post :remove, {:identifier => @game_object_class.identifier, :scope => [@game_object.identifier]}
+			assert_response 200
+			data = JSON.parse(@response.body)
+			assert !data['error']
+			assert_equal @game_object_class.game_objects.count, 0
 		end
 
 	end
