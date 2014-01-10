@@ -12,6 +12,7 @@
 //
 //= require libraries/jquery-2.0.3.min
 //= require libraries/jquery-ui
+//= require libraries/underscore
 //= require libraries/liquid.min
 
 //= require turbolinks

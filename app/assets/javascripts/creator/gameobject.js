@@ -152,7 +152,18 @@ window.game_objects_collection = Object.create({
 			dataType: 'json', 
 			data: {identifier: _t.game_objects.identifier, scope: _t.selection, authenticity_token: authToken()}, 
 			success: function(data){
-				console.log("done");
+				// Hmm - thought. What if each component registers itself with a central event point
+				// for object removal on render, and then listens to that for object deletion requests? 
+				// This could be abstracted for editing and similar as well? .daniel
+				if(_t.selection){
+					var _root = $('[data-identifier="'+_t.game_objects.identifier+'"]');
+					_.each(_t.selection, function(el, ind){
+						// This is the place to trigger custom events for object removal if wanted...
+						_root.find('[data-identifier="'+el+'"]').remove();
+					});
+				}else{
+					console.log("unknown delete context");
+				}
 			}, 
 			error: function(){
 				console.log(arguments);
