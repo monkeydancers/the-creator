@@ -398,10 +398,8 @@ window.workspaces = Object.create({
 	},
 	render_game_objects_collection: function(container, gameobjects){
 		var _t = this;
-
 		gameobjects = _t.prepare_gameobjects(gameobjects, 1);
-
-
+		
 		// Perhaps some effect should be used to indicate interaction?
 		var tmpl = $(_t.templates['game_objects_collection_in_ws'].render(gameobjects));
 		Object.create(window.game_objects_collection).init(gameobjects, tmpl, this, _t.opts['gameobjects_collection']);

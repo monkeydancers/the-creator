@@ -12,6 +12,20 @@ window.editable = Object.create({
 			'key'					: 	edit_entry.data('key')
 		}
 
+		// Here, register for updates pertaining to the edit-box currently displayed, 
+		// thus - only being responsible for the content contained here-in.
+
+		// Extend this to only manipulate values within this element
+		if(data.attribute){
+			window.event_center.on('update', 'object', function(identifier, data){
+				$("[data-identifier='"+identifier.identifier+"']").find('.' + data.key).html(data.value);
+			});
+		}else{
+			window.event_center.on('update', 'property', function(identifier, data){
+				$("[data-identifier='"+identifier.identifier+"']").html(data.value);
+			});
+		}		
+
 		// If we need to load the value from the server, render the popin
 		// with loading == true, and start loading the data, replace the popin
 		// once loading has completed.
@@ -75,60 +89,57 @@ window.editable = Object.create({
 	hide_edit: function(){
 		if(this.popin){
 			this.popin.find('.property-edit-field').off('keypress'); 
-			this.popin.find('.save-btn').off('click'), 
-		// Add animations to edit here...
-		this.popin.remove();
-		this.popin = null;
-	}
-},
-
-save: function(data, value){
-	var _t = this;
-	var payload = {
-		identifier: data.identifier, 
-		value: value,
-		key: data.key,
-		authenticity_token: authToken()
-	};
-
-	console.log(data);
-
-	$.ajax({
-		url: (data.attribute ? '/create' : '/create/property'), 
-		type: (data.attribute ? 'put' : 'post'), 
-		dataType: 'json',
-		data: payload,
-		success: function(server_data){
-			$.extend(payload, server_data);
-			if(data.attribute){
-				$(document).trigger('update.object', [payload]);				
-			}else{
-				$(document).trigger('update.property', [payload]);				
-			}
-			_t.hide_edit();
-		},
-		error: function(){
-			alert("Something went wrong!");
+			this.popin.find('.save-btn').off('click');
+			// Add animations to edit here...
+			this.popin.remove();
+			this.popin = null;
 		}
-	})
-},
+	},
 
-init: function(workspace, ws_manager){
-	var _t 			= this;
-	_t.workspace 	= workspace;
-	_t.ws_manager	= ws_manager;
+	save: function(data, value){
+		var _t = this;
+		var payload = {
+			identifier: data.identifier, 
+			value: value,
+			key: data.key,
+			authenticity_token: authToken()
+		};
 
-	_t.template		= Liquid.parse($('#workspace_editable_popin_template').html());
+		console.log(data);
 
-	$(document).on('update.object', function(e, payload){
-		console.log(payload);
-		$("[data-identifier='"+payload.identifier.identifier+"']").find('.' + payload.key).html(payload.value);
-	});
+		$.ajax({
+			url: (data.attribute ? '/create' : '/create/property'), 
+			type: (data.attribute ? 'put' : 'post'), 
+			dataType: 'json',
+			data: payload,
+			success: function(server_data){
+				var event_data = {
+					identifier: payload.identifier, 
+					scope: null, 
+					data: {
+						value: server_data.value, 
+						key: server_data.key						
+					}
+				}
+				if(data.attribute){
+					$(document).trigger('update.object', [event_data]);				
+				}else{
+					$(document).trigger('update.property', [event_data]);				
+				}
+				_t.hide_edit();
+			},
+			error: function(){
+				alert("Something went wrong!");
+			}
+		})
+	},
 
-	$(document).on('update.property', function(e, payload){
-		$("[data-identifier='"+payload.identifier+"']").html(payload.value);
-	});
+	init: function(workspace, ws_manager){
+		var _t 			= this;
+		_t.workspace 	= workspace;
+		_t.ws_manager	= ws_manager;
 
+		_t.template		= Liquid.parse($('#workspace_editable_popin_template').html());
 
 		// Attach events
 		_t.workspace.find('.editable').each(function(index){ 
