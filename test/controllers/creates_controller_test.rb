@@ -108,6 +108,18 @@ class CreatesControllerTest < ActionController::TestCase
 			assert_equal property.value, "troll"
 		end
 
+		should 'support deletion from properties' do 
+			assert_nil @object_property.value
+			@object_property.value = @game_object
+			@object_property.save
+			@object_property.reload
+			assert_equal @object_property.value.length, 1
+			post :remove, {:identifier => @object_property.identifier, :scope => [@game_object.identifier]}
+			assert_response 200
+			data = JSON.parse(@response.body)
+			assert !data['error']
+		end
+
 	end
 
 end

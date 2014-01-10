@@ -63,7 +63,6 @@ class MultiObjectProperty < PropertyProxy
 			scope.map!{|o| o.is_a?(GameObject) ? o.identifier : o }			
 			refetch
 			@value = @value.reject{|object| scope.include?(object) }
-			puts @value.inspect
 		elsif scope == 'all'
 			@value = []
 		end

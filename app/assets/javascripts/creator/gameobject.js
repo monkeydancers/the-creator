@@ -1,4 +1,5 @@
 //= require creator/editable
+//= require creator/event_center
 
 window.game_objects_tabs = Object.create({
 	_tab_clicked: function(index){
