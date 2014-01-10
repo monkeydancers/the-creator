@@ -31,6 +31,24 @@ class CreatesControllerTest < ActionController::TestCase
 		end
 	end
 
+	context 'When managing objects, the system' do 
+		setup do 
+			Game.destroy_all
+			@game = Game.create(:name => "Test Game")
+
+			@game_object_class 	= @game.game_object_classes.create(:name => "Ninja")
+			@game_object 				= @game_object_class.game_objects.create(:name => "Hugo", :game_id => @game.id)
+
+			@request.env['HTTP_ACCEPT'] = 'application/json'
+		end
+
+		should 'support deleting game objects' do 
+			assert_equal @game_object_class.game_objects.count, 1
+
+		end
+
+	end
+
 	context 'When loading objects via identifier, the system' do 
 		setup do 
 			Game.destroy_all
