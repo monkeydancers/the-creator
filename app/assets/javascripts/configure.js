@@ -32,36 +32,37 @@ var class_manager = null;
 
 
 $(document).ready(function() {
-		class_manager = Object.create(window.gameobject_class_manager).init($('.configure-container') );
+	class_manager = Object.create(window.gameobject_class_manager).init($('.configure-container') );
 
 
+	$('#miller').miller({
+			'tree': tree,
+			'openLine' : function(node){
+				// Call ajax with node['info']['identifier']
+				console.log(node);
+				var class_definition = {
+					'name' : node.name,
+				
+					'identifier' : '23904234kdd',
+					'properties' : [
+						{'name' : 'test prop', 
+						'datatype' : 'Integer',
+						'default_value' : 12,
+						'inherited_from' : '',
+						'identifier' : '1234123i'},
+						{'name' : 'test prop 2', 
+						'datatype' : 'String',		
+						'default_value' : 'HUNGER',
+						'inherited_from' : '',
+						'identifier' : '12323i'} 
+					]};
 
-		$('#miller').miller({
-				'tree': tree,
-				'openLine' : function(node){
-					// Call ajax with node['info']['identifier']
-					var class_definition = {
-						'name' : node.name, 
-						'identifier' : '23904234kdd',
-						'properties' : [
-							{'name' : 'test prop', 
-							'datatype' : 'Integer',
-							'default_value' : 12,
-							'inherited_from' : '',
-							'identifier' : '1234123i'},
-							{'name' : 'test prop 2', 
-							'datatype' : 'String',		
-							'default_value' : 'HUNGER',
-							'inherited_from' : '',
-							'identifier' : '12323i'} 
-						]};
+				class_manager.render_gameobject_class(class_definition);
+			},
+		}
+	);
 
-					class_manager.render_gameobject_class(class_definition);
-				},
-			}
-		);
-
-		$("body").on('click.creator', '.popin .close',  function(){ $(this).parent('.popin').css({'display': 'none'})});
+	$("body").on('click.creator', '.popin .close',  function(){ $(this).parent('.popin').css({'display': 'none'})});
 
 
 	}

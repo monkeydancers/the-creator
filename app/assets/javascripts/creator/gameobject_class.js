@@ -98,7 +98,6 @@ window.gameobject_class_manager = Object.create({
         _t.templates['new_subclass_popin']  = Liquid.parse($('#new_subclass_template').html());
         _t.templates['property_popin']      = Liquid.parse($('#new_property_template').html())
 
-
         return _t;
     }	
   });
