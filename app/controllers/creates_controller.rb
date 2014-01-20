@@ -6,6 +6,8 @@ class CreatesController < ApplicationController
 
 	end
 
+
+	# This should be generalised to be used in  configure too
 	def structure
 		@structure = @active_game.class_structure
 		respond_to do |format|
@@ -68,10 +70,5 @@ class CreatesController < ApplicationController
 		end
 	end
 
-	private
-
-	def setup_active_game
-		@active_game = Game.first
-	end
 
 end

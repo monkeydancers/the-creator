@@ -14,7 +14,10 @@ TheCreator::Application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
   resource :welcome
 
-  resources :configure
+  resource :configure do 
+    get :class_info
+  end
+
   resource :create do 
     get :structure
     get :identifier
