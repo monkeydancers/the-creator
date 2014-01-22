@@ -1,6 +1,8 @@
 window.gameobject_class = Object.create({
     _edit_property: function(data){
         var _t = this;
+        console.log(data);
+
 
         _t.manager.render_property_popin(data);
 
@@ -17,7 +19,6 @@ window.gameobject_class = Object.create({
             _t.container.find('.popin .close').trigger('click');
         }); 
 
-
     },
     _new_property: function(){
         var _t = this;
@@ -31,6 +32,32 @@ window.gameobject_class = Object.create({
         var _t = this;
 
         _t.manager.render_new_class_popin({});
+
+        _t.container.find('.create-subclass-button').on('click.creator', function(e){
+            e.preventDefault();
+            var form           = $(e.currentTarget).parents('form');
+            var class_name     = form.find('.subclass-name').val();
+
+            $.ajax({
+                url: '/configure/new_class', 
+                type: 'post', 
+                dataType: 'json',
+                data: { 'parrent_class_identifier'  : _t.identifier, 
+                        'class_name'                : class_name,
+                         'authenticity_token'       : authToken()}, 
+                success: function(data){
+                    console.log(data);
+                    // This should perhaps be done in a template
+                    _t.container.find('.subclasses-table tbody').append('<tr><td>' + data['name'] + '</td><td></td></tr>')
+
+                    // Closes the popin
+                    $('.popin .close').trigger('click');
+                    // Update miller column datablock and trigger a reload of the current node
+
+                }
+            });                 
+        });
+
     },
 
 
@@ -73,7 +100,6 @@ window.gameobject_class_manager = Object.create({
     render_gameobject_class: function(data){
         var _t              = this;
 
-        // REND
         _t.container.html(_t.templates['gameobject_class'].render(data));
         _t.open_class = Object.create(window.gameobject_class).init(_t.container, data['identifier'], _t);
     },

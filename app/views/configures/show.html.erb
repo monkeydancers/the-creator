@@ -27,11 +27,11 @@
 
 				<select >
 					<option value="" disabled {% if datatype == '' %}selected{% endif %} >Datatype</option>
-					<option value="int" {% if datatype == 'Integer' %}selected{% endif %}>Integer</option>
-					<option value="str" {% if datatype == 'String' %}selected{% endif %}>String</option>
-					<option value="obj" {% if datatype == 'Objet' %}selected{% endif %}>Object</option>
-					<option value="obs" {% if datatype == 'Objects' %}selected{% endif %} >Objects</option>
-					<option value="ass" {% if datatype == 'Asset' %}selected{% endif %} >Asset</option>
+					<option value="int" {% if datatype == 'integer' %}selected{% endif %}>Integer</option>
+					<option value="str" {% if datatype == 'string' %}selected{% endif %}>String</option>
+					<option value="obj" {% if datatype == 'object' %}selected{% endif %}>Object</option>
+					<option value="obs" {% if datatype == 'objects' %}selected{% endif %} >Objects</option>
+					<option value="ass" {% if datatype == 'asset' %}selected{% endif %} >Asset</option>
 
 				</select> <br />
 				
@@ -57,12 +57,12 @@
 
 			<form>
 			<h2>New Subclass</h2>
-			<input type="text" value="" placeholder="Subclass Name" /><br />
+			<input type="text" value="" placeholder="Subclass Name" class="subclass-name"/><br />
 
 
 
 			<div class="button-group">
-				<button type="button" class="btn btn-default btn-sm ">Save (&crarr;)</button>
+				<button type="button" class="btn btn-default btn-sm create-subclass-button">Save (&crarr;)</button>
 			</div> 
 			</form>
 		</div>

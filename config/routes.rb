@@ -16,6 +16,7 @@ TheCreator::Application.routes.draw do
 
   resource :configure do 
     get :class_info
+    post :new_class
   end
 
   resource :create do 
