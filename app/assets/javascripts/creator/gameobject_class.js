@@ -9,8 +9,6 @@ window.gameobject_class = Object.create({
 
         // Add button interactions
         popin.find('.save-property-button').on('click.creator', function(e){
-            console.log(popin.find('.property-name-field').val());
-            console.log(data.identifier);
 
             $.ajax({
                 url: '/configure/update_property', 
@@ -110,10 +108,10 @@ window.gameobject_class = Object.create({
         });
 
         _t.container.on('click.creator', '.show-subclass-link',  function(e){
-            console.log(e.currentTarget);
             e.preventDefault();
             var identifier = $(e.currentTarget).parents('tr').data('identifier');
             _t.manager.load_gameobject_class(identifier);
+            $('#miller').miller('select_node' , identifier);
         });
 
 

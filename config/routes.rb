@@ -17,6 +17,8 @@ TheCreator::Application.routes.draw do
   resource :configure do 
     get :class_info
     post :new_class
+    resources :classes, controller:'gameobject_classes'
+    resources :properties, controller:'gameobject_class_properties'
   end
 
   resource :create do 

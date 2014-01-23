@@ -11,7 +11,43 @@
 			);
 
 			return path;
-		}
+		},
+		open_node: function(identifier){
+			$.each($(this).find('.columns ul:last-of-type li'), function(key, node){
+				if($(node).data('id') == identifier ){
+					$(node).trigger('click');
+				}
+			});
+		},
+		select_node : function(node_identifier){
+			path = this.miller('find_path', node_identifier, [], window.settings.tree).reverse() ;
+			this.miller('open_node', path);
+			for(var i = 0; i < path.length; i++){
+				this.miller('open_node', path[i]);
+			}
+
+		},
+		find_path : function(node_identifier, path, tree){
+			var child = null;
+
+			for(var i = 0; i < tree.length; i++){
+				var node = tree[i];
+
+				if( node['info']['identifier'] == node_identifier){
+					path.push(node['info']['identifier'])
+					return path
+				}
+
+				if(!child  && node['children'] && node['children'].length > 0){
+					path = this.miller('find_path', node_identifier, path, node['children']);
+					if(path.length > 0){
+						path.push(node['info']['identifier']);
+					}
+				}
+			}
+			return path;
+		}			
+
 	};
 
 	$.fn.miller = function(mixed) {
@@ -22,7 +58,7 @@
 			var hasFocus 		= false;
 			var current_node 	= null;
 
-			var settings = {};
+			 settings = {};
 			 $.extend(true, settings, {
 						'url': function(id) { return id; },
 						'tabindex': 0,
@@ -38,6 +74,7 @@
 					},
 					mixed
 				);
+			 window.settings = settings; 
 
 			if (!miller.attr('tabindex')) {
 				miller.attr('tabindex', settings.tabindex);
@@ -326,17 +363,21 @@
 					}
 				}
 			;
-			var searchTree = function(parentID, tree){
+
+			
+
+
+			var searchTree = function(nodeID, tree){
 				var child = null;
 				for(var i = 0; i < tree.length; i++){
 					var node = tree[i];
 
-					if( node['id'] == parentID){
+					if( node['id'] == nodeID){
 						child = node; 
 					}
 
 					if(!child  && node['children'] && node['children'].length > 0){
-						child =  searchTree(parentID, node['children']);
+						child =  searchTree(nodeID, node['children']);
 					}
 				}
 				return child

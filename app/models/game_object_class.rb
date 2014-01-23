@@ -53,7 +53,7 @@ class GameObjectClass < ActiveRecord::Base
 
 	def as_tree
 		return {
-			:id 			=> self.id, 
+			:id 		=> self.identifier, 
 			:name 		=> self.name, 
 			:info 		=> {:objects => 20, :identifier => self.identifier}, 
 			:children => self.children.map(&:as_tree)
