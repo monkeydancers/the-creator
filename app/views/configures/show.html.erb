@@ -22,10 +22,11 @@
 		<div class="edit-property-popin">
 			<form>
 				<h2>{{ name or 'New Property'}}</h2>
-				<input type="text" value="{{name}}" placeholder="Property Name" /><br />
-
-
-				<select >
+				<input type="text" value="{{name}}" placeholder="Property Name" class="property-name-field"/><br />
+				{% if datatype != '' %}
+					<h3>Datatype: {{datatype}}</h3>
+				{% else %}
+				<select class="property-datatype-field" />
 					<option value="" disabled {% if datatype == '' %}selected{% endif %} >Datatype</option>
 					<option value="int" {% if datatype == 'integer' %}selected{% endif %}>Integer</option>
 					<option value="str" {% if datatype == 'string' %}selected{% endif %}>String</option>
@@ -33,9 +34,11 @@
 					<option value="obs" {% if datatype == 'objects' %}selected{% endif %} >Objects</option>
 					<option value="ass" {% if datatype == 'asset' %}selected{% endif %} >Asset</option>
 
-				</select> <br />
+				</select> 
+				{% endif %}
+				<br />
 				
-				<input type="text" value="{{default}}" placeholder="Default Value" class="default-value"/><br />
+				<input type="text" value="{{default}}" placeholder="Default Value" class="default-value property-default-field"/><br />
 				<div class="button-group">
 					<button type="button" class="btn btn-default btn-sm delete-property-button">Delete</button> 
 					 or
@@ -116,19 +119,22 @@
 	  			<thead> 
 	  				<tr> 
 	  					<th>Name</th> 
-	  					<th></th> 
+	  					<th>Action</th> 
 	  				</tr> 
 	  			</thead> 
 	  			<tbody> 
-
+	  				{% if subclasses == empty%}
+	  					<tr data-identifier="{{subclass.identifier}}"> 
+		  					<td><i>No subclasses</i></td> 
+		  					<td class="action"> </td>
+		  				</tr> 
+	  				{% endif %}
 	  				{% for subclass in subclasses %}
-		  				<tr> 
+		  				<tr data-identifier="{{subclass.identifier}}"> 
 		  					<td>{{subclass.name}}</td> 
-		  					<td class="action"> Show &rarr; </td> 
-
+		  					<td class="action"> Show &rarr; </td>
 		  				</tr> 
 	  				{% endfor %}
-	  				
 	  			</tbody> 
 	  			<tfoot>
 	  				<tr>

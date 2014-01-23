@@ -5,6 +5,14 @@ class ConfiguresController < ApplicationController
 
 	end
 
+	# 
+	def update_property
+
+	end
+
+	def delete_property
+
+	end	
 
 	# Perhaps these should live in their own controller???
 	def new_class

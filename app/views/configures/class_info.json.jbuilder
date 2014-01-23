@@ -7,3 +7,8 @@ json.properties(@gameobjectclass.property_list) do |property|
 	json.datatype			property.type
 	json.inherited_from		""
 end
+
+json.subclasses(@gameobjectclass.children(true)) do |subclass|
+	json.identifier			subclass[:identifier]
+	json.name 				subclass[:name]
+end

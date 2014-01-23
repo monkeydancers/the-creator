@@ -1,22 +1,58 @@
 window.gameobject_class = Object.create({
     _edit_property: function(data){
         var _t = this;
-        console.log(data);
-
-
+        
         _t.manager.render_property_popin(data);
+        var popin = _t.container.find('.popin');
 
-        _t.container.find('.save-property-button').on('click.creator', function(e){
-            console.log("save");
+
+        popin.find('.property-datatype-field').attr('disabled', true);
+
+
+        // Add button interactions
+        popin.find('.save-property-button').on('click.creator', function(e){
+            console.log(popin.find('.property-name-field').val());
             console.log(data.identifier);
-            _t.container.find('.popin .close').trigger('click');
+
+            $.ajax({
+                url: '/configure/update_property', 
+                type: 'post', 
+                dataType: 'json',
+                data: { 'parrent_class_identifier'  : _t.identifier, 
+                        'property_identifier'       : "",
+                        'property_name'             : "",
+                        'property_default'          : "",
+                         'authenticity_token'       : authToken()}, 
+                success: function(data){
+                    console.log(data);
+                    // This should update the GUI aswell.
+                    popin.find('.close').trigger('click');
+                }
+            });               
+
+
 
         });
 
-        _t.container.find('.delete-property-button').on('click.creator', function(e){
+        popin.find('.delete-property-button').on('click.creator', function(e){
             console.log("delete");
             console.log(data.identifier);
-            _t.container.find('.popin .close').trigger('click');
+            popin.find('.close').trigger('click');
+
+            $.ajax({
+                url: '/configure/delete_property', 
+                type: 'post', 
+                dataType: 'json',
+                data: { 'parrent_class_identifier'  : _t.identifier, 
+                        'property_identifier'       : "",
+                         'authenticity_token'       : authToken()}, 
+                success: function(data){
+                    console.log(data);
+                    // This should update the GUI aswell.
+                    popin.find('.close').trigger('click');
+                }
+            });  
+
         }); 
 
     },
@@ -111,7 +147,9 @@ window.gameobject_class_manager = Object.create({
     render_property_popin: function(data){
         var _t              = this;
 
-        _t.container.append(_t.templates['property_popin'].render(data));
+        var popin = _t.templates['property_popin'].render(data)
+        _t.container.append(popin);
+        return popin;
     },
 
     init: function(container){ 
