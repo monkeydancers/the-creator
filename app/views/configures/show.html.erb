@@ -72,6 +72,14 @@
 	</div>
 </script>
 
+<script type="text/liquid" id="gameobject_class_row_template">
+	<tr data-identifier="{{subclass.identifier}}"> 
+		<td>{{subclass.name}}</td> 
+		<td class="action"><a href="#" class="show-subclass-link">  Show &rarr; </a> </td>
+	</tr> 
+</script>
+
+
 <script type="text/liquid" id="gameobject_class_template">
 	<h1>{{name}}</h1>
 
@@ -124,16 +132,13 @@
 	  			</thead> 
 	  			<tbody> 
 	  				{% if subclasses == empty%}
-	  					<tr data-identifier="{{subclass.identifier}}"> 
+	  					<tr class="empty-subclasses-placeholder"> 
 		  					<td><i>No subclasses</i></td> 
 		  					<td class="action"> </td>
 		  				</tr> 
 	  				{% endif %}
 	  				{% for subclass in subclasses %}
-		  				<tr data-identifier="{{subclass.identifier}}"> 
-		  					<td>{{subclass.name}}</td> 
-		  					<td class="action"> Show &rarr; </td>
-		  				</tr> 
+			  			{% include 'gameobject_class_row_template'  %}
 	  				{% endfor %}
 	  			</tbody> 
 	  			<tfoot>

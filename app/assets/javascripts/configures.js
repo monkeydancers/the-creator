@@ -10,18 +10,7 @@ var class_manager = null;
 function setupMiller(data){
 	$('#miller').miller({
 		'openLine' : function(node){ 
-		// Call ajax with node['info']['identifier']
-			$.ajax({
-				url: '/configure/class_info', 
-				type: 'get', 
-				dataType: 'json',
-				data: {'identifier' : node['info']['identifier']}, 
-				success: function(data){
-					console.log(data);
-					class_manager.render_gameobject_class(data);
-				}
-			});			
-			
+			class_manager.load_gameobject_class(node['info']['identifier']);
 		},
 		'tree': data,
 		'toolbar': {
@@ -44,7 +33,4 @@ $(document).ready(function() {
 		}
 	})	
 	$("body").on('click.creator', '.popin .close',  function(){ $(this).parent('.popin').css({'display': 'none'})});
-
-
-	}
-);
+});

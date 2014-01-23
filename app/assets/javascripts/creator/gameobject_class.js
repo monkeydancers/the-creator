@@ -5,9 +5,7 @@ window.gameobject_class = Object.create({
         _t.manager.render_property_popin(data);
         var popin = _t.container.find('.popin');
 
-
         popin.find('.property-datatype-field').attr('disabled', true);
-
 
         // Add button interactions
         popin.find('.save-property-button').on('click.creator', function(e){
@@ -69,6 +67,7 @@ window.gameobject_class = Object.create({
 
         _t.manager.render_new_class_popin({});
 
+
         _t.container.find('.create-subclass-button').on('click.creator', function(e){
             e.preventDefault();
             var form           = $(e.currentTarget).parents('form');
@@ -82,9 +81,9 @@ window.gameobject_class = Object.create({
                         'class_name'                : class_name,
                          'authenticity_token'       : authToken()}, 
                 success: function(data){
-                    console.log(data);
+                    _t.container.find('.empty-subclasses-placeholder').css('display', 'none');
                     // This should perhaps be done in a template
-                    _t.container.find('.subclasses-table tbody').append('<tr><td>' + data['name'] + '</td><td></td></tr>')
+                    _t.manager.render_gameobject_subclass_row(data);
 
                     // Closes the popin
                     $('.popin .close').trigger('click');
@@ -93,7 +92,6 @@ window.gameobject_class = Object.create({
                 }
             });                 
         });
-
     },
 
 
@@ -111,6 +109,14 @@ window.gameobject_class = Object.create({
             _t._new_subclass();
         });
 
+        _t.container.on('click.creator', '.show-subclass-link',  function(e){
+            console.log(e.currentTarget);
+            e.preventDefault();
+            var identifier = $(e.currentTarget).parents('tr').data('identifier');
+            _t.manager.load_gameobject_class(identifier);
+        });
+
+
         $('.add-property-button').on('click.creator', function(){
             _t._new_property();
         });
@@ -126,18 +132,39 @@ window.gameobject_class = Object.create({
             e.preventDefault();
         });
 
-
-
         return _t;
     }
 });
 
 window.gameobject_class_manager = Object.create({
+
+    load_gameobject_class: function(identifier){
+        $.ajax({
+            url: '/configure/class_info', 
+            type: 'get', 
+            dataType: 'json',
+            data: {'identifier' : identifier}, 
+            success: function(data){
+                class_manager.render_gameobject_class(data);
+            }
+        });     
+    },
     render_gameobject_class: function(data){
         var _t              = this;
 
         _t.container.html(_t.templates['gameobject_class'].render(data));
         _t.open_class = Object.create(window.gameobject_class).init(_t.container, data['identifier'], _t);
+    },
+    render_gameobject_subclass_row: function(data){
+        var _t              = this;
+
+        console.log(data);
+        if(_t.open_class){
+            return _t.container.find('.subclasses-table tbody').append(_t.templates['gameobject_class_row'].render({'subclass' : data}));
+        } else {
+            return false
+        }
+        
     },
     render_new_class_popin: function(data){
         var _t              = this;
@@ -158,9 +185,10 @@ window.gameobject_class_manager = Object.create({
         _t.open_class       = null;
         _t.templates        = [];
 
-        _t.templates['gameobject_class']    = Liquid.parse($('#gameobject_class_template').html());
-        _t.templates['new_subclass_popin']  = Liquid.parse($('#new_subclass_template').html());
-        _t.templates['property_popin']      = Liquid.parse($('#new_property_template').html())
+        _t.templates['gameobject_class']        = Liquid.parse($('#gameobject_class_template').html());
+        _t.templates['gameobject_class_row']    = Liquid.parse($('#gameobject_class_row_template').html()); 
+        _t.templates['new_subclass_popin']      = Liquid.parse($('#new_subclass_template').html());
+        _t.templates['property_popin']          = Liquid.parse($('#new_property_template').html())
 
         return _t;
     }	

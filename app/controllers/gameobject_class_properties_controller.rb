@@ -1,0 +1,2 @@
+class GameobjectClassPropertiesController < ApplicationController
+end
