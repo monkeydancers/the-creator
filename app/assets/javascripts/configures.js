@@ -23,7 +23,7 @@ function setupMiller(data){
 }
 
 $(document).ready(function() {
-	class_manager = Object.create(window.gameobject_class_manager).init($('.configure-container') );
+	class_manager = Object.create(window.gameobject_class_manager).init($('.configure-container'), $('#miller')  );
 	$.ajax({
 		url: '/create/structure', 
 		type: 'get', 

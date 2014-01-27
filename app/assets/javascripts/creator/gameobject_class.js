@@ -72,10 +72,10 @@ window.gameobject_class = Object.create({
             var class_name     = form.find('.subclass-name').val();
 
             $.ajax({
-                url: '/configure/new_class', 
+                url: '/configure/classes', 
                 type: 'post', 
                 dataType: 'json',
-                data: { 'parrent_class_identifier'  : _t.identifier, 
+                data: { 'parent_class_identifier'  : _t.identifier, 
                         'class_name'                : class_name,
                          'authenticity_token'       : authToken()}, 
                 success: function(data){
@@ -86,7 +86,7 @@ window.gameobject_class = Object.create({
                     // Closes the popin
                     $('.popin .close').trigger('click');
                     // Update miller column datablock and trigger a reload of the current node
-
+                    _t.manager.reload_miller_and_to_to(data['identifier'])
                 }
             });                 
         });
@@ -177,11 +177,47 @@ window.gameobject_class_manager = Object.create({
         return popin;
     },
 
-    init: function(container){ 
+
+
+    load_miller :function(){
+        var _t              = this;
+
+        $.ajax({
+            url: '/create/structure', 
+            type: 'get', 
+            dataType: 'json', 
+            success: function(data){
+                _t.setupMiller(data);
+            }
+        });  
+    },
+
+     setup_miller: function(data){
+        var _t = this;
+         _t.miller_container.miller({
+            'openLine' : function(node){ 
+                _t.load_gameobject_class(node['info']['identifier']);
+            },
+            'tree': data,
+            'toolbar': {
+                'preRender' : function(current_node, path){
+                    
+                }
+            },
+
+        });
+    },
+    reload_miller_and_to_to : function(identifier){
+        var _t              = this;
+
+        _t.miller_container.miller('reload_tree_and_open_path', identifier, '/create/structure')
+    },
+    init: function(container, miller){ 
     	var _t            	= this;
     	_t.container 		= container;
         _t.open_class       = null;
         _t.templates        = [];
+        _t.miller_container = miller;
 
         _t.templates['gameobject_class']        = Liquid.parse($('#gameobject_class_template').html());
         _t.templates['gameobject_class_row']    = Liquid.parse($('#gameobject_class_row_template').html()); 

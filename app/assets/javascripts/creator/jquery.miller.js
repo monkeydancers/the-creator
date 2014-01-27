@@ -2,6 +2,22 @@
 
 (function($) {
  	var methods = {
+
+ 		reload_tree_and_open_path : function(identifier, miller_data_url){
+ 			var _t = this;
+ 			$.ajax({
+				url: miller_data_url, 
+				type: 'get', 
+				dataType: 'json', 
+				success: function(data){
+					console.log(_t);
+					$(_t).html('');
+					window.settings.tree = data;
+					$(_t).miller(window.settings);
+					$(_t).miller('select_node', identifier);
+				}
+			})	
+ 		},
 		'getPath': function() {
 			var path = [];
 
@@ -28,13 +44,13 @@
 
 		},
 		find_path : function(node_identifier, path, tree){
-			var child = null;
+			var child 		= null;
 
 			for(var i = 0; i < tree.length; i++){
 				var node = tree[i];
 
 				if( node['info']['identifier'] == node_identifier){
-					path.push(node['info']['identifier'])
+					path.push(node['info']['identifier']);
 					return path
 				}
 
@@ -42,6 +58,7 @@
 					path = this.miller('find_path', node_identifier, path, node['children']);
 					if(path.length > 0){
 						path.push(node['info']['identifier']);
+						return path;
 					}
 				}
 			}
