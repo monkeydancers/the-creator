@@ -4,7 +4,7 @@ class GameobjectClassesController < ApplicationController
 
 	def create
 		# Create a new class
-		new_class = @parent_class.children.new(:name => params[:class_name])
+		new_class = @parent_class.children.new(:name => params[:class_name], :game => @active_game)
 
 		respond_to do |format|
 

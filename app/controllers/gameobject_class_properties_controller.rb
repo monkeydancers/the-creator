@@ -1,8 +1,6 @@
 class GameobjectClassPropertiesController < ApplicationController
 	before_filter :setup_active_game
 
-
-
 	def create
 
 	end
@@ -11,11 +9,8 @@ class GameobjectClassPropertiesController < ApplicationController
 
 	end
 
-	private 
+	def delete 
 
-	def load_game_objects
-
-		
 	end
 
 end
