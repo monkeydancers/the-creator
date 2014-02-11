@@ -52,15 +52,25 @@ window.gameobject_class = Object.create({
     },
     _new_property: function(){
         var _t = this;
+
+        _t.container.find('.popin').remove();
+        _t.manager.render_property_popin();
+        var popin = _t.container.find('.popin');    
+
+        popin.find('.delete-property-button').on('click.creator', function(){ 
+            popin.remove();
+        });
+
         popin.find('.save-property-button').on('click.creator', function(e){
 
             $.ajax({
                 url: '/configure/properties', 
-                type: 'put', 
+                type: 'post', 
                 dataType: 'json',
-                data: { 'id'                        : "",
-                        'property_name'             : "",
-                        'property_default'          : "",
+                data: { 'id'                        : _t.identifier,
+                        'property_name'             : popin.find('.property-name-field').val(),
+                        'data_type'                 : popin.find('.property-datatype-field').val(),
+                        'property_default'          : popin.find('.property-default-field').val(),
                         'authenticity_token'       : authToken()
                 }, 
                 success: function(data){
