@@ -32,8 +32,10 @@ class Property < ActiveRecord::Base
 	include Identifier
 
 	belongs_to :game_object_class
+	belongs_to :game
 
 	validates :name, :presence => true
+	validates :category, :presence => true
 	validates :game_id, :presence => true
 
 	around_save :flush_redis_writes
@@ -129,7 +131,7 @@ class Property < ActiveRecord::Base
 		{
 			"string" 				=> StringProperty, 
 			"object" 				=> SingleObjectProperty, 
-			"multi_object" 	=> MultiObjectProperty, 
+			"multi_object" 			=> MultiObjectProperty, 
 			"numeric"				=> NumericProperty
 		}
 	end

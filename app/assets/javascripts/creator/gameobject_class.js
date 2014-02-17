@@ -11,17 +11,20 @@ window.gameobject_class = Object.create({
         popin.find('.save-property-button').on('click.creator', function(e){
 
             $.ajax({
-                url: '/configure/properties', 
+                url: '/configure/properties/' + popin.find('.property-identifier-field').val(),
                 type: 'put', 
                 dataType: 'json',
-                data: { 'id'                        : '',
-                        'property_name'             : "",
-                        'property_default'          : "",
-                         'authenticity_token'       : authToken()
+                data: { 'property_name'             : popin.find('.property-name-field').val(),
+                        'data_type'                 : popin.find('.property-datatype-field').val(),
+                        'property_default'          : popin.find('.property-default-field').val(),
+                        'authenticity_token'       : authToken()
                 }, 
                 success: function(data){
                     console.log(data);
                     // This should update the GUI aswell.
+                    $('#' + data['identifier']).find('.name').html(data['name']);
+                    $('#' + data['identifier']).find('.default-value').html(data['default_value']);
+
                     popin.find('.close').trigger('click');
                 }
             });
@@ -33,17 +36,15 @@ window.gameobject_class = Object.create({
             popin.find('.close').trigger('click');
 
             $.ajax({
-                url: '/configure/properties', 
-                type: 'delete', 
+                url: '/configure/properties/' + popin.find('.property-identifier-field').val(), 
+                type: 'DELETE', 
                 dataType: 'json',
-                data: { 'id'                        : '',
-                        'parrent_class_identifier'  : _t.identifier, 
-                        'property_identifier'       : "",
+                data: { 
                          'authenticity_token'       : authToken()
                 }, 
                 success: function(data){
                     console.log(data);
-                    // This should update the GUI aswell.
+                    $('#' + data['identifier']).remove();
                     popin.find('.close').trigger('click');
                 }
             });  
@@ -67,7 +68,7 @@ window.gameobject_class = Object.create({
                 url: '/configure/properties', 
                 type: 'post', 
                 dataType: 'json',
-                data: { 'id'                        : _t.identifier,
+                data: { 'class_identifier'                        : _t.identifier,
                         'property_name'             : popin.find('.property-name-field').val(),
                         'data_type'                 : popin.find('.property-datatype-field').val(),
                         'property_default'          : popin.find('.property-default-field').val(),
@@ -76,8 +77,9 @@ window.gameobject_class = Object.create({
                 success: function(data){
                     console.log(data);
                     // This should update the GUI aswell.
+                    _t.manager.render_property_row(data);
+
                     popin.find('.close').trigger('click');
-                    _t.manager.render_property_popin(data);
                 }
             });
         });
@@ -179,7 +181,6 @@ window.gameobject_class_manager = Object.create({
     render_gameobject_subclass_row: function(data){
         var _t              = this;
 
-        console.log(data);
         if(_t.open_class){
             return _t.container.find('.subclasses-table tbody').append(_t.templates['gameobject_class_row'].render({'subclass' : data}));
         } else {
@@ -187,6 +188,17 @@ window.gameobject_class_manager = Object.create({
         }
         
     },
+    render_property_row: function(data){
+        var _t              = this;
+
+        if(_t.open_class){
+            return _t.container.find('.property-table tbody').append(_t.templates['property_row'].render({'property' : data}));
+        } else {
+            return false
+        }
+        
+    },
+
     render_new_class_popin: function(data){
         var _t              = this;
 
@@ -244,6 +256,7 @@ window.gameobject_class_manager = Object.create({
         _t.templates['gameobject_class_row']    = Liquid.parse($('#gameobject_class_row_template').html()); 
         _t.templates['new_subclass_popin']      = Liquid.parse($('#new_subclass_template').html());
         _t.templates['property_popin']          = Liquid.parse($('#new_property_template').html())
+        _t.templates['property_row']            = Liquid.parse($('#property_row_template').html())
 
         _t.load_miller();
 

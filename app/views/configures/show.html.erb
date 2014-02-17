@@ -23,16 +23,15 @@
 				{% else %}
 				<select class="property-datatype-field" >
 					<option value="" disabled {% if datatype == '' %}selected{% endif %} >Datatype</option>
-					<option value="int" {% if datatype == 'integer' %}selected{% endif %}>Integer</option>
-					<option value="str" {% if datatype == 'string' %}selected{% endif %}>String</option>
-					<option value="obj" {% if datatype == 'object' %}selected{% endif %}>Object</option>
-					<option value="obs" {% if datatype == 'objects' %}selected{% endif %} >Objects</option>
-					<option value="ass" {% if datatype == 'asset' %}selected{% endif %} >Asset</option>
+					<option value="numeric" {% if datatype == 'numeric' %}selected{% endif %}>Numeric</option>
+					<option value="string" {% if datatype == 'string' %}selected{% endif %}>String</option>
+					<option value="object" {% if datatype == 'object' %}selected{% endif %}>Object</option>
+					<option value="multi_object" {% if datatype == 'multi_object' %}selected{% endif %} >Objects</option>
 
 				</select> 
 				{% endif %}
 				<br />
-				
+				<input type="hidden" value="{{identifier}}" class="property-identifier-field"/>
 				<input type="text" value="{{default}}" placeholder="Default Value" class="default-value property-default-field"/><br />
 				<div class="button-group">
 					<button type="button" class="btn btn-default btn-sm delete-property-button"> {% if name %} Delete {% else %} Cancel {% endif %}</button> 
@@ -75,6 +74,17 @@
 </script>
 
 
+<script type="text/liquid" id="property_row_template">
+  				<tr data-identifier='{{property.identifier}}' id="{{property.identifier}}"> 
+	  					<td class="name">{{property.name}}</td> 
+	  					<td class="data-type">{{property.datatype}}</td> 
+	  					<td class="default-value">{{property.default_value}}</td>
+	  					<td class="inherited-from">{{property.inherited_from}}</td> 
+	  					<td class="action"><a href="#" class="edit_propery_link" data-identifier="{{property.identifier}}"> edit</a> </td> 
+	  				</tr> 
+</script>
+
+
 <script type="text/liquid" id="gameobject_class_template">
 	<h1>{{name}}</h1>
 
@@ -97,13 +107,8 @@
 	  			</thead> 
 	  			<tbody> 
 		  			{% for property in properties %}
-	  				<tr data-identifier='{{property.identifier}}'> 
-	  					<td>{{property.name}}</td> 
-	  					<td class="data-type">{{property.datatype}}</td> 
-	  					<td class="default-value">{{property.default_value}}</td>
-	  					<td class="inherited-from">{{property.inherited_from}}</td> 
-	  					<td class="action"><a href="#" class="edit_propery_link" data-identifier="{{property.identifier}}"> edit</a> </td> 
-	  				</tr> 
+			  			{% include 'property_row_template'  %}
+
 	  				{% endfor %}
 
 
