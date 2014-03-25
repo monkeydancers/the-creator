@@ -1,8 +1,8 @@
 json.list 						false
-json.class_path 			"fetto"
+json.class_path 				""
 json.name 						@object.name
-json.identifier				@object.identifier
-json.description	 		@object.description
+json.identifier					@object.identifier
+json.description	 			@object.description
 json.properties(@object.properties) do |property|
 	json.name 						property.name
 	json.current_value		property.value_description

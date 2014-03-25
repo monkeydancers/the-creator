@@ -8,7 +8,35 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require jquery.miller
-
-
  */
+
+
+ .headerblock {
+ 	background-color: #868680; 
+ 	border-bottom: 1px solid #51534f; 
+ 	padding: 20px 20px; 
+ 	position: relative;
+ }
+
+ .headerblock .text-container {
+ 	min-width: 300px; 
+ 	width: 40%; 
+ 	margin: 20px 0px 50px 30px; 
+ 	color: #51534f;
+ }
+
+ .headerblock .login-box {
+ 	position: absolute; 
+ 	top: 100%; 
+	left: 20px;
+	margin: -50px 0px 0px 0px;
+ 	background-color: #51534f; 
+ 	border-radius: 10px; 
+ 	width: 250px; 
+ 	padding: 20px; 
+ 	text-align: center;
+ }
+
+ .headerblock .login-box input[type=text], input[type=password] {
+ 	margin-bottom: 5px;
+ }

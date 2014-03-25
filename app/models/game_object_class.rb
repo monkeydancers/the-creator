@@ -8,6 +8,9 @@ class GameObjectClass < ActiveRecord::Base
 	belongs_to :game
 	has_many :game_objects, :foreign_key => 'object_class_id'
 
+	validates :game, presence: true
+	
+
 	def property_list(opts = {:inherited => false})
 		opts = {:list => []}.merge(opts)
 		unless opts[:inherited]
@@ -53,7 +56,7 @@ class GameObjectClass < ActiveRecord::Base
 
 	def as_tree
 		return {
-			:id 			=> self.id, 
+			:id 		=> self.identifier, 
 			:name 		=> self.name, 
 			:info 		=> {:objects => 20, :identifier => self.identifier}, 
 			:children => self.children.map(&:as_tree)

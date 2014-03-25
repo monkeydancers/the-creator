@@ -1,0 +1,161 @@
+<div class="tree-viewer" style="">
+		<div class="row tree-viewer-tree" id="miller">
+
+		</div> 
+	</div> 
+
+
+	<div class="configure-container">
+		Select a class to edit it	
+	</div>
+
+
+<script type="text/liquid" id="new_property_template">
+	<div class="popin" >
+		<div class="close"></div>
+
+		<div class="edit-property-popin">
+			<form>
+				<h2>{{ name or 'New Property'}}</h2>
+				<input type="text" value="{{name}}" placeholder="Property Name" class="property-name-field"/><br />
+				{% if datatype && datatype != ''  %}
+					<h3>Datatype: {{datatype}}</h3>
+				{% else %}
+				<select class="property-datatype-field" >
+					<option value="" disabled {% if datatype == '' %}selected{% endif %} >Datatype</option>
+					<option value="numeric" {% if datatype == 'numeric' %}selected{% endif %}>Numeric</option>
+					<option value="string" {% if datatype == 'string' %}selected{% endif %}>String</option>
+					<option value="object" {% if datatype == 'object' %}selected{% endif %}>Object</option>
+					<option value="multi_object" {% if datatype == 'multi_object' %}selected{% endif %} >Objects</option>
+
+				</select> 
+				{% endif %}
+				<br />
+				<input type="hidden" value="{{identifier}}" class="property-identifier-field"/>
+				<input type="text" value="{{default}}" placeholder="Default Value" class="default-value property-default-field"/><br />
+				<div class="button-group">
+					<button type="button" class="btn btn-default btn-sm delete-property-button"> {% if name %} Delete {% else %} Cancel {% endif %}</button> 
+					 or
+					<button type="button" class="btn btn-default btn-sm save-property-button">Save (&crarr;)</button>
+				</div> 
+			</form>
+		</div>
+	</div>
+</script>
+
+
+
+<script type="text/liquid" id="new_subclass_template">
+
+	<div class="popin" style="display: block;">
+	  	<div class="close"></div>
+
+		<div class="new-subclass-popin" style="display: block;">
+
+			<form>
+			<h2>New Subclass</h2>
+			<input type="text" value="" placeholder="Subclass Name" class="subclass-name"/><br />
+
+
+
+			<div class="button-group">
+				<button type="button" class="btn btn-default btn-sm create-subclass-button">Save (&crarr;)</button>
+			</div> 
+			</form>
+		</div>
+	</div>
+</script>
+
+<script type="text/liquid" id="gameobject_class_row_template">
+	<tr data-identifier="{{subclass.identifier}}"> 
+		<td>{{subclass.name}}</td> 
+		<td class="action"><a href="#" class="show-subclass-link">  Show &rarr; </a> </td>
+	</tr> 
+</script>
+
+
+<script type="text/liquid" id="property_row_template">
+  				<tr data-identifier='{{property.identifier}}' id="{{property.identifier}}"> 
+	  					<td class="name">{{property.name}}</td> 
+	  					<td class="data-type">{{property.datatype}}</td> 
+	  					<td class="default-value">{{property.default_value}}</td>
+	  					<td class="inherited-from">{{property.inherited_from}}</td> 
+	  					<td class="action"><a href="#" class="edit_propery_link" data-identifier="{{property.identifier}}"> edit</a> </td> 
+	  				</tr> 
+</script>
+
+
+<script type="text/liquid" id="gameobject_class_template">
+	<h1>{{name}}</h1>
+
+	<div class="row">
+
+		<div class="col-md-4 goc-properties">
+
+	  		<h3 > Properties </h3>
+	  		<table class="property-table"> 
+	  			<thead> 
+	  				<tr> 
+	  					<th>Property</th> 
+	  					<th>Datatype</th> 
+	  					<th>Default Value</th> 
+	  					<th>Inherited from</th> 
+	  					<th></th> 
+
+
+	  				</tr> 
+	  			</thead> 
+	  			<tbody> 
+		  			{% for property in properties %}
+			  			{% include 'property_row_template'  %}
+
+	  				{% endfor %}
+
+
+	  			</tbody> 
+	  			<tfoot>
+	  				<tr>
+	  					<td colspan="5" >   <button type="button" class="btn btn-default btn-sm add-property-button">Add Property</button> </td>
+	  				</tr>	
+	  			</tfoot>
+	  		</table>
+	  	</div>
+	  	<div class="col-md-4">
+	  	<h3> Subclasses </h3>
+
+	  	<table class="subclasses-table"> 
+	  			<thead> 
+	  				<tr> 
+	  					<th>Name</th> 
+	  					<th>Action</th> 
+	  				</tr> 
+	  			</thead> 
+	  			<tbody> 
+	  				{% if subclasses == empty%}
+	  					<tr class="empty-subclasses-placeholder"> 
+		  					<td><i>No subclasses</i></td> 
+		  					<td class="action"> </td>
+		  				</tr> 
+	  				{% endif %}
+	  				{% for subclass in subclasses %}
+			  			{% include 'gameobject_class_row_template'  %}
+	  				{% endfor %}
+	  			</tbody> 
+	  			<tfoot>
+	  				<tr>
+	  					<td colspan="5" >  <button type="button" class="btn btn-default btn-sm  add-subclass-button">Add Subclass</button> </td>
+	  				</tr>	
+	  			</tfoot>
+	  		</table>
+
+
+		</div>
+		<div class="col-md-4">
+			<h3> Extensions </h3>
+
+			???
+
+		</div>
+  	</div>
+</script>
+
