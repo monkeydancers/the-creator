@@ -38,7 +38,8 @@ window.event_center = Object.create({
 	_fire: function(e, payload){
 		var e_name = e.type+"."+e.namespace;
 		_.each(this.callbacks[e_name], function(func, idx){
-			func(payload.identifier, payload.data); 
+			var selector = "[data-identifier='"+payload.identifier+"']"; 
+			func(payload.identifier, payload.data, selector); 
 		});
 	}
 }).init(); 

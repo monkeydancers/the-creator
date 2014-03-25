@@ -173,21 +173,21 @@ window.game_objects_collection = Object.create({
 	},
 	init: function(game_objects, container, ws_manager, options){ 
 		var _t            				= this;
-    	_t.selection						= [];
-    	_t.opts  								= options
+		_t.selection						= [];
+		_t.opts  								= options
 
-    	_t.container 	  				= container;
-    	_t.ws_manager						= ws_manager;
+		_t.container 	  				= container;
+		_t.ws_manager						= ws_manager;
 
-    	_t.game_objects 				= game_objects;
+		_t.game_objects 				= game_objects;
 
-    	_t.identifier 					= game_objects.identifier;
-    	_t.num_objects 					= game_objects.num_game_objects;
+		_t.identifier 					= game_objects.identifier;
+		_t.num_objects 					= game_objects.num_game_objects;
 
-    	_t.current_page 				= 1;
+		_t.current_page 				= 1;
 
-    	_t.object_counter_elm 	= _t.container.find(".objects-selected-in-list");
-    	_t.pagination_elm				= _t.container.find(".col-pagination");
+		_t.object_counter_elm 	= _t.container.find(".objects-selected-in-list");
+		_t.pagination_elm				= _t.container.find(".col-pagination");
 
 
     	// Add drag drop
@@ -205,7 +205,7 @@ window.game_objects_collection = Object.create({
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
 
-		_t.container.find('.delete-selected-button').on('click.creator',  function(){
+    	_t.container.find('.delete-selected-button').on('click.creator',  function(){
     		_t._delete_selected_items.apply(_t, [])
     	});
 
@@ -243,6 +243,11 @@ window.game_object = Object.create({
 			_t._open_more_actions_popover.apply(_t, [])
 		});
 
+		// Register this for de-registration once we close it
+		window.event_center.on('update', 'object', function(identifier, data, selector){
+			console.log(selector);
+			_t.container.find(selector).find("."+data.key).html(data.value);
+		});
 
 		_t.container.find( ".go-draghandle").each(function(idx, el){
 			var _e = $(el);
@@ -399,7 +404,7 @@ window.workspaces = Object.create({
 	render_game_objects_collection: function(container, gameobjects){
 		var _t = this;
 		gameobjects = _t.prepare_gameobjects(gameobjects, 1);
-		
+
 		// Perhaps some effect should be used to indicate interaction?
 		var tmpl = $(_t.templates['game_objects_collection_in_ws'].render(gameobjects));
 		Object.create(window.game_objects_collection).init(gameobjects, tmpl, this, _t.opts['gameobjects_collection']);
@@ -428,12 +433,12 @@ window.workspaces = Object.create({
 		console.log(container);
 
 //		_t.search 	= Object.create(window.game_object_search).init(container, callback);
-	},
-	init: function(options){ 
-		var _t           			= this;
-		_t.workspaces	 			= [];
-		_t.opts 					= {};
-		_t.workspace_selector 		= $(".open-in");
+},
+init: function(options){ 
+	var _t           			= this;
+	_t.workspaces	 			= [];
+	_t.opts 					= {};
+	_t.workspace_selector 		= $(".open-in");
 
 	
 

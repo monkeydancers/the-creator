@@ -15,14 +15,14 @@ window.editable = Object.create({
 		// Here, register for updates pertaining to the edit-box currently displayed, 
 		// thus - only being responsible for the content contained here-in.
 
-		// Extend this to only manipulate values within this element
+		// Register this to the de-registed once we close the popin!
 		if(data.attribute){
-			window.event_center.on('update', 'object', function(identifier, data){
-				$("[data-identifier='"+identifier.identifier+"']").find('.' + data.key).html(data.value);
+			window.event_center.on('update', 'object', function(identifier, data, selector){
+				_t.popin.find(selector).find('.' + data.key).html(data.value);
 			});
 		}else{
-			window.event_center.on('update', 'property', function(identifier, data){
-				$("[data-identifier='"+identifier.identifier+"']").html(data.value);
+			window.event_center.on('update', 'property', function(identifier, data, selector){
+				_t.popin.find(selector).html(data.value);
 			});
 		}		
 
