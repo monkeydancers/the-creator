@@ -92,7 +92,7 @@ window.editable = Object.create({
 			this.popin.find('.save-btn').off('click');
 			// Add animations to edit here...
 			this.popin.remove();
-			this.popin = null;
+		//	this.popin = null;
 		}
 	},
 
@@ -105,7 +105,6 @@ window.editable = Object.create({
 			authenticity_token: authToken()
 		};
 
-		console.log(data);
 
 		$.ajax({
 			url: (data.attribute ? '/create' : '/create/property'), 
