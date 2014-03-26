@@ -25,7 +25,7 @@ class MultiObjectProperty < PropertyProxy
 	end
 
 	# This can be optimized!
-	def value_description(regular)
+	def value_description(regular = true)
 		if regular
 			return "#{value.nil? ? 0 : value.length} objects"
 		else
@@ -66,7 +66,7 @@ class MultiObjectProperty < PropertyProxy
 		elsif scope == 'all'
 			@value = []
 		end
-		return true
+		return {:error => false, :payload => {:error => false, :description => value_description(true), :object_type => "property"}}
 	end
 
 	private 

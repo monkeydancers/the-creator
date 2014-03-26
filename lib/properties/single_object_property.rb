@@ -19,7 +19,7 @@ class SingleObjectProperty < PropertyProxy
 		@default_value_object ||= GameObject.where(["identifier = ?", @default_value]).first
 	end
 
-	def value_description(regular)
+	def value_description(regular = true)
 		if regular
 			return value.nil? ? 'No object' : value.name
 		else
@@ -50,7 +50,7 @@ class SingleObjectProperty < PropertyProxy
 
 	def handle_removal(scope)
 		@value = []
-		return true
+		return {:error => false, :payload => {:description => value_description(true), :error => false, :object_type => "property"}}
 	end
 
 	private

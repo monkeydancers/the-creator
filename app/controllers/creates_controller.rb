@@ -48,13 +48,16 @@ class CreatesController < ApplicationController
 		end
 	end
 
+	# Update this to provide a per-object payload which can be used to identify stuff
+	# on client-side. 
 	def remove
 		@object = @active_game.resolve_identifier(params[:identifier])
 		respond_to do |format|
-			if @object && @object.handle_removal(params[:scope])
-				format.json{ render :text => {:error => false}.to_json, :status => 200 }
+			result = @object.handle_removal(params[:scope])
+			if @object && !result[:error]
+				format.json{ render :text => result[:payload].to_json, :status => 200 }
 			else
-				format.json{ render :text => {:error => true}.to_json, :status => 500 }
+				format.json{ render :text => result[:payload].to_json, :status => 500 }
 			end
 		end
 	end

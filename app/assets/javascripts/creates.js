@@ -55,10 +55,10 @@ $(document).ready(function() {
 		})
 
 		// Close button on all popin
-		$("body").on('click.creator', '.popin .close',  function(){ 
-			console.log("close");
-			$(this).parent('.popin').css({'display': 'none'});
-		});
+		// $("body").on('click.creator', '.popin .close',  function(){ 
+		// 	console.log("close");
+		// 	$(this).parent('.popin').css({'display': 'none'});
+		// });
 		
 		// Add new object
 		$('body').on('click.creator', '.new_object_button', function(e){

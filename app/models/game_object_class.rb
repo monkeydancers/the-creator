@@ -74,10 +74,12 @@ class GameObjectClass < ActiveRecord::Base
 
 	def handle_removal(scope)
 		if scope == "all"
-			self.game.game_objects.destroy_all
+			result = self.game.game_objects.destroy_all
 		else
-			self.game.game_objects.where(["identifier in (?)", scope]).destroy_all
+			result = self.game.game_objects.where(["identifier in (?)", scope]).destroy_all
 		end
+		logger.info result.inspect
+		return {:error => !result, :payload => {:error => !result, :object_type => "object"}}
 	end
 
 

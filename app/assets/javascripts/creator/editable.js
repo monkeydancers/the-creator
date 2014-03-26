@@ -1,7 +1,8 @@
 window.editable = Object.create({
 	_edit_clicked: function(index, trigger_element){
-		var _t 			= this;
-		var edit_entry 	= $(trigger_element);
+		var _t 							= this;
+		_t._event_binds		= []; 
+		var edit_entry 			= $(trigger_element);
 
 		var data = {
 			'header' 			: 	'Editing ' + edit_entry.data('key'),
@@ -17,13 +18,20 @@ window.editable = Object.create({
 
 		// Register this to the de-registed once we close the popin!
 		if(data.attribute){
-			window.event_center.on('update', 'object', function(identifier, data, selector){
+			this._event_binds.push(window.event_center.on('update', 'object', function(identifier, data, selector){
 				_t.popin.find(selector).find('.' + data.key).html(data.value);
-			});
+			}));
 		}else{
-			window.event_center.on('update', 'property', function(identifier, data, selector){
+			this._event_binds.push(window.event_center.on('update', 'property', function(identifier, data, selector){
 				_t.popin.find(selector).html(data.value);
-			});
+			}));
+
+			this._event_binds.push(window.event_center.on('delete', 'property', function(identifier, data, selector){
+				_root = _t.popin.find(selector); 
+				_.each(data.selection, function(el, ind){
+					_root.find('[data-identifier="'+el+'"]').remove(); 
+				});
+			}));
 		}		
 
 		// If we need to load the value from the server, render the popin
@@ -82,6 +90,10 @@ window.editable = Object.create({
 				_t.save.apply(_t, [data, _t.popin.find('.property-edit-field').val()]);
 			}
 		});
+
+		this.popin.find('.close').on('click', function(){
+			_t.hide_edit.apply(_t); 
+		});
 		callback(popin);
 		return popin; 
 	},
@@ -93,6 +105,9 @@ window.editable = Object.create({
 			// Add animations to edit here...
 			this.popin.remove();
 		//	this.popin = null;
+			$.each(this._event_binds, function(idx, el){
+				window.event_center.off(el); 
+			});
 		}
 	},
 

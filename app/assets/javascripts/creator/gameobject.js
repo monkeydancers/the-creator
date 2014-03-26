@@ -75,8 +75,6 @@ window.game_objects_collection = Object.create({
 			_t.selection.splice(_t.selection.indexOf(row.data('identifier')), 1);;
 		}
 		_t.object_counter_elm.html(_t.selection.length);
-
-		console.log(_t.selection);
 	},
 	_pagination_clicked: function(number_elm){
 		var _t = this;
@@ -90,7 +88,6 @@ window.game_objects_collection = Object.create({
 		_t._render_new_page(_t.game_objects);
 
 	},
-
 	_render_new_page: function(gameobjects){
 		var _t = this;
 		_t.ws_manager.render_gameobjects_collection_page(_t.container.find('tbody'), _t.pagination_elm, _t.current_page,  gameobjects);
@@ -153,25 +150,18 @@ window.game_objects_collection = Object.create({
 			dataType: 'json', 
 			data: {identifier: _t.game_objects.identifier, scope: _t.selection, authenticity_token: authToken()}, 
 			success: function(data){
-				console.log(data);
-				console.log(_t);
-				// Hmm - thought. What if each component registers itself with a central event point
-				// for object removal on render, and then listens to that for object deletion requests? 
-				// This could be abstracted for editing and similar as well? .daniel
-				if(_t.selection){
-					var _root = $('[data-identifier="'+_t.game_objects.identifier+'"]');
-					_.each(_t.selection, function(el, ind){
-						// This is the place to trigger custom events for object removal if wanted...
-						_root.find('[data-identifier="'+el+'"]').remove();
-					});
-				}else{
-					console.log("unknown delete context");
-				}
+				$(document).trigger('delete.'+data.object_type, [{
+					identifier: _t.game_objects.identifier, 
+					data: {
+						value: data.description, 
+						selection: _t.selection
+					}
+				}]);				
 			}, 
 			error: function(){
 				console.log(arguments);
 			}
-		})
+		});
 	},
 	init: function(game_objects, container, ws_manager, options){ 
 		var _t            				= this;
@@ -202,6 +192,14 @@ window.game_objects_collection = Object.create({
     			$(ui.helper).data('identifier', {identifier: _t.game_objects.identifier, scope:_t.selection});
     		}
     	});
+
+			window.event_center.on('delete', 'object', function(identifier, data, selector){
+				_t.game_objects.game_objects_list = _.reject(_t.game_objects.game_objects_list, function(el, idx){
+					return data.selection.indexOf(el.identifier) > -1
+				});
+				_t.game_objects.num_game_objects = _t.game_objects.game_objects_list.length;
+				_t._render_new_page(_t.game_objects); 
+			});
 
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
@@ -251,6 +249,11 @@ window.game_object = Object.create({
 			console.log(arguments);
 			_t.container.find(selector).html(data.value);
 		});
+
+		window.event_center.on('delete', 'property', function(identifier, data, selector){
+			_t.container.find('.content').find(selector).html(data.value); 
+		});
+
 
 		_t.container.find( ".go-draghandle").each(function(idx, el){
 			var _e = $(el);

@@ -24,10 +24,13 @@ window.event_center = Object.create({
 	}, 
 	off: function(timekey){
 		var callback = this.lookups[timekey]; 
+		console.log(callback); 
 		if(callback){
+			console.log(this.callbacks[callback.event]);
 			this.callbacks[callback.event] = _.reject(this.callbacks[callback.event], function(el, idx){
 				return el.callback == callback
 			});
+			console.log(this.callbacks[callback.event]);
 			if(this.callbacks[callback.event].length <= 0){
 				$(document).off(callback.event_name);
 			}
