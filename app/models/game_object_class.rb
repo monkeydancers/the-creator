@@ -84,6 +84,8 @@ class GameObjectClass < ActiveRecord::Base
 
 	private
 
+	# Add comments here for nested set architecture here...
+
 	def rebuild_nested_sets_after_destroy
 		if parent_id
 			root.send(:rebuild_nested_sets)
