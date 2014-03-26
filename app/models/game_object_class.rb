@@ -53,7 +53,7 @@ class GameObjectClass < ActiveRecord::Base
 		return {
 			:id 				=> self.identifier, 
 			:name 			=> self.name, 
-			:info 			=> {:objects => 20, :identifier => self.identifier}, 
+			:info 			=> {:objects => full_stack_child_count, :identifier => self.identifier}, 
 			:children 	=> self.children.map(&:as_tree)
 		}
 	end
@@ -80,6 +80,10 @@ class GameObjectClass < ActiveRecord::Base
 
 	def subtree
 		return self.game.game_object_classes.where(["lft > ? and rgt < ? and parent_key = ?", self.lft, self.rgt, self.parent_key])
+	end
+
+	def full_stack_child_count
+		GameObject.count_by_sql(["select count(*) from game_objects where object_class_id in (select id from game_object_classes where lft >= ? and rgt <= ? and parent_key = ?);", self.lft, self.rgt, self.parent_key])
 	end
 
 	private
