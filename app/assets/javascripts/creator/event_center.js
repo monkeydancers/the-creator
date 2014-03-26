@@ -41,7 +41,12 @@ window.event_center = Object.create({
 	_fire: function(e, payload){
 		var e_name = e.type+"."+e.namespace;
 		_.each(this.callbacks[e_name], function(func, idx){
-			var selector = "[data-identifier='"+payload.identifier+"']"; 
+			if(typeof(payload.identifier) == "string"){
+				var selector = "[data-identifier='"+payload.identifier+"']"; 				
+			}else{
+				// This is a scoped identifer.
+				var selector = "[data-identifier='"+payload.identifier.identifier+"']"; 
+			}
 			func(payload.identifier, payload.data, selector); 
 		});
 	}

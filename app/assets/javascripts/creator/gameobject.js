@@ -201,6 +201,10 @@ window.game_objects_collection = Object.create({
 				_t._render_new_page(_t.game_objects); 
 			});
 
+			window.event_center.on('update', 'object', function(identifier, data, selector){
+				_t.container.find(selector + " ."+data.key).html(data.value);
+			});
+
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
 
