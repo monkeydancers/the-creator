@@ -105,7 +105,6 @@ window.editable = Object.create({
 			authenticity_token: authToken()
 		};
 
-
 		$.ajax({
 			url: (data.attribute ? '/create' : '/create/property'), 
 			type: (data.attribute ? 'put' : 'post'), 

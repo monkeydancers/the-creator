@@ -153,6 +153,8 @@ window.game_objects_collection = Object.create({
 			dataType: 'json', 
 			data: {identifier: _t.game_objects.identifier, scope: _t.selection, authenticity_token: authToken()}, 
 			success: function(data){
+				console.log(data);
+				console.log(_t);
 				// Hmm - thought. What if each component registers itself with a central event point
 				// for object removal on render, and then listens to that for object deletion requests? 
 				// This could be abstracted for editing and similar as well? .daniel
@@ -198,7 +200,6 @@ window.game_objects_collection = Object.create({
     		zIndex: 1000,
     		start: function(e, ui){
     			$(ui.helper).data('identifier', {identifier: _t.game_objects.identifier, scope:_t.selection});
-
     		}
     	});
 
@@ -208,8 +209,6 @@ window.game_objects_collection = Object.create({
     	_t.container.find('.delete-selected-button').on('click.creator',  function(){
     		_t._delete_selected_items.apply(_t, [])
     	});
-
-
 
     	_t.container.find('.tools .icon.plus').on('click.creator',  function(){
     		_t._open_more_actions_popover.apply(_t, [])
@@ -245,8 +244,12 @@ window.game_object = Object.create({
 
 		// Register this for de-registration once we close it
 		window.event_center.on('update', 'object', function(identifier, data, selector){
-			console.log(selector);
 			_t.container.find(selector).find("."+data.key).html(data.value);
+		});
+
+		window.event_center.on('update', 'property', function(identifier, data, selector){
+			console.log(arguments);
+			_t.container.find(selector).html(data.value);
 		});
 
 		_t.container.find( ".go-draghandle").each(function(idx, el){
