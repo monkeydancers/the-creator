@@ -8,8 +8,7 @@ class GameObjectClass < ActiveRecord::Base
 	belongs_to :game
 	has_many :game_objects, :foreign_key => 'object_class_id'
 
-	validates :game, presence: true
-	
+	validates :game_id, presence: true	
 
 	def property_list(opts = {:inherited => false})
 		opts = {:list => []}.merge(opts)

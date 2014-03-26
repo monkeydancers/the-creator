@@ -6,10 +6,10 @@ class GameObjectTest < ActiveSupport::TestCase
 		setup do
 			@game = Game.create(:name => "Monkey Game")
 
-			@parent_class = GameObjectClass.create(:name => "Ninja")
+			@parent_class = @game.game_object_classes.create(:name => "Ninja")
 			@property1 = @parent_class.properties.create(:name => "Mana", :category => :string, :value => "monkey", :default_value => "laser", :game_id => @game.id)
 
-			@child_class = GameObjectClass.create(:name => "Death Ninja", :parent => @parent_class)
+			@child_class = @game.game_object_classes.create(:name => "Death Ninja", :parent => @parent_class)
 			@property2 = @child_class.properties.create(:name => "Ninja Stars", :category => :numeric, :value => 10, :default_value => 5, :game_id => @game.id)
 		end
 
