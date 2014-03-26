@@ -55,6 +55,12 @@ window.game_objects_collection = Object.create({
 
 		return pages;
 	},
+	cleanup: function(callback){
+		$.each(this._event_binds, function(idx, el){
+			window.event_center.off(el); 
+		});
+		callback(); 
+	},
 
 	// Object methods
 	_open_more_actions_popover: function(){
@@ -168,6 +174,8 @@ window.game_objects_collection = Object.create({
 		_t.selection						= [];
 		_t.opts  								= options
 
+		_t._event_binds 					= []; 
+
 		_t.container 	  				= container;
 		_t.ws_manager						= ws_manager;
 
@@ -193,17 +201,17 @@ window.game_objects_collection = Object.create({
     		}
     	});
 
-			window.event_center.on('delete', 'object', function(identifier, data, selector){
+			_t._event_binds.push(window.event_center.on('delete', 'object', function(identifier, data, selector){
 				_t.game_objects.game_objects_list = _.reject(_t.game_objects.game_objects_list, function(el, idx){
 					return data.selection.indexOf(el.identifier) > -1
 				});
 				_t.game_objects.num_game_objects = _t.game_objects.game_objects_list.length;
 				_t._render_new_page(_t.game_objects); 
-			});
+			}));
 
-			window.event_center.on('update', 'object', function(identifier, data, selector){
+			_t._event_binds.push(window.event_center.on('update', 'object', function(identifier, data, selector){
 				_t.container.find(selector + " ."+data.key).html(data.value);
-			});
+			}));
 
     	_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
 
@@ -234,8 +242,9 @@ window.game_object = Object.create({
 		_t.container.prepend(_t.more_template.render());
 	},
 	init: function(game_object, workspace, ws_manager){ 
-		var _t            	= this;
+		var _t            = this;
 		_t.container 	  	= workspace;
+		_t._event_binds 		= []; 
 		_t.ws_manager 		= ws_manager;
 
 		_t.more_template	= Liquid.parse($('#workspace_more_popin_template').html());
@@ -245,18 +254,18 @@ window.game_object = Object.create({
 		});
 
 		// Register this for de-registration once we close it
-		window.event_center.on('update', 'object', function(identifier, data, selector){
+		_t._event_binds.push(window.event_center.on('update', 'object', function(identifier, data, selector){
 			_t.container.find(selector).find("."+data.key).html(data.value);
-		});
+		}));
 
-		window.event_center.on('update', 'property', function(identifier, data, selector){
+		_t._event_binds.push(window.event_center.on('update', 'property', function(identifier, data, selector){
 			console.log(arguments);
 			_t.container.find(selector).html(data.value);
-		});
+		}));
 
-		window.event_center.on('delete', 'property', function(identifier, data, selector){
+		_t._event_binds.push(window.event_center.on('delete', 'property', function(identifier, data, selector){
 			_t.container.find('.content').find(selector).html(data.value); 
-		});
+		}));
 
 
 		_t.container.find( ".go-draghandle").each(function(idx, el){
@@ -283,6 +292,12 @@ window.game_object = Object.create({
 		_t.editable = Object.create(window.editable).init(_t.container, ws_manager);
 
 		return _t;
+	}, 
+	cleanup: function(callback){
+		$.each(this._event_binds, function(idx, el){
+			window.event_center.off(el); 
+		});
+		callback(); 
 	}
 });
 
@@ -380,7 +395,7 @@ window.workspaces = Object.create({
 
 		_t.occupy(ws);
 
-		Object.create(window.game_object).init(game_object, ws, this);
+		_t._hookup_close_button(ws, Object.create(window.game_object).init(game_object, ws, this));
 	},
 
 	_render_list: function(workspace, gameobjects){ 
@@ -393,7 +408,19 @@ window.workspaces = Object.create({
 
 		_t.occupy(ws);
 
-		_t.render_game_objects_collection(ws, gameobjects);
+		_t._hookup_close_button(ws, _t.render_game_objects_collection(ws, gameobjects));
+	},
+
+	_hookup_close_button: function(ws, object){
+//				$(".work-spaces").on('click.creator', '.tools .icon.x',  this.empty_workspace.bind(this));
+		var _t = this; 
+		ws.find('.tools .icon.x').on('click', function(e){
+			var _event = e; 
+			var cleanup = function(){
+				_t.empty_workspace.apply(_t, [_event]); 
+			}
+			object.cleanup(cleanup);
+		});
 	},
 
 	prepare_gameobjects: function(gameobjects, page){
@@ -409,7 +436,7 @@ window.workspaces = Object.create({
 		gameobjects = _t.prepare_gameobjects(gameobjects, page);
 
 		container.html(_t.templates['game_objects_collection_list'].render(gameobjects));
-		pagination_container.html(_t.templates['game_objects_collection_pagination'].render(gameobjects));
+		pagination_container.html(_t.templates['game_objects_collection_pagination'].render(gameobjects));		
 	},
 	render_game_objects_collection: function(container, gameobjects){
 		var _t = this;
@@ -417,9 +444,10 @@ window.workspaces = Object.create({
 
 		// Perhaps some effect should be used to indicate interaction?
 		var tmpl = $(_t.templates['game_objects_collection_in_ws'].render(gameobjects));
-		Object.create(window.game_objects_collection).init(gameobjects, tmpl, this, _t.opts['gameobjects_collection']);
+		var obj = Object.create(window.game_objects_collection).init(gameobjects, tmpl, this, _t.opts['gameobjects_collection']);
 
 		container.html(tmpl);
+		return obj; 
 	},
 
 	occupy: function(ws){
@@ -465,7 +493,7 @@ init: function(options){
 			}
 		});
 
-		$(".work-spaces").on('click.creator', '.tools .icon.x',  this.empty_workspace.bind(this));
+
 
 		_t.opts['gameobjects_collection'] 	= {};
 
