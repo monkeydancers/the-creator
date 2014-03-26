@@ -13,28 +13,6 @@ window.editable = Object.create({
 			'key'					: 	edit_entry.data('key')
 		}
 
-		// Here, register for updates pertaining to the edit-box currently displayed, 
-		// thus - only being responsible for the content contained here-in.
-
-		// Register this to the de-registed once we close the popin!
-		if(data.attribute){
-			this._event_binds.push(window.event_center.on('update', 'object', function(identifier, data, selector){
-				_t.popin.find(selector).find('.' + data.key).html(data.value);
-			}));
-		}else{
-			this._event_binds.push(window.event_center.on('update', 'property', function(identifier, data, selector){
-				_t.popin.find(selector).html(data.value);
-			}));
-
-			this._event_binds.push(window.event_center.on('delete', 'property', function(identifier, data, selector){
-				console.log("monkey");
-				_root = _t.popin.find(selector); 
-				_.each(data.selection, function(el, ind){
-					_root.find('[data-identifier="'+el+'"]').remove(); 
-				});
-			}));
-		}		
-
 		// If we need to load the value from the server, render the popin
 		// with loading == true, and start loading the data, replace the popin
 		// once loading has completed.
@@ -95,6 +73,29 @@ window.editable = Object.create({
 		this.popin.find('.close').on('click', function(){
 			_t.hide_edit.apply(_t); 
 		});
+
+
+
+		// Register this to the de-registed once we close the popin!
+		if(data.attribute){
+			this._event_binds.push(window.event_center.on('update', 'object', function(identifier, data, selector){
+				_t.popin.find(selector).find('.' + data.key).html(data.value);
+			}));
+		}else{
+			this._event_binds.push(window.event_center.on('update', 'property', function(identifier, data, selector){
+				_t.popin.find(selector).html(data.value);
+			}));
+
+			this._event_binds.push(window.event_center.on('delete', 'property', function(identifier, data, selector){
+				_root = _t.popin.find(selector); 
+				_.each(data.selection, function(el, ind){
+					_root.find('[data-identifier="'+el+'"]').remove(); 
+				});
+			}));
+		}		
+
+
+
 		callback(popin);
 		return popin; 
 	},
