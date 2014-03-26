@@ -27,6 +27,7 @@ window.editable = Object.create({
 			}));
 
 			this._event_binds.push(window.event_center.on('delete', 'property', function(identifier, data, selector){
+				console.log("monkey");
 				_root = _t.popin.find(selector); 
 				_.each(data.selection, function(el, ind){
 					_root.find('[data-identifier="'+el+'"]').remove(); 

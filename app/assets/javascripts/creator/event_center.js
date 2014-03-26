@@ -10,7 +10,7 @@ window.event_center = Object.create({
 		}else{
 			var event_name = e_name;
 		}
-		var time_key = (new Date()).getTime();		
+		var time_key = ((new Date()).getTime())*Math.random();		
 		if(!this.callbacks[event_name]){
 			$(document).on(event_name, this._fire.bind(this)); 
 			this.callbacks[event_name] = [];
@@ -24,13 +24,10 @@ window.event_center = Object.create({
 	}, 
 	off: function(timekey){
 		var callback = this.lookups[timekey]; 
-		console.log(callback); 
 		if(callback){
-			console.log(this.callbacks[callback.event]);
 			this.callbacks[callback.event] = _.reject(this.callbacks[callback.event], function(el, idx){
-				return el.callback == callback
+				return el === callback.callback
 			});
-			console.log(this.callbacks[callback.event]);
 			if(this.callbacks[callback.event].length <= 0){
 				$(document).off(callback.event_name);
 			}
