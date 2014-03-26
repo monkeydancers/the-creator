@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131218110322) do
+ActiveRecord::Schema.define(version: 20140326182133) do
 
   create_table "game_object_classes", force: true do |t|
     t.string   "name"
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(version: 20131218110322) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "identifier"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.string   "parent_key"
   end
 
   create_table "game_objects", force: true do |t|

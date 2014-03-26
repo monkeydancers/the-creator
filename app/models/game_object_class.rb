@@ -3,12 +3,16 @@ class GameObjectClass < ActiveRecord::Base
 	include Identifier
 
 	belongs_to :parent, :class_name => "GameObjectClass"
-	has_many :children, :class_name => "GameObjectClass", :foreign_key => :parent_id
+	has_many :children, :class_name => "GameObjectClass", :foreign_key => :parent_id, :dependent => :destroy
 	has_many :properties, :as => :owner
 	belongs_to :game
 	has_many :game_objects, :foreign_key => 'object_class_id'
 
 	validates :game_id, presence: true	
+
+	before_create :set_parent_key
+	after_commit :rebuild_nested_sets, :on => :create
+	after_commit :rebuild_nested_sets_after_destroy, :on => :destroy
 
 	def property_list(opts = {:inherited => false})
 		opts = {:list => []}.merge(opts)
@@ -37,14 +41,6 @@ class GameObjectClass < ActiveRecord::Base
 		list
 	end
 
-	def generate_as_lua
-		parent_name = (parent ? parent.name : 'GameObjectClass')
-		a = %{
-			#{name} = utils.makeClass(#{parent_name})
-			#{name}.id = #{id}
-		}
-	end
-
 	def descendants(data = [])		
 		if self.children.count > 0
 			return {:klazz => self, :children => self.children.map{|c| c.descendants }}
@@ -55,10 +51,10 @@ class GameObjectClass < ActiveRecord::Base
 
 	def as_tree
 		return {
-			:id 		=> self.identifier, 
-			:name 		=> self.name, 
-			:info 		=> {:objects => 20, :identifier => self.identifier}, 
-			:children => self.children.map(&:as_tree)
+			:id 				=> self.identifier, 
+			:name 			=> self.name, 
+			:info 			=> {:objects => 20, :identifier => self.identifier}, 
+			:children 	=> self.children.map(&:as_tree)
 		}
 	end
 
@@ -82,5 +78,43 @@ class GameObjectClass < ActiveRecord::Base
 		return {:error => !result, :payload => {:error => !result, :object_type => "object"}}
 	end
 
+	def subtree
+		return self.game.game_object_classes.where(["lft > ? and rgt < ? and parent_key = ?", self.lft, self.rgt, self.parent_key])
+	end
+
+	private
+
+	def rebuild_nested_sets_after_destroy
+		if parent_id
+			root.send(:rebuild_nested_sets)
+		end
+	end
+
+	# Rebuild the nested sets used for tree-traversal
+	def rebuild_nested_sets
+		root.send(:perform_tree_rebuild, root.id, 0)
+	end
+
+	def perform_tree_rebuild(parent_id, left)
+		object = self.game.game_object_classes.where(["id = ?", parent_id]).first
+		right = left + 1
+		object.children.each do |child|
+			right = perform_tree_rebuild(child.id, right)
+		end
+		err = object.update_attributes({:lft => left, :rgt => right})
+		return right + 1
+	end
+
+	def root
+		current = self
+		while GameObjectClass.exists?(["id = ? and game_id = ?", current.parent_id, current.game_id]) && !current.parent_id.nil? 
+			current = GameObjectClass.where(["id = ? and game_id = ?", current.parent_id, current.game_id]).first
+		end
+		current
+	end
+
+	def set_parent_key
+		self.parent_key = root.identifier
+	end
 
 end
