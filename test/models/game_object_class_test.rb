@@ -59,4 +59,57 @@ class GameObjectClassTest < ActiveSupport::TestCase
 		end
 	end
 
+	context "When creating game object classes, the nested set model" do 
+		setup do 
+			@game = Game.create(:name => "Test Game")			
+		end
+
+		should 'properly handle root classes' do 
+			klazz = @game.game_object_classes.create(:name => "Hero")
+			assert_nil klazz.lft
+			assert_nil klazz.rgt
+		end
+
+		should 'properly handle class creation' do 
+			klazz 		= GameObjectClass.create(:name => "Hero", :game => @game)
+			subklazz 	= klazz.children.create(:name => "Knight", :game => @game)
+			klazz.reload
+			subklazz.reload
+			assert_equal klazz.lft, 0
+			assert_equal klazz.rgt, 3
+			assert_equal subklazz.lft, 1
+			assert_equal subklazz.rgt, 2
+		end
+
+		should 'handle N-level deep nesting of classes' do 
+			root = @game.game_object_classes.create(:name => "Villain", :game => @game)
+			subklazz1 = root.children.create(:name => "Ninja", :game => @game)
+			subklazz2 = subklazz1.children.create(:name => "Foot Clan", :game => @game)
+			[root, subklazz1, subklazz2].each{|gc| gc.reload }
+			assert_equal root.lft, 0
+			assert_equal root.rgt, 5
+			assert_equal subklazz2.lft, 2
+			assert_equal subklazz2.rgt, 3
+			assert_equal subklazz1.lft, 1
+			assert_equal subklazz1.rgt, 4
+		end
+
+		should 'provide efficient tree-based children-count' do 
+			root = @game.game_object_classes.create(:name => "Villain", :game => @game)
+			subklazz1 = root.children.create(:name => "Ninja", :game => @game)
+			subklazz2 = subklazz1.children.create(:name => "Foot Clan", :game => @game)
+			[root, subklazz1, subklazz2].each{|gc| gc.reload }
+
+			root.game_objects.create(:name => "The Joker", :game => @game)
+			subklazz1.game_objects.create(:name => "Shinobin", :game => @game)
+			subklazz1.game_objects.create(:name => "Ninja #2", :game => @game)
+			subklazz2.game_objects.create(:name => "Foot Clan 1", :game => @game)
+
+			assert_equal root.full_stack_child_count, 4
+			assert_equal subklazz1.full_stack_child_count, 3
+			assert_equal subklazz2.full_stack_child_count, 1
+		end
+
+	end
+
 end

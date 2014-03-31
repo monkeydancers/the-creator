@@ -21,6 +21,7 @@ gem 'awesome_print'
 group :test do 
 	gem 'shoulda-context'
 	gem 'fakeredis'
+	gem 'test_after_commit'
 end
 
 group :doc do

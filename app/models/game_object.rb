@@ -2,6 +2,7 @@ class GameObject < ActiveRecord::Base
 	include Identifier
 
 	belongs_to :object_class, :class_name => "GameObjectClass"
+	belongs_to :game
 	has_many :properties, :as => :owner, :autosave => true
 
 	validates :game_id, :presence => true
