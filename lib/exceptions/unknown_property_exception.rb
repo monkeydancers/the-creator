@@ -1,0 +1,1 @@
+class UnknownPropertyException < Exception; end; 

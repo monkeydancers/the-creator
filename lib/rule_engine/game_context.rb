@@ -12,15 +12,18 @@
 # Class-based methods on GameObjectClass are added as constructor-functions, keyed to class-name. These
 # are then invoked on the fly when accessing a class. This means that no methods not explicitly added to the 
 # available scope is accessible from within the rule-context.
+#
+# This class should not be used for anything outside the context provided by the Engine-class, since it performs
+# some scope-related magic to present a proper Slate for V8 to use.
 class GameContext
 
 	def initialize(game=nil)
 		@game = game	
 		class_list = game.game_object_classes.to_a
 		slate_class = Class.new do 
-			def log(*tmp)
+			def log(*args)
 #				$redis.set("monkey-log", tmp)
-				puts tmp.inspect
+				puts args.inspect
 				true
 			end
 		end
@@ -83,7 +86,13 @@ class GameContext
 		def [](name)
 			property = @object.properties.where(["name = ?", name]).first
 			if property
-				return property.value_description
+				if property.is_single_object?
+					return GameContext::GameObjectProxy.new(property.value)
+				elsif property.is_multi_object?
+					return GameContext::ObjectPropertyProxy.new(property)
+				else
+					return property.value
+				end
 			else
 				return nil
 			end
@@ -95,9 +104,5 @@ class GameContext
 	end
 
 	private 
-
-	def setup(game)
-		@game = game
-	end
 
 end
