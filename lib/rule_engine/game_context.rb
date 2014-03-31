@@ -1,3 +1,4 @@
+#coding:utf-8
 # @author buffpojken
 # @api rules
 # This class provides the global scope for the V8-context running rules for a particular game.
@@ -81,6 +82,20 @@ class GameContext
 		def save
 			@object.save
 			@object.reload
+		end
+
+		def []=(name, value)
+			property = @object.properties.where(["LOWER(name) = ?", name.downcase]).first
+			if property
+				if property.is_object_property?
+					raise IncompatiblePropertyOperation.new("Object-properties can't be directly assigned, use push, set or +.")
+				else
+					property.value = value
+					property.save
+				end
+			else
+				return nil
+			end
 		end
 
 		def [](name)

@@ -100,6 +100,10 @@ class Property < ActiveRecord::Base
 
 	# Identifier methods
 
+	def is_object_property?
+		is_multi_object? || is_single_object?
+	end
+
 	def is_multi_object? 
 		return category.to_s.eql?('multi_object')
 	end
