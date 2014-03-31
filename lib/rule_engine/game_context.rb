@@ -36,21 +36,25 @@ class GameContext
 		end
 
 		def find(id)
-			GameContext::GameObjectProxy.new(id)
+			goc = GameObject.find(id)
+			GameContext::GameObjectProxy.new(goc)
 		end
 	end
 
 	class GameObjectProxy
-		def initialize(this)
+		def initialize(object)
+			@object = object
 			self
 		end
 		def hugo
 			return "troll"
 		end
 		def name
-			return "Sherlock"
+			return @object.name
 		end
-
+		def identifier
+			return @object.identifier
+		end
 	end
 
 	private 
