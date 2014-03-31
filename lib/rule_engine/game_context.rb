@@ -87,7 +87,7 @@ class GameContext
 			property = @object.properties.where(["name = ?", name]).first
 			if property
 				if property.is_single_object?
-					return GameContext::GameObjectProxy.new(property.value)
+					return GameContext::ObjectPropertyProxy.new(property)
 				elsif property.is_multi_object?
 					return GameContext::ObjectPropertyProxy.new(property)
 				else
