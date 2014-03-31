@@ -27,7 +27,8 @@ class GameContext
 
 		def remove(obj)
 			if @multi
-				@prop_object.handle_removal([obj.identifier])
+				data = obj == 'all' ? obj : [obj.identifier]
+				@prop_object.handle_removal(data)
 #				@prop_object.value = @prop_object.value.delete_if{|object| object.identifier == obj.identifier }
 			else
 				@prop_object.value = nil

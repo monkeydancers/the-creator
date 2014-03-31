@@ -84,7 +84,7 @@ class GameContext
 		end
 
 		def [](name)
-			property = @object.properties.where(["name = ?", name]).first
+			property = @object.properties.where(["LOWER(name) = ?", name.downcase]).first
 			if property
 				if property.is_single_object?
 					return GameContext::ObjectPropertyProxy.new(property)
