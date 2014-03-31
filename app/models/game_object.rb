@@ -11,23 +11,6 @@ class GameObject < ActiveRecord::Base
 
 	EDITABLE_ATTRIBUTES = ["name", "description"]
 
-	def to_lua
-		{
-			'name' 				=> name, 
-			'id' 					=> id, 
-			'properties'	=> [
-				{
-					'id' 		=> 1,
-					'name' 	=> 'monkey_minion'
-				}, 
-				{
-					'id' 		=> 2, 
-					'name'	=> 'monkey_master'
-				}
-			]
-		}
-	end
-
 	def as_list
 		return {
 			:list 						=> false,

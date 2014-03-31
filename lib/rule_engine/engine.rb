@@ -6,7 +6,11 @@ class Engine
 
 	def run(code)
 		@environment ||= setup_environment(@game)
-		@environment.eval(code)
+		begin
+			@environment.eval(code)
+		rescue V8::Error => e
+			puts "Rule Engine Error: #{e.message}"
+		end
 	end
 
 	private 

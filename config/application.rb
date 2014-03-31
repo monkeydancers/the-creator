@@ -16,7 +16,7 @@ module TheCreator
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
-    config.autoload_paths += ['lib/properties', 'lib/object_model', 'lib/rule_engine', 'lib']
+    config.autoload_paths += ['lib/properties', 'lib/rule_engine', 'lib/exceptions', 'lib']
     
     config.i18n.enforce_available_locales = true
 
