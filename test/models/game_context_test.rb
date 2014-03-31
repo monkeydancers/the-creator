@@ -51,6 +51,15 @@ class GameContextTest < ActiveSupport::TestCase
 			assert_equal property.value, 'roligt'
 		end
 
+		should 'not support direct assignment of objects' do 
+			assert_raise V8::Error do 
+				@engine.run(%{
+					ninja = Ninja.find(#{@game_object_1.id}); 
+					ninja.weapon = 'hugo'; 
+				})
+			end
+		end
+
 		should 'support setting single object properties' do 
 			@engine.run(%{
 				spade = Item.find(#{@item1.id}); 

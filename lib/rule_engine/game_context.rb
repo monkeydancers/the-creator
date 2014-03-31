@@ -88,7 +88,7 @@ class GameContext
 			property = @object.properties.where(["LOWER(name) = ?", name.downcase]).first
 			if property
 				if property.is_object_property?
-					raise IncompatiblePropertyOperation.new("Object-properties can't be directly assigned, use push, set or +.")
+					raise IncompatiblePropertyOperationException.new("Object-properties can't be directly assigned, use push, set or +.")
 				else
 					property.value = value
 					property.save
