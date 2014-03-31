@@ -81,7 +81,6 @@ class GameContext
 		end
 
 		def [](name)
-			# Look through properties...
 			property = @object.properties.where(["name = ?", name]).first
 			if property
 				return property.value_description
