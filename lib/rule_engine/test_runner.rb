@@ -1,19 +1,11 @@
 require File.expand_path('../../../config/environment', __FILE__)
-require './engine_context'
+require './game_context'
+require './engine'
 
 
-ctx = EngineContext.new(Game.first)
-
-puts ctx.inspect
+ctx = Engine.new(Game.first)
 
 puts ctx.run %{
-
-	d = Detective:find(1)
-
-	d.name = "Sherlock Holmes"
-
-	print(d)
-
-	d:save()
-
+	d = Detective.find(1)
+	log(d)
 }

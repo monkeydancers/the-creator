@@ -17,6 +17,7 @@ gem 'rufus-lua'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'awesome_print'
+gem 'therubyracer', '0.12.1'
 
 group :test do 
 	gem 'shoulda-context'
