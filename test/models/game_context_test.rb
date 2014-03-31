@@ -40,6 +40,18 @@ class GameContextTest < ActiveSupport::TestCase
 			assert_equal @game_object_1.name, 'Monkey Ninja'
 		end
 
+		should 'support setting string properties' do 
+			property = @game_object_1.properties.where(["parent_id = ?", @property1.id]).first
+			assert_equal property.value_description, 'monkey'
+			@engine.run(%{
+				ninja = Ninja.find(#{@game_object_1.id}); 
+				ninja.mana = "roligt"; 
+				ninja.save(); 
+			})
+			property.reload
+			assert_equal property.value_description, 'roligt'
+		end
+
 		should 'support setting single object properties' do 
 			@engine.run(%{
 				spade = Item.find(#{@item1.id}); 
