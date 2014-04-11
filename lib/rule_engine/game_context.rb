@@ -23,7 +23,6 @@ class GameContext
 		class_list = game.game_object_classes.to_a
 		slate_class = Class.new do 
 			def log(*args)
-#				$redis.set("monkey-log", tmp)
 				puts args.inspect
 				true
 			end
