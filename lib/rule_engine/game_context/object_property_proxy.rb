@@ -19,11 +19,18 @@ class GameContext
 		end
 
 		# This needs to game-scoped!
+		# This needs to handle single-objects!
 		def push(obj)
 			obj = GameObject.where(["identifier = ?", obj.identifier]).first	
 			@prop_object.value = obj
 			@prop_object.save
 		end
+
+		# def add(obj)
+		# 	obj = GameObject.where(["identifier = ?", obj.identifier]).first	
+		# 	@prop_object.value = obj
+		# 	@prop_object.save
+		# end
 
 		def remove(obj)
 			if @multi
@@ -48,6 +55,7 @@ class GameContext
 			@list.length
 		end
 
+		alias_method :add, :push
 	end
 
 end
