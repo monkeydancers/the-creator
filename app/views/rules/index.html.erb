@@ -1,0 +1,78 @@
+<div class="rules">
+
+	<div class="" style="padding:0px;margin:0px;">
+		<div class="rule-list-section">
+			<div class="rule-list-container">
+				<div class="header">
+					<div class="path"> Game Rules </div>
+					<div class="tools"> 
+						<span class="icon plus"> + </span>  
+					</div>
+				</div>
+				<div class="game-object-list" data-identifier="f5a51d2">
+					<table class="gol-table">
+						<thead> 
+						</thead> 
+						<tbody> 
+							<% @rules.each do |rule| %>
+							<tr class="rule_row" data-rule-base-url="<%= rule_path(1) %>"> 
+								<td class="image-col"><img src="" alt="" /></td> 
+								<td class="name-col editable ui-draggable">
+									<span class="name"><%= rule.name %></span>
+									<span class="identifier">#48f3c5e</span></td> 
+									<td class="type-col"></td> 
+								<td class="checkbox-col"><input type="checkbox" value="" /></td> 
+								</tr> 
+							<% end %>
+						</tbody>
+							<tfoot>
+								<tr>
+									<td> </td>
+									<td colspan="2" class="col-pagination"></td>
+									<td></td>
+								</tr>
+							</tfoot>
+						</table>
+						<div style="text-align: right; margin-top: 5px;">
+							<button type="button" class="btn btn-default btn-xs delete-selected-button ">Delete selected	</button>
+						</div>					
+					</div>
+				</div>
+			</div>
+			<div class="rule-editor-section">
+				
+				<div class="empty-editor-notice">
+					Select a rule to the left to begin editing. <br />Changes
+					are saved automatically.
+				</div>
+
+				<div id="editor-injection-point"></div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/html-template" id="rule-popin">
+		<div class="popin">
+			<div class="close"></div>
+			<form>
+			<h2>Add Rule</h2>
+				<input type="text" name="name" placeholder="Rule name" />
+				<button type="button" class="btn btn-default">Save</button> 
+			</form>
+		</div>
+	</script>
+
+	<script type="text/html-template" id="editor-template">
+		<div class="header">
+			<div class="path">Game Rules </div>
+			<div class="tools"> 
+				<span class="icon x"> x </span>  
+			</div>
+		</div>
+		<h1 class="title">{{name}}</h1>
+		<div class="editor-container">
+			<div id="rule-editor">{{code}}</div>
+		</div>
+		<span class="rule-editor-help"></span>
+	</script>

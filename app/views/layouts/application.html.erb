@@ -31,6 +31,9 @@
 				<a href="<%= create_path %>" <% if params[:controller] == 'create'%>class="selected" <% end %>>Create</a> 
 				</li> 
 				<li> 
+					<a href="<%= rules_path %>">Rulebook</a> 
+				</li> 
+				<li> 
 					<a href="">Orchestrate</a> 
 				</li> 
 			</ul> 
@@ -42,9 +45,6 @@
 <%= yield %>
 
 <%= javascript_include_tag "application", controller_name, "data-turbolinks-track" => true %>
-
-
-
 
 </body>
 </html>

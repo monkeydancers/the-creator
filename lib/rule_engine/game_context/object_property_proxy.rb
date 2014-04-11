@@ -26,12 +26,6 @@ class GameContext
 			@prop_object.save
 		end
 
-		# def add(obj)
-		# 	obj = GameObject.where(["identifier = ?", obj.identifier]).first	
-		# 	@prop_object.value = obj
-		# 	@prop_object.save
-		# end
-
 		def remove(obj)
 			if @multi
 				data = obj == 'all' ? obj : [obj.identifier]
