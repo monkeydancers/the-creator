@@ -30,6 +30,16 @@ class GameObjectTest < ActiveSupport::TestCase
 			assert_equal ninja.identifier.length, 7
 		end
 
+		should 'properly set default description if no description is set' do 
+			ninja = @parent_class.game_objects.create(:name => "Ninja", :game_id => @game.id)
+			assert_equal ninja.description, I18n.t('activerecord.models.game_object.defaults.description')
+		end
+
+		should 'not overwrite set descriptions with default data' do 
+			ninja = @parent_class.game_objects.create(:name => "Ninja", :game_id => @game.id, :description => "Trolls live in the forest.")
+			assert_equal ninja.description, "Trolls live in the forest."
+		end
+
 	end
 
 end

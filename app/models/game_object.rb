@@ -8,6 +8,7 @@ class GameObject < ActiveRecord::Base
 	validates :game_id, :presence => true
 
 	before_create :instantiate_property_values
+	before_create :setup_default_description
 
 	EDITABLE_ATTRIBUTES = ["name", "description"]
 
@@ -37,6 +38,10 @@ class GameObject < ActiveRecord::Base
 			p = property.clone
 			self.properties << p 
 		end
+	end
+
+	def setup_default_description
+		self.description = I18n.t('activerecord.models.game_object.defaults.description') if self.description.blank? 
 	end
 
 end

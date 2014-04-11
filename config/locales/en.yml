@@ -21,3 +21,8 @@
 
 en:
   hello: "Hello world"
+  activerecord: 
+    models: 
+      game_object: 
+        defaults:
+          description: "Click to edit description"
