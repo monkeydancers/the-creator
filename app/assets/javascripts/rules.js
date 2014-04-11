@@ -54,6 +54,8 @@ function makeEditor(){
 			this.editor_el.find('.empty-editor-notice').show();
 		},
 		startAutosave: function(){
+			// Here - add hooks to disable autosaving when the entire browser window
+			// is blurred.
 			var _t  = this; 
 			this.savingInterval = setInterval(function(){
 				_t._save();
