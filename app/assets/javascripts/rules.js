@@ -79,7 +79,6 @@ function makeEditor(){
 			this.startAutosave(); 
 		}, 
 		_save: function(){
-			console.log("running save...");
 			var _t = this; 
 			this.help_text.html('Saving...'); 
 			$.ajax({
