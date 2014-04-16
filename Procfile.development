@@ -1,2 +1,3 @@
 web: bundle exec rails s
 redis: redis-server
+sphinx: bundle exec rake thinking_sphinx:run_in_foreground RAILS_ENV=development --trace

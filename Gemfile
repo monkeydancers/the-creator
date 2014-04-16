@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.0'
+gem 'rails', '4.0.0'
 
 gem 'sqlite3'
 gem 'rake', '10.2.2'
@@ -22,7 +22,9 @@ gem 'therubyracer', '0.12.1'
 
 gem 'foreman', '0.63.0', 	group: :development
 gem 'thin', '1.6.2', 			group: :development
-gem 'spring',        			group: :development
+#gem 'spring',        			group: :development
+
+gem 'thinking-sphinx', '~> 3.1.0'
 
 group :test do 
 	gem 'shoulda-context'
