@@ -30,6 +30,7 @@ group :test do
 	gem 'shoulda-context'
 	gem 'fakeredis'
 	gem 'test_after_commit'
+	gem 'mocha', '~> 0.13.0', require: false
 end
 
 group :doc do

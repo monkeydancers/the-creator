@@ -34,4 +34,6 @@ TheCreator::Application.routes.draw do
 
   end
 
+  resource :search, :only => [:create]
+
 end
