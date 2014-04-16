@@ -8,11 +8,11 @@ $(document).ready(function(){
 	window.rule_editor.makeList();
 
 	$(window.rule_editor).on('loading', function(){
-		console.log("monkey");
+
 	});
 
 	$(window.rule_editor).on('complete', function(){
-		console.log("donkey");
+
 	})
 
 })
@@ -47,6 +47,8 @@ function makeEditor(){
 				_p.find('input').focus();
 			});
 
+
+			this.editorOpen 	= false; 
 			this.rule_row_template 		= Liquid.parse($('#rule-row-template').html());
 			this.add_popin_template		= Liquid.parse($('#rule-popin').html()); 
 			this.editor_template 			= Liquid.parse($('#editor-template').html());
@@ -110,6 +112,7 @@ function makeEditor(){
 			this.editor.destroy();
 			this.editor_el.find('#editor-injection-point').empty(); 
 			this.editor_el.find('.empty-editor-notice').show();
+			this.editorOpen = false;
 		},
 		startAutosave: function(){
 			// Here - add hooks to disable autosaving when the entire browser window
@@ -125,6 +128,9 @@ function makeEditor(){
 		_renderEditor: function(rule_def){
 			var _t = this; 
 			var _o = $(this.editor_template.render(rule_def)); 
+			if(_t.editorOpen){
+				_t.close();
+			}
 			this.editor_el.find('.empty-editor-notice').hide(); 			
 			this.editor_el.find('#editor-injection-point').append(_o); 
 			_o.find('.icon').on('click', function(){_t.close.apply(_t)});
@@ -136,6 +142,7 @@ function makeEditor(){
 			this.editor.on('blur', function(){
 				_t._save.apply(_t);
 			});
+			this.editorOpen = true;
 			this.startAutosave(); 
 		}, 
 		_save: function(){
