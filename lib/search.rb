@@ -1,9 +1,9 @@
 class Search
 
-	SEARCHABLE_CLASSES = [
-		GameObject, 
-		GameObjectClass
-	]
+	SEARCHABLE_CLASSES = {
+		'GameObject' => GameObject, 
+		'GameObjectClass' => GameObjectClass
+	}
 
 	def self.perform(params, game_scope)
 		klazz_scope = determine_klazz_scope(params[:scope])
@@ -17,7 +17,7 @@ class Search
 		if scope_definition
 			return Array(scope_definition).map{|name| Search::SEARCHABLE_CLASSES[name] }.reject{|t| t.nil? }
 		else
-			return Search::SEARCHABLE_CLASSES
+			return Search::SEARCHABLE_CLASSES.values
 		end
 	end
 
