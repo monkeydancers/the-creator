@@ -12,17 +12,6 @@ class GameObject < ActiveRecord::Base
 
 	EDITABLE_ATTRIBUTES = ["name", "description"]
 
-	def as_list
-		return {
-			:list 						=> false,
-			:class_path 			=> "fetto", 
-			:name 						=> self.name, 
-			:identifier 			=> self.identifier, 
-			:properties 			=> self.properties.map{|p| {:name => p.name, :current_value => p.value, :default_value => p.default_value, :type => p.type, :identifier => p.identifier } }, 
-			:description 			=> "Lorem ipsum dolor sit amet..."
-		}
-	end
-
 	def update(key, value)
 		if EDITABLE_ATTRIBUTES.include?(key)
 			return self.update_attribute(key.to_sym, value)

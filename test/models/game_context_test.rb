@@ -42,7 +42,7 @@ class GameContextTest < ActiveSupport::TestCase
 
 		should 'support setting string properties' do 
 			property = @game_object_1.properties.where(["parent_id = ?", @property1.id]).first
-			assert_equal property.value, ''
+			assert_equal property.value, 'monkey'
 			@engine.run(%{
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.mana = "roligt"; 
