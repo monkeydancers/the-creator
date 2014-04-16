@@ -14,6 +14,8 @@ class Game < ActiveRecord::Base
 		return data
 	end
 
+	# Extend resolve_identifier to support scoping to a specific set of 
+	# classes.
 	def resolve_identifier(identifier)
 		if self.game_objects.where(["identifier = ?", identifier]).count > 0
 			return self.game_objects.where(["identifier = ?", identifier]).first

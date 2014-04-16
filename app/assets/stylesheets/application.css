@@ -421,9 +421,42 @@
  	margin: 0px;
  	padding: 0px;
  	font-weight: lighter;
- 	margin: 0px 0px 16px 0px;
+ 	margin: 0px 0px 10px 0px;
  	letter-spacing: -2px;
  }
+
+ .rule-editor-section .rule-filter-tools{
+ 		font-family: 'Helvetica Neue', 'Helvetica';
+ 		font-weight: lighter;
+ 		font-size:18px;
+ 		margin:8px 0px 16px 0px;
+ }
+
+ .rule-editor-section .rule-filter-tools span{
+ 	font-weight: lighter;
+ 	display:inline-block;
+ 	cursor: pointer;
+ 	position: relative;
+ 	padding:4px;
+ 	text-decoration: underline;
+ }
+
+ .rule-editor-section .rule-filter-tools span:hover{
+ 	background-color: #e9e9e7;
+ 	border-radius: 10px;
+ }
+
+ .rule-editor-section .rule-filter-tools span:hover:after{
+ 	content: '';
+ 	position: absolute;
+ 	top: 3px;
+ 	right: 5px;
+ 	width: 16px;
+ 	height: 16px;
+ 	background-image: url(/assets/jquery_ui/ui-icons_888888_256x240.png);
+ 	background-position: -64px -112px;
+ }
+
 
  .game-object .title-container{
  	margin-bottom: 16px;
