@@ -36,6 +36,7 @@ class GameObject < ActiveRecord::Base
 	def instantiate_property_values
 		object_class.property_list(:inherited => true).each do |property|
 			p = property.clone
+			p.value = property.value
 			self.properties << p 
 		end
 	end
