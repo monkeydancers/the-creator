@@ -24,10 +24,22 @@ class RulesController < ApplicationController
 		end
 	end
 
+	def create
+		@rule = @active_game.rules.create(rule_params)
+		respond_to do |format|
+			if @rule && @rule.errors.empty? 
+				format.json{ render :action => :show, :status => 200 and return }
+			else
+				format.json{ render :status => 400, :text => {:error => true, :message => @rule.errors.full_messages }.to_json and return }
+			end
+		end
+	end
+
+
 	private 
 
 	def rule_params
-		params.require(:rule).permit(:rule_code)
+		params.require(:rule).permit(:rule_code, :name)
 	end
 
 end

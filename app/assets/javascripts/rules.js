@@ -5,6 +5,7 @@
 
 $(document).ready(function(){
 	window.rule_editor = makeEditor();
+	window.rule_editor.makeList();
 
 	$(window.rule_editor).on('loading', function(){
 		console.log("monkey");
@@ -22,13 +23,70 @@ function makeEditor(){
 			var _t = this; 
 			this.editor_el = editor_el;
 			this.container = el; 
-			this.container.find('.rule_row').on('click', function(e){
+			$(document).on('click', '.rule_row', function(e){
 				var _r = $(e.currentTarget); 
 				_t.loadRule.apply(_t, [_r.attr('data-rule-base-url')]); 
 			});
-			this.editor_template = Liquid.parse($('#editor-template').html());
+			// this.container.find('.rule_row').on('click', function(e){
+			// 	var _r = $(e.currentTarget); 
+			// 	_t.loadRule.apply(_t, [_r.attr('data-rule-base-url')]); 
+			// });
+			
+			this.container.find('.tools .plus').on('click', function(e){
+				var _p = $(_t.add_popin_template.render());
+				_t.container.append(_p); 
+				_p.find('.close').on('click', function(){
+					_t.closePopin.apply(_t);
+				});
+				_p.find('form').on('submit', function(e){
+					e.preventDefault();
+					_t.addRule({
+						name: _p.find('.name-field').val()
+					}); 
+				}); 
+				_p.find('input').focus();
+			});
+
+			this.rule_row_template 		= Liquid.parse($('#rule-row-template').html());
+			this.add_popin_template		= Liquid.parse($('#rule-popin').html()); 
+			this.editor_template 			= Liquid.parse($('#editor-template').html());
 			return this; 
 		}, 
+		makeList: function(){
+			var _t = this; 
+			$.ajax({
+				url:'/rules', 
+				type: 'get', 
+				dataType: 'json', 
+				success: function(data){
+					$.each(data.rules, function(idx, rule){
+						_t.container.find('.gol-table tbody').append(_t.rule_row_template.render(rule));
+					});
+				}, 
+				error: function(){
+					console.log(arguments);
+				}
+			})
+		},
+		addRule: function(data){
+			var _t = this; 
+			$.ajax({
+				url: '/rules',
+				type: 'POST', 
+				data: {rule: data, authenticity_token: authToken()}, 
+				dataType: 'json', 
+				success: function(data){
+					_t.closePopin();
+					_t.container.find('.gol-table tbody').append(_t.rule_row_template.render(data.rule)); 
+				}, 
+				error: function(){
+					console.log(arguments); 
+				}
+			});
+		},
+		closePopin: function(){
+			this.container.find('.popin').remove();
+		},
 		loadRule: function(rule_url){
 			var _t = this;
 			$(this).trigger('loading'); 

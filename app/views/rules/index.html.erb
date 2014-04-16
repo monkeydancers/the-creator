@@ -15,16 +15,7 @@
 						<thead> 
 						</thead> 
 						<tbody> 
-							<% @rules.each do |rule| %>
-							<tr class="rule_row" data-rule-base-url="<%= rule_path(1) %>"> 
-								<td class="image-col"><img src="" alt="" /></td> 
-								<td class="name-col editable ui-draggable">
-									<span class="name"><%= rule.name %></span>
-									<span class="identifier">#48f3c5e</span></td> 
-									<td class="type-col"></td> 
-								<td class="checkbox-col"><input type="checkbox" value="" /></td> 
-								</tr> 
-							<% end %>
+
 						</tbody>
 							<tfoot>
 								<tr>
@@ -58,8 +49,8 @@
 			<div class="close"></div>
 			<form>
 			<h2>Add Rule</h2>
-				<input type="text" name="name" placeholder="Rule name" />
-				<button type="button" class="btn btn-default">Save</button> 
+				<input type="text" name="name" class="name-field" placeholder="Rule name" />
+				<button type="submit" class="btn btn-default">Save</button> 
 			</form>
 		</div>
 	</script>
@@ -76,4 +67,15 @@
 			<div id="rule-editor">{{code}}</div>
 		</div>
 		<span class="rule-editor-help"></span>
+	</script>
+
+	<script type="text/html-template" id="rule-row-template">
+	<tr class="rule_row" data-rule-base-url="{{path}}"> 
+			<td class="image-col"><img src="" alt="" /></td> 
+			<td class="name-col editable ui-draggable">
+			<span class="name">{{name}}</span>
+			<span class="identifier">Something Here</span></td> 
+			<td class="type-col"></td> 
+			<td class="checkbox-col"><input type="checkbox" value="" /></td> 
+		</tr> 
 	</script>
