@@ -11,6 +11,7 @@
  *= require fonts
  *= require bootstrap
  *= require_tree .
+ *= require ./search
  *= require_self
 
  */

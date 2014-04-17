@@ -14,6 +14,8 @@
 //= require libraries/jquery-ui
 //= require libraries/underscore
 //= require libraries/liquid.min
+//= require libraries/keymaster
+//= require libraries/search
 
 //= require turbolinks
 //= require_self
@@ -23,8 +25,9 @@ function authToken(){
   return $("meta[name=csrf-token]").attr('content')
 }
 
-// Daniels Magic incantaion to Provide object create
+$empty=function(){}
 
+// Daniels Magic incantaion to Provide object create
 if (typeof Object.create !== 'function') {
     Object.create = function (o) {
         function F() {}

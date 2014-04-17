@@ -37,7 +37,7 @@
 	font-size: 12px;
 	line-height: 26px;
 	overflow: auto;
-	z-index: 9999;
+	z-index: 1;
 }
 
 .miller div.path a {
@@ -98,7 +98,7 @@
 	font-size: 0.6em;
 	line-height: 20px;
 	overflow: auto;
-	z-index: 9999;
+	z-index: 1;
 }
 
 .miller div.toolbar span
