@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140417125656) do
+ActiveRecord::Schema.define(version: 20140417135955) do
 
   create_table "game_object_classes", force: true do |t|
     t.string   "name"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140417125656) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "api_key"
   end
 
   create_table "properties", force: true do |t|

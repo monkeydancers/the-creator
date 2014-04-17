@@ -166,6 +166,7 @@ function makeEditor(){
 			this.help_text 	= this.editor_el.find('.rule-editor-help'); 
 			this.editor = ace.edit("rule-editor");
 			this.editor.setTheme("ace/theme/monokai");
+			this.editor.renderer.setScrollMargin(15, 15, 0, 0);
 			this.editor.getSession().setMode("ace/mode/javascript");
 			this.editor.focus();
 			this.editor.on('blur', function(){
