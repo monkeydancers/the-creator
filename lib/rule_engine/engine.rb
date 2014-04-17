@@ -9,7 +9,7 @@ class Engine
 		begin
 			@environment.eval(code)
 		rescue V8::Error => e
-		 	puts "Rule Engine Error: #{e.message}"
+		 	raise e
 		end
 	end
 
