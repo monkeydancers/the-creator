@@ -42,6 +42,7 @@ class Game < ActiveRecord::Base
 		rule_selection 	= rules.tagged_with(actor_object.object_class.identifier, :on => :actor)
 														.tagged_with(target_object.object_class.identifier, :on => :target)
 
+
 		rule_context = Engine.new(self)
 
 		rule_selection.to_a.each do |rule|
