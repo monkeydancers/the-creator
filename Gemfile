@@ -19,6 +19,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'awesome_print'
 gem 'therubyracer', '0.12.1'
+gem 'acts-as-taggable-on'
 
 gem 'foreman', '0.63.0', 	group: :development
 gem 'thin', '1.6.2', 			group: :development
@@ -26,7 +27,7 @@ gem 'thin', '1.6.2', 			group: :development
 
 gem 'thinking-sphinx', '~> 3.1.0'
 
-group :test do 
+group :test do
 	gem 'shoulda-context'
 	gem 'fakeredis'
 	gem 'test_after_commit'
