@@ -17,7 +17,7 @@ class RulesController < ApplicationController
 		@rule = @active_game.rules.where(["id = ?", params[:id]]).first
 		respond_to do |format|
 			if @rule.update_attributes(rule_params)
-				format.json{ render :text => {:error => false}.to_json, :status => 200 and return }
+				format.json{ render :action => :show, :status => 200 and return }
 			else
 				format.json{ render :text => {:error => true}.to_json, :status => 500 and return }
 			end
@@ -39,7 +39,7 @@ class RulesController < ApplicationController
 	private 
 
 	def rule_params
-		params.require(:rule).permit(:rule_code, :name)
+		params.require(:rule).permit(:rule_code, :name, :actor_list, :target_list)
 	end
 
 end

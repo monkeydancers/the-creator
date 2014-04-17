@@ -20,7 +20,7 @@
 				onSelect: $empty, 
 				onAbort: $empty
 			}, options);
-			this.el.find('input').bind('keyup', this._perform.bind(this)).focus();
+			this.el.find('input').on('keyup.search', this._perform.bind(this)).focus();
 			this.deferred = $.Deferred();
 			return this.deferred.promise();
 		}, 
@@ -35,6 +35,8 @@
 		hide: function(skipAnimation){
 			// Here, unregister keys and stuff...
 			key.unbind('esc');
+			this.el.find('ul').empty(); 
+			this.el.find('input').val("").off('.search');
 			this.deferred = null;
 			this.current_index = 0; 
 			if(skipAnimation){
@@ -61,7 +63,7 @@
 				}
 				this.hide(); 
 			}else if(kc === 27){
-				this.ops.onAbort();
+				this.opts.onAbort();
 				if(this.deferred){
 					this.deferred.reject(); 
 				}

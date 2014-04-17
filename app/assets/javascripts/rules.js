@@ -125,6 +125,35 @@ function makeEditor(){
 		stopAutosave: function(){
 			clearInterval(this.savingInterval);
 		},
+		searchForFilter: function(e){
+			var _t = this;
+			var el = $(e.currentTarget); 
+			var query = window.search.search({scope: 'GameObjectClass'}); 
+			var payload = {}
+			query.done(function(object){
+				payload[el.attr('data-attr')] = object.identifier;
+				$.ajax({
+					url: _t.current_rule, 
+					data: {rule: payload, authenticity_token:authToken(), _method: 'PUT'}, 
+					type: 'post',
+					dataType: 'json', 
+					success: function(data){
+						console.log(data);
+						if(!data.error){
+							el.html(data.rule[el.attr('data-attr')]);
+						}else{
+							console.log("error");
+						}
+					}, 
+					error: function(){
+						console.log("error..."); 
+					}
+				})
+			});
+			query.fail(function(){
+				// Perhaps do nothing here? 
+			});
+		},
 		_renderEditor: function(rule_def){
 			var _t = this; 
 			var _o = $(this.editor_template.render(rule_def)); 
@@ -142,6 +171,7 @@ function makeEditor(){
 			this.editor.on('blur', function(){
 				_t._save.apply(_t);
 			});
+			this.editor_el.find('.filter-trigger').on('click', this.searchForFilter.bind(this)); 
 			this.editorOpen = true;
 			this.startAutosave(); 
 		}, 
