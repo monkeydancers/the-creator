@@ -14,6 +14,10 @@ class MultiObjectProperty < PropertyProxy
 		@value = Array(@value) + Array(value)
 	end
 
+	def add(obj)
+		@value = Array(@value).push(obj)
+	end
+
 	def value
 		return nil if @value.blank?
 		@value_object ||= GameObject.where(["identifier in (?)", @value])

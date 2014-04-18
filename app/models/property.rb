@@ -64,6 +64,10 @@ class Property < ActiveRecord::Base
 		end
 	end
 
+	def add(v)
+		value_object.add(v)
+	end
+
 	# Assign a new default value to this property. Typing is not enforced until save.
 	def default_value=(value)
 		@default_value = value

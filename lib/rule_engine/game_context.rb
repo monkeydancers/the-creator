@@ -77,6 +77,7 @@ class GameContext
 	class GameObjectProxy
 		def initialize(object)
 			@object = object
+			@dirty 	= {}			
 			self
 		end
 
@@ -87,9 +88,14 @@ class GameContext
 		def name=(str)
 			@object.name = str
 		end
-
+		# Add support for using transactions here...
 		def save
+			@dirty.each_pair do |k,p|
+				p.save
+			end
 			@object.save
+			# Empty the dirty-cache after successful saves
+			@dirty.clear
 			@object.reload
 		end
 
@@ -100,7 +106,8 @@ class GameContext
 					raise IncompatiblePropertyOperationException.new("Object-properties can't be directly assigned, use push, set or +.")
 				else
 					property.value = value
-					property.save
+					@dirty[property.name] = property
+	#				property.save
 				end
 			else
 				return nil
@@ -111,9 +118,21 @@ class GameContext
 			property = @object.properties.where(["LOWER(name) = ?", name.downcase]).first
 			if property
 				if property.is_single_object?
-					return GameContext::ObjectPropertyProxy.new(property)
+					if @dirty.key?(property.name)
+						return @dirty[property.name]
+					else
+						prop = GameContext::ObjectPropertyProxy.new(property)
+						@dirty[property.name] = prop
+						prop
+					end
 				elsif property.is_multi_object?
-					return GameContext::ObjectPropertyProxy.new(property)
+					if @dirty.key?(property.name)
+						return @dirty[property.name]
+					else
+						prop = GameContext::ObjectPropertyProxy.new(property)
+						@dirty[property.name] = prop
+						prop
+					end
 				else
 					return property.value
 				end

@@ -68,6 +68,7 @@ class GameContextTest < ActiveSupport::TestCase
 			@engine.run(%{
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.mana = "roligt"; 
+				ninja.save
 			})
 			property.reload
 			assert_equal property.value, 'roligt'
@@ -87,6 +88,7 @@ class GameContextTest < ActiveSupport::TestCase
 				spade = Item.find(#{@item1.id}); 
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.weapon.push(spade)
+				ninja.save
 			})
 			@game_object_1.reload
 			property = @game_object_1.properties.where(["parent_id = ?", @property3.id]).first
@@ -100,12 +102,14 @@ class GameContextTest < ActiveSupport::TestCase
 				spade = Item.find(#{@item1.id}); 
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.weapon.push(spade)
+				ninja.save
 			})
 			property.reload
 			assert_equal property.value_description, @item1.name
 			@engine.run(%{
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.weapon.remove(); 
+				ninja.save
 			})
 			property.reload
 			assert_equal property.value_description, 'No object'
@@ -118,6 +122,7 @@ class GameContextTest < ActiveSupport::TestCase
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.backpack.push(Item.find(#{@item1.id})); 
 				ninja.backpack.push(Item.find(#{@item2.id})); 
+				ninja.save
 			})
 			property.reload
 			assert_equal property.value_description, "2 objects"
@@ -130,12 +135,14 @@ class GameContextTest < ActiveSupport::TestCase
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.backpack.push(Item.find(#{@item1.id})); 
 				ninja.backpack.push(Item.find(#{@item2.id})); 
+				ninja.save
 			})
 			property.reload
 			assert_equal property.value_description, "2 objects"
 			@engine.run(%{
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.backpack.remove(Item.find(#{@item1.id}))
+				ninja.save
 			})			
 			property.reload
 			assert_equal property.value_description, "1 objects"
@@ -148,12 +155,14 @@ class GameContextTest < ActiveSupport::TestCase
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.backpack.push(Item.find(#{@item1.id})); 
 				ninja.backpack.push(Item.find(#{@item2.id})); 
+				ninja.save
 			})
 			property.reload
 			assert_equal property.value_description, "2 objects"
 			@engine.run(%{
 				ninja = Ninja.find(#{@game_object_1.id}); 
 				ninja.backpack.remove('all'); 
+				ninja.save
 			})
 			property.reload
 			assert_equal property.value_description, '0 objects'

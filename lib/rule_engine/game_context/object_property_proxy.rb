@@ -6,6 +6,7 @@ class GameContext
 			@prop_object = property_object
 			@multi = property_object.is_multi_object? 
 			@list = Array(property_object.value).map{|game_object| GameContext::GameObjectProxy.new(game_object)}			
+			self
 		end
 
 		def [](idx)
@@ -21,9 +22,18 @@ class GameContext
 		# This needs to game-scoped!
 		# This needs to handle single-objects!
 		def push(obj)
+			
 			obj = GameObject.where(["identifier = ?", obj.identifier]).first	
-			@prop_object.value = obj
-			@prop_object.save
+			if @multi
+				@prop_object.add(obj.identifier)
+			else
+				@prop_object.value = obj
+			end
+		#	puts obj.inspect
+		#	puts @prop_object.value.inspect
+		#	puts @prop_object.value.inspect
+
+		#	@prop_object.save
 		end
 
 		def remove(obj)
@@ -34,6 +44,9 @@ class GameContext
 			else
 				@prop_object.value = nil
 			end
+		end
+
+		def save
 			@prop_object.save
 		end
 
