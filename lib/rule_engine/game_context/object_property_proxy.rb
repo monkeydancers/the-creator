@@ -9,6 +9,19 @@ class GameContext
 			self
 		end
 
+		def game
+			return OpenStruct.new(:api_key => @prop_object.game.api_key)
+		end
+
+		def identifier
+			@prop_object.identifier
+		end
+
+		def value_description
+			@prop_object.reload
+			@prop_object.value_description
+		end
+
 		def [](idx)
 			if idx.is_a?(Fixnum)
 				return @list[idx]
@@ -29,11 +42,6 @@ class GameContext
 			else
 				@prop_object.value = obj
 			end
-		#	puts obj.inspect
-		#	puts @prop_object.value.inspect
-		#	puts @prop_object.value.inspect
-
-		#	@prop_object.save
 		end
 
 		def remove(obj)
