@@ -25,6 +25,10 @@ function authToken(){
   return $("meta[name=csrf-token]").attr('content')
 }
 
+function gameKey(){
+  return $("meta[name=game-key]").attr('content'); 
+}
+
 $empty=function(){}
 
 // Daniels Magic incantaion to Provide object create

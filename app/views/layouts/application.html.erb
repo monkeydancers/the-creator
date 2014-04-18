@@ -4,6 +4,8 @@
   <title>The Creator</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
 
+<meta name="game-key" content="<%= @active_game.api_key %>">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= csrf_meta_tags %>
 </head>

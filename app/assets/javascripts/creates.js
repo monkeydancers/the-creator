@@ -60,5 +60,13 @@ $(document).ready(function() {
 			e.preventDefault();
 		})
 
+		var ws = new WebSocket("ws://0.0.0.0:4000?game="+gameKey()); 
+		ws.onmessage = function(e){
+			console.log(e);
+			if(e.data.length > 0){
+				$(document).trigger('update.property', [JSON.parse(e.data)]);				
+			}
+		}
+
 		workspace_manager = Object.create(window.workspaces).init();
 });

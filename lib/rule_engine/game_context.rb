@@ -19,8 +19,8 @@
 class GameContext
 
 	def initialize(game, opts = nil)
-		@game = game	
-		@opts = opts
+		@game 		= game	
+		@opts 		= opts
 		class_list = game.game_object_classes.to_a
 		slate_class = Class.new do 
 			def log(*args)
@@ -92,6 +92,7 @@ class GameContext
 		def save
 			@dirty.each_pair do |k,p|
 				p.save
+				$redis.publish('rule-pipeline-'+p.game.api_key, {:identifier => p.identifier, :data => {:value => p.value_description}}.to_json)
 			end
 			@object.save
 			# Empty the dirty-cache after successful saves

@@ -37,6 +37,7 @@ window.event_center = Object.create({
 	}, 
 	_fire: function(e, payload){
 		var e_name = e.type+"."+e.namespace;
+		console.log(payload);
 		_.each(this.callbacks[e_name], function(func, idx){
 			if(typeof(payload.identifier) == "string"){
 				var selector = "[data-identifier='"+payload.identifier+"']"; 				
