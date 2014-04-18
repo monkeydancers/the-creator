@@ -92,7 +92,7 @@ class GameContext
 		def save
 			@dirty.each_pair do |k,p|
 				p.save
-				$redis.publish('rule-pipeline-'+p.game.api_key, {:identifier => p.identifier, :data => {:value => p.value_description}}.to_json)
+				$redis.publish('rule-pipeline-'+p.game.api_key, {:identifier => p.identifier, :data => {:value => p.value_description}}.to_json) unless Rails.env.eql?("test")
 			end
 			@object.save
 			# Empty the dirty-cache after successful saves

@@ -48,7 +48,6 @@ class GameContext
 			if @multi
 				data = obj == 'all' ? obj : [obj.identifier]
 				@prop_object.handle_removal(data)
-#				@prop_object.value = @prop_object.value.delete_if{|object| object.identifier == obj.identifier }
 			else
 				@prop_object.value = nil
 			end
