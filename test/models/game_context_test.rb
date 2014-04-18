@@ -2,6 +2,28 @@ require 'test_helper'
 
 class GameContextTest < ActiveSupport::TestCase
 
+	context 'When creating a context, the system' do 
+		setup do 
+			@game = Game.create(:name => "Monkey Game")
+			@item_class	 	= @game.game_object_classes.create(:name => "Item")
+			@item1 				= @item_class.game_objects.create(:name => "Shaolin Spade", :game => @game)
+			@item2 				= @item_class.game_objects.create(:name => "First Aid Kit", :game => @game)
+		end
+
+		should 'allow access to the actor-object' do 
+			@engine 	= Engine.new(@game, {:actor => @item1})
+			actor_id 	= @engine.run(%{actor.id})
+			assert_equal actor_id, @item1.id
+		end
+
+		should 'allow access to the target-object' do 
+			@engine 	= Engine.new(@game, {:target => @item2})
+			target_id	= @engine.run(%{target.id})
+			assert_equal target_id, @item2.id
+		end
+
+	end
+
 	context 'When creating game objects, the system' do
 		setup do
 			@game = Game.create(:name => "Monkey Game")

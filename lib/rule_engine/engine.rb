@@ -1,7 +1,8 @@
 class Engine
 
-	def initialize(game)
+	def initialize(game, opts = nil)
 		@game = game
+		@opts = opts
 	end
 
 	def run(code)
@@ -16,7 +17,7 @@ class Engine
 	private 
 
 	def setup_environment(game)
-		ctx = GameContext.new(game)
+		ctx = GameContext.new(game, @opts)
 		return V8::Context.new(:with => ctx.package)		
 	end	
 

@@ -18,8 +18,9 @@
 # some scope-related magic to present a proper Slate for V8 to use.
 class GameContext
 
-	def initialize(game=nil)
+	def initialize(game, opts = nil)
 		@game = game	
+		@opts = opts
 		class_list = game.game_object_classes.to_a
 		slate_class = Class.new do 
 			def log(*args)
@@ -36,10 +37,19 @@ class GameContext
 			end
 		end
 
+		if @opts
+			@slate.instance_variable_set(:@actor, @opts[:actor])
+			@slate.instance_variable_set(:@target, @opts[:target])
+		end
+
 		# This way, we can define hidden accessor-methods, just like in Ruby, 
 		# in order to provide dynamic invocations with keyword/macro-like style
 		@slate.define_singleton_method('actor') do ||
-			"I'm an actor object..."
+			return @actor
+		end
+
+		@slate.define_singleton_method('target') do ||
+			return @target
 		end
 
 		self
