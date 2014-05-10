@@ -65,7 +65,7 @@ $(document).ready(function() {
 		// 	console.log(tmpl.render());
 		// })
 
-		var ws = new WebSocket("ws://0.0.0.0:4000?game="+gameKey()); 
+		var ws = new WebSocket("ws://"+$("meta[name=host]").attr("content")+":4000?game="+gameKey()); 
 		ws.onmessage = function(e){
 			console.log(e);
 			if(e.data.length > 0){
