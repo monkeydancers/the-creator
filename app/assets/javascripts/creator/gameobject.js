@@ -267,6 +267,7 @@ window.game_object = Object.create({
 			_t.container.find('.content').find(selector).html(data.value); 
 		}));
 
+		_t.container.find(".editable[data-attribute='true']").data('identifier', {identifier: game_object.identifier, scope: null}); 
 
 		_t.container.find( ".go-draghandle").each(function(idx, el){
 			var _e = $(el);

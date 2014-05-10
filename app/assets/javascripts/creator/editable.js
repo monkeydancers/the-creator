@@ -13,6 +13,8 @@ window.editable = Object.create({
 			'key'					: 	edit_entry.data('key')
 		}
 
+		console.log(data);
+
 		// If we need to load the value from the server, render the popin
 		// with loading == true, and start loading the data, replace the popin
 		// once loading has completed.
