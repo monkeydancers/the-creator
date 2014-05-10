@@ -32,7 +32,7 @@ after "deploy:update", "god:start"
 
 namespace :deploy do 
   task :activate_sphinx, :roles => [:app] do
-   # symlink_sphinx_indexes
+    symlink_sphinx_indexes
     thinking_sphinx.configure
     thinking_sphinx.start
   end
