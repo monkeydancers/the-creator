@@ -244,7 +244,6 @@ window.game_object = Object.create({
 		pop.find('.close').on('click', function(){
 			pop.remove();
 		});
-		console.log(pop);
 		_t.container.prepend(pop);
 	},
 	init: function(game_object, workspace, ws_manager){ 

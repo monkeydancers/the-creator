@@ -22,10 +22,16 @@ gem 'therubyracer', '0.12.1'
 gem 'acts-as-taggable-on'
 
 gem 'foreman', '0.63.0', 	group: :development
-gem 'thin', '1.6.2', 			group: :development
 #gem 'spring',        			group: :development
 
 gem 'thinking-sphinx', '~> 3.1.0'
+
+gem 'capistrano', '2.13.5'
+gem 'capistrano-ext','1.2.1'
+gem 'rvm-capistrano'
+gem 'thin', '1.6.2'
+gem 'capistrano-maintenance', '~>0.0.4'
+gem 'god', '0.13.2'
 
 group :test do
 	gem 'shoulda-context'
