@@ -8,6 +8,8 @@
 	<meta name="game-key" content="<%= @active_game.api_key %>">
 <% end %>
 
+<meta name="host" content="<%= request.host %>">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= csrf_meta_tags %>
 </head>
