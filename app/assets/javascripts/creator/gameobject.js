@@ -65,7 +65,8 @@ window.game_objects_collection = Object.create({
 	// Object methods
 	_open_more_actions_popover: function(){
 		var _t = this;
-		_t.container.prepend(_t.more_template.render());
+		var pop = _t.more_template.render(); 
+		_t.container.prepend(pop);
 	},
 	_select_all_objects : function(){
 
@@ -239,7 +240,12 @@ window.game_objects_collection = Object.create({
 window.game_object = Object.create({
 	_open_more_actions_popover: function(){
 		var _t = this;
-		_t.container.prepend(_t.more_template.render());
+		var pop = $(_t.more_template.render()); 
+		pop.find('.close').on('click', function(){
+			pop.remove();
+		});
+		console.log(pop);
+		_t.container.prepend(pop);
 	},
 	init: function(game_object, workspace, ws_manager){ 
 		var _t            = this;
