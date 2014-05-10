@@ -328,7 +328,7 @@ window.workspaces = Object.create({
 			// Do nothing if the user just closes the popin again!
 		});
 	},
-
+	// Refactor this to something more clean after the demo!
 	_createObject: function(data){
 		var _t = this; 
 		var deferred = $.Deferred(); 
