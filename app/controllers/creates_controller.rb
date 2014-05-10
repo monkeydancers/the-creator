@@ -1,6 +1,9 @@
 class CreatesController < ApplicationController
 
+	before_filter :authenticate_user!
+
 	before_filter :setup_active_game
+
 
 	def show
 

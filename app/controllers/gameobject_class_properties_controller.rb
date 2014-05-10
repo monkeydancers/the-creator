@@ -1,5 +1,9 @@
 class GameobjectClassPropertiesController < ApplicationController
+	before_filter :authenticate_user!
+
 	before_filter :setup_active_game
+
+
 
 	def create
 		gameobjectclass = @active_game.game_object_classes.where(["identifier = ?", params[:class_identifier]]).first

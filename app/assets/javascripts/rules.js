@@ -119,7 +119,7 @@ function makeEditor(){
 			// is blurred.
 			var _t  = this; 
 			this.savingInterval = setInterval(function(){
-				_t._save();
+//				_t._save();
 			}, 10000); 
 		},
 		stopAutosave: function(){

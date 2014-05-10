@@ -2,6 +2,9 @@ class RulesController < ApplicationController
 
 	before_filter :setup_active_game
 
+	before_filter :authenticate_user!
+
+
 	def index
 		@rules = @active_game.rules
 	end

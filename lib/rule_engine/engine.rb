@@ -9,6 +9,11 @@ class Engine
 		@environment ||= setup_environment(@game)
 		begin
 			@environment.eval(code)
+			res = {}
+			@environment[:result].each do |key, value|
+				res[key] = value
+			end
+			return res
 		rescue V8::Error => e
 		 	raise e
 		end

@@ -31,6 +31,14 @@ class GameContext
 
 		@slate = slate_class.new
 
+		@slate.define_singleton_method(:result=) do |res|
+			@res = res
+		end
+
+		@slate.define_singleton_method(:result) do 
+			return @res
+		end
+
 		class_list.each do |gc|
 			@slate.define_singleton_method(gc.name) do ||
 				return GameContext::GameObjectClassProxy.new(gc)
@@ -66,6 +74,15 @@ class GameContext
 
 		def find(id)
 			goc = @goc.game_objects.where(["id = ?", id]).first
+			if goc
+				GameContext::GameObjectProxy.new(goc)
+			else
+				raise ElementNotFoundException.new("Could not find a #{@goc.name} with id: #{id.to_s}")
+			end
+		end
+
+		def findByIdentifier(id)
+			goc = @goc.game_objects.where(["identifier = ?", id]).first
 			if goc
 				GameContext::GameObjectProxy.new(goc)
 			else

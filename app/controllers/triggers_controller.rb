@@ -8,8 +8,8 @@ class TriggersController < ApplicationController
 		# Whatever results should / will be?
 		results = @game.handle_interaction(params)
 		respond_to do |format|
-			format.json{ render :text => {:hugo => "something"}.to_json, :status => 200 and return }
-			format.html{ render :text => {:hugo => "something"}.to_json, :status => 200 and return }
+			format.json{ render :text => results.to_json, :status => 200 and return }
+			format.html{ render :text => results.to_json, :status => 200 and return }
 		end
 	end
 

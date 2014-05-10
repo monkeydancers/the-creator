@@ -4,7 +4,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   private
+
   	def setup_active_game
-		@active_game = Game.first
-	end
+			@active_game = current_user.game
+		end
+
+		def after_sign_in_path_for(resource)
+		  configure_path
+		end
+
 end

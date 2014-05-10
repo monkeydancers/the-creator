@@ -22,6 +22,8 @@ gem 'therubyracer', '0.12.1'
 gem 'acts-as-taggable-on'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'foreman', '0.63.0', 	:group => :development
+gem 'devise'
+
 #gem 'spring',        			group: :development
 
 gem 'thinking-sphinx', '~> 3.1.0'

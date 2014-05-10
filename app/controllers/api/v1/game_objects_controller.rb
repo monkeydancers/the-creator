@@ -12,6 +12,13 @@ class Api::V1::GameObjectsController < ApplicationController
 		end
 	end
 
+	def show
+		@object = @game.game_objects.where(["identifier = ?", params[:id]]).first
+		respond_to do |format|
+			format.json{}
+		end
+	end
+
 
 	private
 

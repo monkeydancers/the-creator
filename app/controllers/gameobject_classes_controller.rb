@@ -1,5 +1,8 @@
 class GameobjectClassesController < ApplicationController
+	before_filter :authenticate_user!
+
 	before_filter :setup_active_game, :load_parent_class
+
 
 
 	def create

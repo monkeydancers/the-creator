@@ -37,21 +37,22 @@ class Game < ActiveRecord::Base
 		target_object 	= resolve_identifier(parameters[:target])
 		return {:error => true, :message => "Unknown target"} if target_object.nil?
 
+
+
 		# Extend this later on with support for multiple tags, which will then qualify rules
 		# for being based on n-n relationships.
 		rule_selection 	= rules.tagged_with(actor_object.object_class.identifier, :on => :actor)
 														.tagged_with(target_object.object_class.identifier, :on => :target)
 
 
-		rule_context = Engine.new(self)
+		rule_context = Engine.new(self, {:actor => actor_object, :target => target_object})
 
+		res = {}
 		rule_selection.to_a.each do |rule|
-			rule_context.run(rule.rule_code)
+			res.merge! rule_context.run(rule.rule_code)
 		end
 
-		# Some kind of 
-
-		# profit!!
+		res
 	end
 
 	private

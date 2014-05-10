@@ -23,6 +23,7 @@
 			</button> 
 			<a href="../" class="navbar-brand">THE CREATOR<span class="active-section">:Configure</span></a> 
 		</div> 
+		<% if user_signed_in? %>
 		<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation"> 
 			<ul class="nav navbar-nav"> 
 				<li> 
@@ -38,10 +39,11 @@
 					<a href="<%= rules_path %>">Rulebook</a> 
 				</li> 
 				<li> 
-					<a href="">Orchestrate</a> 
+					<a href="/users/sign_out">Logout</a> 
 				</li> 
 			</ul> 
 		</nav> 
+		<% end %>
 	</div> 
 </header>
 
