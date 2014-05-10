@@ -72,12 +72,12 @@ end
 
 namespace :deploy do
   task :start, :roles => [:web, :app] do
-    run "cd #{current_release}; bundle exec thin -C /sites/klubblo/shared/conf/thin.yml start"
+    run "cd #{current_release}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml start"
   end
   task :stop, :roles => [:web, :app] do
-    run "cd #{current_release}; bundle exec thin -C /sites/klubblo/shared/conf/thin.yml stop"
+    run "cd #{current_release}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml stop"
   end
   task :restart, :roles => [:web, :app] do
-    run "cd #{current_release}; bundle exec thin -C /sites/klubblo/shared/conf/thin.yml restart"
+    run "cd #{current_release}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml restart"
   end
 end
