@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'http://gems.monkeydancers.com'
 
 gem 'rails', '4.0.0'
 
@@ -31,6 +32,7 @@ gem 'rvm-capistrano'
 gem 'thin', '1.6.2'
 gem 'capistrano-maintenance', '~>0.0.4'
 gem 'god', '0.13.2'
+gem 'non-stupid-digest-assets'
 
 group :test do
 	gem 'shoulda-context'
