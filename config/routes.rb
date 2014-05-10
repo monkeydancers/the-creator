@@ -23,6 +23,12 @@ TheCreator::Application.routes.draw do
     resources :properties, controller:'gameobject_class_properties'
   end
 
+  namespace :api do 
+    namespace :v1 do 
+      resources :game_objects, :only => [:index, :show]
+    end
+  end
+
   resource :create do 
     get :structure
     get :identifier

@@ -20,7 +20,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'awesome_print'
 gem 'therubyracer', '0.12.1'
 gem 'acts-as-taggable-on'
-
+gem 'rack-cors'
 gem 'foreman', '0.63.0', 	:group => :development
 #gem 'spring',        			group: :development
 

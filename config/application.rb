@@ -29,6 +29,14 @@ module TheCreator
     	g.orm	:active_record 
     end 
 
+    # Adding CORS-support in order to support JS-API for temporary demo-app
+    config.middleware.use Rack::Cors do
+          allow do
+            origins '*'
+            resource '*', :headers => :any, :methods => [:get, :post, :options]
+          end
+        end
+
 
   end
 end
