@@ -16,6 +16,10 @@ function setupMiller(data){
 				if(current_node){
 					var objects = $('<span class="gol-draghandle num-of-object-in-selected-class gameobject-list-counter ">' + current_node['info']['objects'] + ' Objects</span>');
 					var new_button = $('<a href="#" class="new_object_button" data-identifier="' + current_node['info']['identifier'] + '"> - New Object</a>');
+					new_button.on('click', function(e){
+						e.preventDefault();
+						workspace_manager.addObject(current_node);
+					});
 					path.append(objects);
 					path.append(new_button);
 					objects.draggable({
@@ -54,11 +58,12 @@ $(document).ready(function() {
 			}
 		})
 		
-		// Add new object
-		$('body').on('click.creator', '.new_object_button', function(e){
-			console.log(e.currentTarget);
-			e.preventDefault();
-		})
+		// // Add new object
+		// $('body').on('click.creator', '.new_object_button', function(e){
+		// 	e.preventDefault();
+		// 	var tmpl = Liquid.parse($("#new_object_template").html()); 
+		// 	console.log(tmpl.render());
+		// })
 
 		var ws = new WebSocket("ws://0.0.0.0:4000?game="+gameKey()); 
 		ws.onmessage = function(e){

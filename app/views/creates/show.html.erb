@@ -213,8 +213,7 @@
 				  		</table>
 				  		<h3>Description</h3>
 				  		<p class="goc-description">
-				  				  		<img scr="{{image_url}}" class="desc-img" />
-
+								<img scr="{{image_url}}" class="desc-img" />
 				  			{{description}}
 				  		</p>
 						<h3 class="clearfix">Tags</h3>
@@ -233,4 +232,17 @@
 
 
 
-
+<script type="text/liquid" id="new_object_template">
+	<div class="popin" style="display: block;">
+  	<div class="close"></div>
+		<div class="new-subclass-popin" style="display: block;">
+			<form>
+			<h2>New {{class_name}}</h2>
+			<input type="text" value="" placeholder="Game Object Name" class="game-object-name"/><br />
+			<div class="button-group">
+				<button type="button" class="btn btn-default btn-sm create-object-button">Save (&crarr;)</button>
+			</div> 
+			</form>
+		</div>
+	</div>
+</script>

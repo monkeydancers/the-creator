@@ -307,6 +307,79 @@ window.workspaces = Object.create({
 		return $($('.workspace')[workspace - 1]);
 	},
 
+	addObject: function(data){
+		var _t = this; 
+		if(_t.opts.gameobject.creating){
+			return;
+		}else{
+			_t.opts.gameobject.creating = true;
+		}
+		this._createObject(data).done(function(data){
+			_t.opts.gameobject.creating = false;
+			if(data.created){
+				_t._choose_workspace().done(function(workspace){
+					if(data.list){
+						_t._render_list(workspace, data);				
+					}else{
+						_t._render_object(workspace, data);
+					}
+				});
+			}
+			// Do nothing if the user just closes the popin again!
+		});
+	},
+
+	_createObject: function(data){
+		var _t = this; 
+		var deferred = $.Deferred(); 
+		var tmpl = Liquid.parse($("#new_object_template").html()); 
+		var dat = $(tmpl.render({class_name: data.name}));
+		$("body").append(dat);
+		var saveFunc = function(){
+			var _name = dat.find('.game-object-name').val(); 
+			if(_name.length == 0){
+				alert("Name can't be empty!"); 
+				return;
+			}
+			$.ajax({
+				url: '/create',
+				type: 'POST', 
+				dataType: 'json', 
+				data: {identifier: data.id, game_object: {name: _name}, authenticity_token: authToken()},
+				success: function(response){
+					deferred.resolve($.extend(response, {created: true})); 
+					closeFunc();
+				}, 
+				error: function(){
+					console.log(arguments);
+				}
+			})
+		}
+		var closeFunc = function(){
+			$(window).off('.object_creation'); 
+			dat.remove();
+			_t.opts.gameobject.creating = false;
+			deferred.resolve({created: false});
+		}
+		dat.find('.close').on('click', closeFunc);
+		dat.find('.create-object-button').on('click', function(){
+			saveFunc();
+		});
+		dat.find('.game-object-name').on('keyup', function(e){
+			if(e.which == 13){
+				e.preventDefault();
+				saveFunc();
+			}
+		})
+		$(window).on('keyup.object_creation', function(e){
+			if(e.which == 27){
+				closeFunc();
+			}
+		});
+
+		return deferred.promise();
+	},
+
 	open: function(identifier, opts){
 		var _t = this; 
 		$.when(this._choose_workspace(), this._load_identifier(identifier)).then(function(workspace, data){
@@ -468,7 +541,6 @@ window.workspaces = Object.create({
 		var container = $(_t.templates['game_objects_search'].render());
 
 		$('body').append(container);
-		console.log(container);
 
 //		_t.search 	= Object.create(window.game_object_search).init(container, callback);
 },
@@ -493,7 +565,9 @@ init: function(options){
 			}
 		});
 
-
+		_t.opts["gameobject"] = {
+			creating: false
+		}
 
 		_t.opts['gameobjects_collection'] 	= {};
 

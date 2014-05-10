@@ -6,6 +6,22 @@ class CreatesController < ApplicationController
 
 	end
 
+	def create
+		@parent = @active_game.resolve_identifier(params[:identifier])
+		respond_to do |format|
+			if @parent
+				@object = @parent.game_objects.create(create_object_params.merge({:game_id => @active_game.id}))
+				if @object && @object.errors.empty? 
+					format.json{ render :template => "/creates/#{@object.class.name.downcase}", :status => 201 and return }
+				else
+					# Add proper error message here! .daniel	
+					format.json{ render :text => {:error => true, :message => "Something went wrong"}, :status => 500 and return }
+				end
+			else
+				format.json{ render :nothing => true, :status => 404 and return }
+			end
+		end
+	end
 
 	# This should be generalised to be used in  configure too
 	def structure
@@ -73,5 +89,9 @@ class CreatesController < ApplicationController
 		end
 	end
 
+	private
 
+	def create_object_params
+		params.require(:game_object).permit(:name)
+	end
 end
