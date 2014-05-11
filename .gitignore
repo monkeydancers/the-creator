@@ -14,7 +14,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
-*.pid
+/log/*.pid
 /tmp
 
 .DS_Store
