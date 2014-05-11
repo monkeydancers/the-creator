@@ -19,7 +19,7 @@ wss.on('connection', function(ws){
 	// Create a redis-client. Use multiple clients since Redis doesn't allow
 	// a client to send any other messages once it's subscribed. In future, 
 	// change this to one client, using multiple channels instead. .daniel
-	var client 		= redis.createClient(); 
+	var client 		= redis.createClient();
 	client.on('message', function(channel, message){
 		// Just pass the message along to the GUI, and let it update the proper stuff!
 		if(ws.readyState == WebSocket.OPEN){
@@ -28,6 +28,11 @@ wss.on('connection', function(ws){
 			console.log("websocket is not open, so don't push the message downwards!"); 
 		}
 	})
+
+	ws.on('close', function(){
+		client.quit(); 
+		console.log("closing client");
+	});
 
 	// Set up a basic message-catcher for obvious error-managing, since the server doesn't
 	// allow incoming messages.
