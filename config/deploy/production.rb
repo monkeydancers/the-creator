@@ -28,7 +28,7 @@ set :use_sudo, false
 
 before "deploy:update", "god:terminate_if_running"
 after "deploy:update", "npm:install"
-after "deploy:update", "god:start"   
+after "deploy:symlink", "god:start"   
 
 namespace :deploy do 
   task :activate_sphinx, :roles => [:app] do
