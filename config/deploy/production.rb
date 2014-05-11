@@ -52,7 +52,7 @@ namespace :god do
   end
 
   def god_command
-    "cd #{current_release}; bundle exec god"
+    "cd #{current_path}; bundle exec god"
   end
 
   desc "Stop god"
@@ -64,26 +64,26 @@ namespace :god do
 
   desc "Start god"
   task :start do
-    god_config_path = File.join(current_release, 'config', "#{rails_env}.god")
-    environment = { :RAILS_ENV => rails_env, :RAILS_ROOT => current_release }
+    god_config_path = File.join(current_path, 'config', "#{rails_env}.god")
+    environment = { :RAILS_ENV => rails_env, :RAILS_ROOT => current_path }
     run "#{god_command} -c #{god_config_path}", :env => environment
   end
 end
 
 namespace :npm do 
   task :install do 
-    run "cd #{current_release}/node; /usr/bin/npm install"
+    run "cd #{current_path}/node; /usr/bin/npm install"
   end
 end
 
 namespace :deploy do
   task :start, :roles => [:web, :app] do
-    run "cd #{current_release}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml start"
+    run "cd #{current_path}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml start"
   end
   task :stop, :roles => [:web, :app] do
-    run "cd #{current_release}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml stop"
+    run "cd #{current_path}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml stop"
   end
   task :restart, :roles => [:web, :app] do
-    run "cd #{current_release}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml restart"
+    run "cd #{current_path}; bundle exec thin -C /sites/creator3/shared/conf/thin.yml restart"
   end
 end
