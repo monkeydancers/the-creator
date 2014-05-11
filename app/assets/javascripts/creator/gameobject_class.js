@@ -62,8 +62,7 @@ window.gameobject_class = Object.create({
             popin.remove();
         });
 
-        popin.find('.save-property-button').on('click.creator', function(e){
-
+        var saveFunc = function(){
             $.ajax({
                 url: '/configure/properties', 
                 type: 'post', 
@@ -82,7 +81,16 @@ window.gameobject_class = Object.create({
                     popin.find('.close').trigger('click');
                 }
             });
+        }
+
+        popin.find('.save-property-button').on('click.creator', saveFunc);
+        popin.find('.property-name-field').on('keyup.creator', function(e){
+            if(e.which == 13){
+                e.preventDefault();
+                saveFunc(); 
+            }
         });
+
     },
     _new_subclass: function(){
         var _t = this;
