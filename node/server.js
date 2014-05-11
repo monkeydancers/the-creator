@@ -22,7 +22,11 @@ wss.on('connection', function(ws){
 	var client 		= redis.createClient(); 
 	client.on('message', function(channel, message){
 		// Just pass the message along to the GUI, and let it update the proper stuff!
-		ws.send(message);
+		if(ws.readyState == WebSocket.OPEN){
+			ws.send(message);			
+		}else{
+			console.log("websocket is not open, so don't push the message downwards!"); 
+		}
 	})
 
 	// Set up a basic message-catcher for obvious error-managing, since the server doesn't
