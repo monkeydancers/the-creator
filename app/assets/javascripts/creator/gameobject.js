@@ -371,7 +371,7 @@ window.workspaces = Object.create({
 		dat.find('.create-object-button').on('click', function(){
 			saveFunc();
 		});
-		dat.find('.game-object-name').on('keyup', function(e){
+		dat.find('.game-object-name').on('keydown', function(e){
 			if(e.which == 13){
 				e.preventDefault();
 				saveFunc();
