@@ -67,7 +67,6 @@ $(document).ready(function() {
 
 		var ws = new WebSocket("ws://"+$("meta[name=host]").attr("content")+":4000?game="+gameKey()); 
 		ws.onmessage = function(e){
-			console.log(e);
 			if(e.data.length > 0){
 				$(document).trigger('update.property', [JSON.parse(e.data)]);				
 			}
